@@ -25,7 +25,7 @@ class Runtime extends GenericRuntime
     private $options = [];
 
     /**
-     * @param array {
+     * @param array{
      *   debug?: ?bool,
      *   server_request_creator?: ?string,
      *   psr17_server_request_factory?: ?string,

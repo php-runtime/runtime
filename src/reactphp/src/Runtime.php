@@ -17,7 +17,7 @@ class Runtime extends GenericRuntime
 
     public function __construct(array $options)
     {
-        $this->port = $options['port'];
+        $this->port = $options['port'] ?? 8080;
         parent::__construct($options);
     }
 
