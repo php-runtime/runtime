@@ -1,0 +1,86 @@
+name: Static analysis
+
+on:
+  pull_request: ~
+  push:
+    branches:
+      - master
+
+jobs:
+  phpstan:
+    name: PHPStan
+    runs-on: Ubuntu-20.04
+
+    steps:
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          coverage: none
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Cache PHPStan
+        uses: actions/cache@v2
+        with:
+          path: .cache/phpstan/
+          key: phpstan-${{ github.sha }}
+          restore-keys: phpstan-
+
+      - name: Download dependencies
+        uses: ramsey/composer-install@v1
+        with:
+          composer-options: --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: PHPStan
+        uses: docker://oskarstark/phpstan-ga:0.12.68
+        with:
+          entrypoint: /composer/vendor/bin/phpstan
+          args: analyze --no-progress
+
+  php-cs-fixer:
+    name: PHP-CS-Fixer
+    runs-on: Ubuntu-20.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Cache PhpCsFixer
+        uses: actions/cache@v2
+        with:
+          path: .cache/php-cs-fixer/
+          key: php-cs-fixer-${{ github.sha }}
+          restore-keys: php-cs-fixer-
+
+      - name: PHP-CS-Fixer
+        uses: docker://oskarstark/php-cs-fixer-ga:2.18.1
+        with:
+          args: --dry-run --diff-format udiff
+
+  psalm:
+    name: Psalm
+    runs-on: Ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Cache Psalm
+        uses: actions/cache@v2
+        with:
+          path: .cache/psalm/
+          key: psalm-${{ github.sha }}
+          restore-keys: psalm-
+
+      - name: Download dependencies
+        uses: ramsey/composer-install@v1
+        with:
+          composer-options: --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Psalm
+        uses: docker://vimeo/psalm-github-actions:4.4.1
+        env:
+          REQUIRE_DEV: "true"
+        with:
+          args: --no-progress --show-info=false --stats

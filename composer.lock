@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5996e617810e5b5b7cf65fd53cc787e7",
+    "content-hash": "ca1bc9e48fd783ba0dbb548ae7fae200",
     "packages": [
         {
             "name": "symfony/polyfill-php80",
