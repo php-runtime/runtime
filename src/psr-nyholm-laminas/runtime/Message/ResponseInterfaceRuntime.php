@@ -1,6 +1,6 @@
 <?php
 
-namespace Symfony\Runtime\Psr\Message;
+namespace Symfony\Runtime\Psr\Http\Message;
 
 use Runtime\PsrNyholmLaminas\Runtime;
 

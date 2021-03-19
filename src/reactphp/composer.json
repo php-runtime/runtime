@@ -20,7 +20,12 @@
     "autoload": {
         "psr-4": {
             "Runtime\\React\\": "src/",
-            "Symfony\\Runtime\\Psr\\": "runtime/"
+            "Symfony\\Runtime\\Psr\\Http\\": "runtime/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Runtime\\React\\Tests\\": "tests/"
         }
     },
     "minimum-stability": "dev",

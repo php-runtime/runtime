@@ -1,6 +1,6 @@
 <?php
 
-namespace Symfony\Runtime\Psr\Server;
+namespace Symfony\Runtime\Psr\Http\Server;
 
 use Runtime\React\Runtime;
 

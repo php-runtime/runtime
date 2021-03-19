@@ -22,8 +22,6 @@ class Runtime extends GenericRuntime
      */
     private $requestCreator;
 
-    private $options = [];
-
     /**
      * @param array{
      *   debug?: ?bool,
@@ -37,8 +35,6 @@ class Runtime extends GenericRuntime
      */
     public function __construct(array $options = [])
     {
-        $this->options = $options;
-
         parent::__construct($options);
     }
 
@@ -65,6 +61,19 @@ class Runtime extends GenericRuntime
         }
 
         return parent::getArgument($parameter, $type);
+    }
+
+    protected static function register(parent $runtime): parent
+    {
+        $self = new self($runtime->options + ['runtimes' => []]);
+        $self->options['runtimes'] += [
+            ServerRequestInterface::class => $self,
+            ResponseInterface::class => $self,
+            RequestHandlerInterface::class => $self,
+        ];
+        $runtime->options = $self->options;
+
+        return $self;
     }
 
     /**

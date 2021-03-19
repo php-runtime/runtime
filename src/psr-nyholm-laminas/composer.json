@@ -21,7 +21,12 @@
     "autoload": {
         "psr-4": {
             "Runtime\\PsrNyholmLaminas\\": "src/",
-            "Symfony\\Runtime\\Psr\\": "runtime/"
+            "Symfony\\Runtime\\Psr\\Http\\": "runtime/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Runtime\\PsrNyholmLaminas\\Tests\\": "tests/"
         }
     },
     "minimum-stability": "dev",

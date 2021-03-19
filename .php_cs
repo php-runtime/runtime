@@ -2,6 +2,7 @@
 
 $finder = PhpCsFixer\Finder::create()
     ->in(__DIR__.'/src')
+    ->notName('vendor')
 ;
 
 return PhpCsFixer\Config::create()
