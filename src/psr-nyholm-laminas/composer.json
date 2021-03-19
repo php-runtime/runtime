@@ -24,5 +24,6 @@
             "Symfony\\Runtime\\Psr\\": "runtime/"
         }
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
