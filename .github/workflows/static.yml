@@ -2,9 +2,6 @@ name: Static analysis
 
 on:
   pull_request: ~
-  push:
-    branches:
-      - master
 
 jobs:
   phpstan:
@@ -24,7 +21,7 @@ jobs:
       - name: Cache PHPStan
         uses: actions/cache@v2
         with:
-          path: .cache/phpstan/
+          path: .github/.cache/phpstan/
           key: phpstan-${{ github.sha }}
           restore-keys: phpstan-
 
@@ -50,7 +47,7 @@ jobs:
       - name: Cache PhpCsFixer
         uses: actions/cache@v2
         with:
-          path: .cache/php-cs-fixer/
+          path: .github/.cache/php-cs-fixer/
           key: php-cs-fixer-${{ github.sha }}
           restore-keys: php-cs-fixer-
 
@@ -69,7 +66,7 @@ jobs:
       - name: Cache Psalm
         uses: actions/cache@v2
         with:
-          path: .cache/psalm/
+          path: .github/.cache/psalm/
           key: psalm-${{ github.sha }}
           restore-keys: psalm-
 
@@ -84,3 +81,38 @@ jobs:
           REQUIRE_DEV: "true"
         with:
           args: --no-progress --show-info=false --stats
+
+  composer-normalize:
+    name: Composer Normalize
+    runs-on: Ubuntu-20.04
+
+    steps:
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
+          coverage: none
+          tools: composer-normalize
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Normalize
+        run: |
+          ok=0
+          echo ::group::Root
+          composer-normalize --dry-run
+          echo ::endgroup::
+          for COMPONENT in $(find src -maxdepth 4 -type f -name composer.json | sort)
+          do
+            echo ::group::$COMPONENT
+            localExit=0
+            composer-normalize $COMPONENT --dry-run || localExit=1
+            ok=$(( $localExit || $ok ))
+            echo ::endgroup::
+            if [ $localExit -ne 0 ]; then
+              echo "::error::$COMPONENT failed"
+            fi
+          done
+
+          exit $ok
