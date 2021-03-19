@@ -33,13 +33,11 @@ jobs:
       matrix:
         package: ${{ fromJson(needs.matrix.outputs.list) }}
         php: [ '7.4', '8.0' ]
-        strategy: ['highest', 'lowest' ]
+        strategy: [ 'highest', 'lowest' ]
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - run: cd src/${{ matrix.package }}
 
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
@@ -51,10 +49,11 @@ jobs:
         uses: ramsey/composer-install@v1
         with:
           dependency-versions: ${{ matrix.strategy }}
-          composer-options: --no-interaction --prefer-dist --optimize-autoloader
+          composer-options: --working-dir=src/${{ matrix.package }} --no-interaction --prefer-dist --optimize-autoloader
 
       - name: Run tests
         run: |
+          cd src/${{ matrix.package }}
           echo ::group::Install
           ./vendor/bin/simple-phpunit install
           echo ::endgroup::
