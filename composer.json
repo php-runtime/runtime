@@ -1,0 +1,21 @@
+{
+    "name": "runtime/runtime",
+    "description": "Includes all runtimes",
+    "type": "library",
+    "require": {
+        "symfony/runtime": "5.x-dev"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nyholm",
+            "email": "tobias.nyholm@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Runtime\\PsrNyholmLaminas\\": "src/psr-nyholm-laminas/src"
+        }
+    }
+}
