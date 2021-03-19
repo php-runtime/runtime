@@ -1,7 +1,7 @@
 {
-    "name": "runtime/runtime",
+    "name": "runtime/psr-nyholm-laminas",
     "type": "library",
-    "description": "Includes all runtimes",
+    "description": "ReactPHP runtime",
     "license": "MIT",
     "authors": [
         {
@@ -10,18 +10,17 @@
         }
     ],
     "require": {
-        "laminas/laminas-httphandlerrunner": "^1.2",
-        "nyholm/psr7": "^1.3",
-        "nyholm/psr7-server": "^1.0",
         "symfony/runtime": "5.x-dev",
-        "react/http": "^1.2"
+        "react/http": "^1.2",
+        "psr/http-server-handler": "^1.0"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "5.x-dev"
     },
     "autoload": {
         "psr-4": {
-            "Runtime\\PsrNyholmLaminas\\": "src/psr-nyholm-laminas/src"
+            "Runtime\\PsrNyholmLaminas\\": "src/",
+            "Symfony\\Runtime\\Psr\\": "runtime/"
         }
     },
     "minimum-stability": "dev",
