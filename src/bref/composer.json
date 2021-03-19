@@ -1,0 +1,35 @@
+{
+    "name": "runtime/bref",
+    "type": "library",
+    "description": "Bref runtime",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nyholm",
+            "email": "tobias.nyholm@gmail.com"
+        }
+    ],
+    "require": {
+        "psr/http-server-handler": "^1.0",
+        "bref/bref": "^1.2",
+        "clue/arguments": "^2.1",
+        "symfony/runtime": "5.x-dev"
+    },
+    "require-dev": {
+        "symfony/phpunit-bridge": "5.x-dev",
+        "symfony/http-foundation": "^4.4 || ^5.2",
+        "symfony/http-kernel": "^4.4 || ^5.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Runtime\\Bref\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Runtime\\Bref\\Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
