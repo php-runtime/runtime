@@ -21,5 +21,8 @@
             "Runtime\\PsrNyholmLaminas\\": "src/",
             "Symfony\\Runtime\\Psr\\": "runtime/"
         }
+    },
+    "require-dev": {
+        "symfony/phpunit-bridge": "5.x-dev"
     }
 }

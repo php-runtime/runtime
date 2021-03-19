@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  pull_request:
+    paths:
+      - src/**
+
+jobs:
+  matrix:
+    name: Find packages
+    runs-on: Ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - id: find-packages
+        run: |
+          git fetch --prune --unshallow
+          echo "::set-output name=list::$(git diff --name-only HEAD $(git merge-base --fork-point ${{ github.base_ref }} ${{ github.ref }}) | grep src/ | cut -d / -f 2  | sort | uniq | jq -R -s -c 'split("\n")[:-1]')"
+
+    outputs:
+      # Make the outputs accessible outside this job
+      list: ${{ steps.find-packages.outputs.list }}
+
+  build:
+    needs: matrix
+    name: Test
+    runs-on: Ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        package: ${{ fromJson(needs.matrix.outputs.list) }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Download dependencies
+        uses: ramsey/composer-install@v1
+        with:
+          composer-options: --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Run tests
+        run: |
+          echo ::group::Install
+          ./vendor/bin/simple-phpunit install
+          echo ::endgroup::
+          ./vendor/bin/simple-phpunit
+

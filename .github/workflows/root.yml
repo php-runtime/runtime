@@ -1,0 +1,26 @@
+name: Root
+
+on:
+  pull_request: ~
+
+jobs:
+
+  test:
+    name: Test
+    runs-on: Ubuntu-20.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Download dependencies
+        uses: ramsey/composer-install@v1
+        with:
+          composer-options: --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Run tests
+        run: |
+          echo ::group::Install
+          ./vendor/bin/simple-phpunit install
+          echo ::endgroup::
+          ./vendor/bin/simple-phpunit
