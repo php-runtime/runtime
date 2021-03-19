@@ -2,8 +2,6 @@
 
 use Psr\Http\Message\ServerRequestInterface;
 
-$_SERVER['APP_RUNTIME'] = \Runtime\PsrNyholmLaminas\Runtime::class;
-
 require __DIR__.'/autoload.php';
 
 return function (ServerRequestInterface $request) {

@@ -21,7 +21,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Runtime\\PsrNyholmLaminas\\": "src/psr-nyholm-laminas/src"
+            "Runtime\\PsrNyholmLaminas\\": "src/psr-nyholm-laminas/src",
+            "Runtime\\React\\": "src/react/src"
         }
     },
     "minimum-stability": "dev",
