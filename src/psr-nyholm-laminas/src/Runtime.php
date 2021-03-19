@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Runtime\PsrNyholmLaminas;
 
 use Nyholm\Psr7\Factory\Psr17Factory;

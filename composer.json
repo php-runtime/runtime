@@ -3,7 +3,10 @@
     "description": "Includes all runtimes",
     "type": "library",
     "require": {
-        "symfony/runtime": "5.x-dev"
+        "symfony/runtime": "5.x-dev",
+                "nyholm/psr7": "^1.3",
+        "nyholm/psr7-server": "^1.0",
+        "laminas/laminas-httphandlerrunner": "^1.2"
     },
     "license": "MIT",
     "authors": [
