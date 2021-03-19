@@ -2,12 +2,14 @@
 
 namespace Runtime\PsrNyholmLaminas;
 
+use Bref\Event\Handler;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7Server\ServerRequestCreator;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Symfony\Component\Runtime\GenericRuntime;
+use Symfony\Component\Runtime\ResolverInterface;
 use Symfony\Component\Runtime\RunnerInterface;
 
 /**
@@ -49,6 +51,27 @@ class Runtime extends GenericRuntime
         }
 
         return parent::getRunner($application);
+    }
+
+        public function getResolver($callable, \ReflectionFunction $reflector = null): ResolverInterface
+    {
+        if ($callable instanceof RequestHandlerInterface) {
+            return new class($callable) implements ResolverInterface {
+                private $app;
+
+                public function __construct($app)
+                {
+                    $this->app = $app;
+                }
+
+                public function resolve(): array
+                {
+                    return [$this->app, []];
+                }
+            };
+        }
+
+        return parent::getResolver($callable, $reflector);
     }
 
     /**
