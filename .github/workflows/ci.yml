@@ -16,6 +16,9 @@ jobs:
       - id: find-packages
         run: |
           git fetch --prune --unshallow
+          echo ${{ github.base_ref }}
+          git merge-base --fork-point ${{ github.base_ref }} HEAD
+          git diff --name-only HEAD $(git merge-base --fork-point ${{ github.base_ref }} HEAD)^1
           echo "::set-output name=list::$(git diff --name-only HEAD $(git merge-base --fork-point ${{ github.base_ref }} HEAD)^1 | grep src/ | cut -d / -f 2 | sort | uniq | jq -R -s -c 'split("\n")[:-1]')"
 
     outputs:
@@ -38,6 +41,12 @@ jobs:
         uses: actions/checkout@v2
 
       - run: cd src/${{ matrix.package }}
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
 
       - name: Download dependencies
         uses: ramsey/composer-install@v1
