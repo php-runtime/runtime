@@ -1,5 +1,5 @@
 {
-    "name": "runtime/psr-nyholm-laminas",
+    "name": "runtime/react",
     "type": "library",
     "description": "ReactPHP runtime",
     "license": "MIT",
@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Runtime\\PsrNyholmLaminas\\": "src/",
+            "Runtime\\React\\": "src/",
             "Symfony\\Runtime\\Psr\\": "runtime/"
         }
     },

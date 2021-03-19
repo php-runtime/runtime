@@ -12,13 +12,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 50
+
+      - name: Fetch master from where the PR started
+        run: git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
 
       - name: Find packages
         id: find-packages
-        run: |
-          echo "::set-output name=list::$(git diff --name-only ${{github.event.pull_request.head.sha}} ${{github.event.pull_request.base.sha}} | grep src/ | cut -d / -f 2 | sort | uniq | jq -R -s -c 'split("\n")[:-1]')"
+        run: echo "::set-output name=list::$(git diff --name-only origin/${{ github.base_ref }} HEAD | grep src/ | cut -d / -f 2 | sort | uniq | jq -R -s -c 'split("\n")[:-1]')"
 
     outputs:
       # Make the outputs accessible outside this job
