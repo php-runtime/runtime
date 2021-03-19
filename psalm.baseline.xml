@@ -1,5 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="4.6.0@77feecb3707bd50378c21ae4d3fe9e320e6cea65">
+  <file src="src/bref/src/BrefRunner.php">
+    <InternalClass occurrences="1">
+      <code>LambdaRuntime::fromEnvironmentVariable()</code>
+    </InternalClass>
+    <InternalMethod occurrences="2">
+      <code>LambdaRuntime::fromEnvironmentVariable()</code>
+      <code>processNextEvent</code>
+    </InternalMethod>
+    <InvalidReturnType occurrences="1">
+      <code>int</code>
+    </InvalidReturnType>
+  </file>
+  <file src="src/bref/src/ConsoleApplicationRunner.php">
+    <InternalClass occurrences="1">
+      <code>LambdaRuntime::fromEnvironmentVariable()</code>
+    </InternalClass>
+    <InternalMethod occurrences="2">
+      <code>LambdaRuntime::fromEnvironmentVariable()</code>
+      <code>processNextEvent</code>
+    </InternalMethod>
+    <InvalidReturnType occurrences="1">
+      <code>int</code>
+    </InvalidReturnType>
+  </file>
   <file src="src/psr-nyholm-laminas/src/Runtime.php">
     <InvalidArgument occurrences="2">
       <code>['emitter' =&gt; $this-&gt;options['laminas_emitter'] ?? null]</code>
