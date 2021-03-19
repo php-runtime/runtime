@@ -1,6 +1,6 @@
 <?php
 
-namespace Runtime\React\Tests;
+namespace Runtime\PsrNyholmLaminas\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Runtime\PsrNyholmLaminas\Runtime;
