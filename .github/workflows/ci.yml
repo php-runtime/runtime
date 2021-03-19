@@ -12,15 +12,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
 
       - id: find-packages
         run: |
           echo ${{github.event.pull_request.base.sha}}
           echo ${{github.event.pull_request.head.sha}}
           git diff --name-only ${{github.event.pull_request.head.sha}} ${{github.event.pull_request.base.sha}}
-          echo "::set-output name=list::$(git diff --name-only ${{github.event.pull_request.head.ref}} ${{github.event.pull_request.base.ref}} | grep src/ | cut -d / -f 2 | sort | uniq | jq -R -s -c 'split("\n")[:-1]')"
+          echo "::set-output name=list::$(git diff --name-only ${{github.event.pull_request.head.sha}} ${{github.event.pull_request.base.sha}} | grep src/ | cut -d / -f 2 | sort | uniq | jq -R -s -c 'split("\n")[:-1]')"
 
     outputs:
       # Make the outputs accessible outside this job
