@@ -17,10 +17,10 @@ jobs:
 
       - id: find-packages
         run: |
-          echo ${{ github.base_ref }}
-          git merge-base --fork-point ${{ github.base_ref }} HEAD
-          git diff --name-only HEAD $(git merge-base --fork-point ${{ github.base_ref }} HEAD)^1
-          echo "::set-output name=list::$(git diff --name-only HEAD $(git merge-base --fork-point ${{ github.base_ref }} HEAD)^1 | grep src/ | cut -d / -f 2 | sort | uniq | jq -R -s -c 'split("\n")[:-1]')"
+          echo ${{github.event.pull_request.base.ref}}
+          echo ${{github.event.pull_request.head.ref}}
+          git diff --name-only ${{github.event.pull_request.head.ref}} ${{github.event.pull_request.base.ref}}
+          echo "::set-output name=list::$(git diff --name-only ${{github.event.pull_request.head.ref}} ${{github.event.pull_request.base.ref}} | grep src/ | cut -d / -f 2 | sort | uniq | jq -R -s -c 'split("\n")[:-1]')"
 
     outputs:
       # Make the outputs accessible outside this job
