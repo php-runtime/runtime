@@ -20,9 +20,6 @@
         "symfony/http-kernel": "^5.2",
         "symfony/runtime": "5.x-dev"
     },
-    "require-dev": {
-        "symfony/phpunit-bridge": "5.x-dev"
-    },
     "autoload": {
         "psr-4": {
             "Runtime\\Bref\\": "src/bref/src",

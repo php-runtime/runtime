@@ -18,7 +18,7 @@
     "require-dev": {
         "symfony/http-foundation": "^4.4 || ^5.2",
         "symfony/http-kernel": "^4.4 || ^5.2",
-        "symfony/phpunit-bridge": "5.x-dev"
+        "symfony/phpunit-bridge": "^5.2"
     },
     "autoload": {
         "psr-4": {
