@@ -13,7 +13,8 @@
         "laminas/laminas-httphandlerrunner": "^1.2",
         "nyholm/psr7": "^1.3",
         "nyholm/psr7-server": "^1.0",
-        "symfony/runtime": "5.x-dev"
+        "symfony/runtime": "5.x-dev",
+        "react/http": "^1.2"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "5.x-dev"
@@ -23,5 +24,6 @@
             "Runtime\\PsrNyholmLaminas\\": "src/psr-nyholm-laminas/src"
         }
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

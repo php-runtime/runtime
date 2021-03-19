@@ -12,13 +12,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 50
+
+      - name: Fetch master from where the PR started
+        run: git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
 
       - name: Find packages
         id: find-packages
-        run: |
-          echo "::set-output name=list::$(git diff --name-only ${{github.event.pull_request.head.sha}} ${{github.event.pull_request.base.sha}} | grep src/ | cut -d / -f 2 | sort | uniq | jq -R -s -c 'split("\n")[:-1]')"
+        run: echo "::set-output name=list::$(git diff --name-only origin/${{ github.base_ref }} HEAD | grep src/ | cut -d / -f 2 | sort | uniq | jq -R -s -c 'split("\n")[:-1]')"
 
     outputs:
       # Make the outputs accessible outside this job
@@ -33,13 +33,11 @@ jobs:
       matrix:
         package: ${{ fromJson(needs.matrix.outputs.list) }}
         php: [ '7.4', '8.0' ]
-        strategy: ['default', 'lowest' ]
+        strategy: [ 'highest', 'lowest' ]
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - run: cd src/${{ matrix.package }}
 
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
@@ -50,10 +48,12 @@ jobs:
       - name: Download dependencies
         uses: ramsey/composer-install@v1
         with:
-          composer-options: --no-interaction --prefer-dist --optimize-autoloader ${{ matrix.strategy == 'lowest' && '--prefer-lowest' || '' }}
+          dependency-versions: ${{ matrix.strategy }}
+          composer-options: --working-dir=src/${{ matrix.package }} --no-interaction --prefer-dist --optimize-autoloader
 
       - name: Run tests
         run: |
+          cd src/${{ matrix.package }}
           echo ::group::Install
           ./vendor/bin/simple-phpunit install
           echo ::endgroup::
