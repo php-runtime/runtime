@@ -10,9 +10,9 @@
         }
     ],
     "require": {
-        "symfony/runtime": "5.x-dev",
+        "psr/http-server-handler": "^1.0",
         "react/http": "^1.2",
-        "psr/http-server-handler": "^1.0"
+        "symfony/runtime": "5.x-dev"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "5.x-dev"
