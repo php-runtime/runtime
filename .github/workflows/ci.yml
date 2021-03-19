@@ -33,7 +33,7 @@ jobs:
       matrix:
         package: ${{ fromJson(needs.matrix.outputs.list) }}
         php: [ '7.4', '8.0' ]
-        strategy: ['default', 'lowest' ]
+        strategy: ['highest', 'lowest' ]
 
     steps:
       - name: Checkout code
@@ -50,7 +50,8 @@ jobs:
       - name: Download dependencies
         uses: ramsey/composer-install@v1
         with:
-          composer-options: --no-interaction --prefer-dist --optimize-autoloader ${{ matrix.strategy == 'lowest' && '--prefer-lowest' || '' }}
+          dependency-versions: ${{ matrix.strategy }}
+          composer-options: --no-interaction --prefer-dist --optimize-autoloader
 
       - name: Run tests
         run: |
