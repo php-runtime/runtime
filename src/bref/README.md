@@ -1,6 +1,8 @@
 # Bref Runtime
 
-Here is [an example application](https://github.com/Nyholm/bref-runtime-demo)
+Here is [an example application](https://github.com/Nyholm/bref-runtime-demo).
+With this runtime you may use the exact same application for in local development
+and in production. Another benefit is that we will not use PHP-FPM.
 
 ## Installation
 
@@ -8,7 +10,7 @@ Here is [an example application](https://github.com/Nyholm/bref-runtime-demo)
 composer require runtime/bref
 ```
 
-Define the envrionment variable `APP_RUNTIME` for your application on Lambda.
+Define the environment variable `APP_RUNTIME` for your application on Lambda.
 
 ```diff
  # serverless.yml
@@ -105,7 +107,7 @@ return function (array $context) {
 To define what service to fetch form the container, one need to do one small change
 to serverless.yml
 
-```yaml
+```diff
  # serverless.yml
 
  functions:
@@ -118,8 +120,6 @@ to serverless.yml
 
 ```php
 // bin/console
-#!/usr/bin/env php
-<?php
 
 use App\Kernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
@@ -133,7 +133,7 @@ return function (array $context) {
 };
 ```
 
-```yaml
+```diff
  # serverless.yml
 
  functions:
