@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  pull_request:
+    paths:
+      - src/**
+
+jobs:
+  matrix:
+    name: Find packages
+    runs-on: Ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 50
+
+      - name: Find packages
+        id: find-packages
+        run: |
+          echo "::set-output name=list::$(git diff --name-only ${{github.event.pull_request.head.sha}} ${{github.event.pull_request.base.sha}} | grep src/ | cut -d / -f 2 | sort | uniq | jq -R -s -c 'split("\n")[:-1]')"
+
+    outputs:
+      # Make the outputs accessible outside this job
+      list: ${{ steps.find-packages.outputs.list }}
+
+  build:
+    needs: matrix
+    name: Test
+    runs-on: Ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        package: ${{ fromJson(needs.matrix.outputs.list) }}
+        php: [ '7.4', '8.0' ]
+        strategy: ['default', 'lowest' ]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - run: cd src/${{ matrix.package }}
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+
+      - name: Download dependencies
+        uses: ramsey/composer-install@v1
+        with:
+          composer-options: --no-interaction --prefer-dist --optimize-autoloader ${{ matrix.strategy == 'lowest' && '--prefer-lowest' || '' }}
+
+      - name: Run tests
+        run: |
+          echo ::group::Install
+          ./vendor/bin/simple-phpunit install
+          echo ::endgroup::
+          ./vendor/bin/simple-phpunit
+

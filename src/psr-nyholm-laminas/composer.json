@@ -1,7 +1,7 @@
 {
     "name": "runtime/psr-nyholm-laminas",
-    "description": "PSR runtime with nyholm/psr7 and laminas/laminas-httphandlerrunner",
     "type": "library",
+    "description": "PSR runtime with nyholm/psr7 and laminas/laminas-httphandlerrunner",
     "license": "MIT",
     "authors": [
         {
@@ -9,17 +9,20 @@
             "email": "tobias.nyholm@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
     "require": {
-        "symfony/runtime": "5.x-dev",
+        "laminas/laminas-httphandlerrunner": "^1.2",
         "nyholm/psr7": "^1.3",
         "nyholm/psr7-server": "^1.0",
-        "laminas/laminas-httphandlerrunner": "^1.2"
+        "symfony/runtime": "5.x-dev"
+    },
+    "require-dev": {
+        "symfony/phpunit-bridge": "5.x-dev"
     },
     "autoload": {
         "psr-4": {
             "Runtime\\PsrNyholmLaminas\\": "src/",
             "Symfony\\Runtime\\Psr\\": "runtime/"
         }
-    }
+    },
+    "minimum-stability": "dev"
 }
