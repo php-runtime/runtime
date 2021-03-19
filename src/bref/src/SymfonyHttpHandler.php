@@ -12,6 +12,7 @@ use Symfony\Component\HttpKernel\TerminableInterface;
 
 /**
  * A Bref handler for Symfony requests.
+ *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
 class SymfonyHttpHandler extends HttpHandler

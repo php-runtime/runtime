@@ -10,15 +10,15 @@
         }
     ],
     "require": {
-        "psr/http-server-handler": "^1.0",
         "bref/bref": "^1.2",
         "clue/arguments": "^2.1",
+        "psr/http-server-handler": "^1.0",
         "symfony/runtime": "5.x-dev"
     },
     "require-dev": {
-        "symfony/phpunit-bridge": "5.x-dev",
         "symfony/http-foundation": "^4.4 || ^5.2",
-        "symfony/http-kernel": "^4.4 || ^5.2"
+        "symfony/http-kernel": "^4.4 || ^5.2",
+        "symfony/phpunit-bridge": "5.x-dev"
     },
     "autoload": {
         "psr-4": {

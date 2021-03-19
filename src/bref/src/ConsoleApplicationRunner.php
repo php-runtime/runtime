@@ -27,9 +27,8 @@ class ConsoleApplicationRunner implements RunnerInterface
     {
         $lambda = LambdaRuntime::fromEnvironmentVariable();
 
-        while(true) {
+        while (true) {
             $lambda->processNextEvent(function ($event, Context $context): array {
-
                 $args = \Clue\Arguments\split((string) $event);
                 array_unshift($args, 'command');
 
@@ -41,7 +40,7 @@ class ConsoleApplicationRunner implements RunnerInterface
                 echo $output->fetch();
 
                 if ($exitCode > 0) {
-                    throw new \Exception('The command exited with a non-zero status code: ' . $exitCode);
+                    throw new \Exception('The command exited with a non-zero status code: '.$exitCode);
                 }
 
                 return [

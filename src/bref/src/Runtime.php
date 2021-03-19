@@ -4,8 +4,8 @@ namespace Runtime\Bref;
 
 use Bref\Event\Handler;
 use Bref\Event\Http\Psr15Handler;
-use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Symfony\Component\Console\Application;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Runtime\RunnerInterface;
@@ -46,9 +46,7 @@ class Runtime extends SymfonyRuntime
         }
 
         if ($application instanceof Application) {
-            $defaultEnv = !isset($this->options['env']) ? ($_SERVER['APP_ENV'] ?? 'dev') : null;
-
-            return new ConsoleApplicationRunner($application, $defaultEnv);
+            return new ConsoleApplicationRunner($application);
         }
 
         return parent::getRunner($application);
