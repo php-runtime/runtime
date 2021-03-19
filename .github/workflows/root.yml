@@ -6,7 +6,7 @@ on:
 jobs:
 
   test:
-    name: Test
+    name: Root Tests
     runs-on: Ubuntu-20.04
 
     steps:
