@@ -46,8 +46,8 @@ ReactPHP without making any change to the application itself.
 
 Since most modern PHP application is based on Symfony's HttpKernel, PSR-7 or PSR-15
 we dont need too many different runtimes. This organization holds many PHP packages
-with runtimes for the most popular environments. It is not "the source of all
-runtimes", but rather a temporary place where runtimes can live before they move
+with runtimes for the most popular environments. It is not "*the source of all
+runtimes*", but rather a temporary place where runtimes can live before they move
 in to Bref/Swoole/RoadRunner etc.
 
 All runtimes has hard dependencies to make installation easier. Everything should
