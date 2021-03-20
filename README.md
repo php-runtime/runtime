@@ -55,26 +55,6 @@ All runtimes has hard dependencies to make installation easier. Everything shoul
 
 ## Available Runtimes
 
-### PHP-FPM and "normal PHP" webservers
-
-#### Laravel
-
-A runtime for [Laravel](https://laravel.com/) and Artisan.
-
-* https://github.com/php-runtime/laravel
-
-#### PSR-7 and PSR-15
-
-Use the popular PSR architecture.
-
-* https://github.com/php-runtime/psr-nyholm-laminas
-
-#### Symfony
-
-The runtime for [Symfony](https://symfony.com/) is included in the runtime component.
-
-* https://github.com/symfony/runtime
-
 ### Bref
 
 Run your application on AWS Lambda with [Bref](https://bref.sh/).
@@ -99,6 +79,30 @@ Spin up multiple PHP processes with Golang using [RoadRunner](https://roadrunner
 Build high-performance, scalable, concurrent HTTP services with [Swoole](https://www.swoole.co.uk/).
 
 * https://github.com/php-runtime/swoole
+
+### PHP-FPM and traditional webservers
+
+These runtimes are for PHP-FPM and the more traditional webservers one might
+use for local development.
+
+#### Laravel
+
+A runtime for [Laravel](https://laravel.com/) and Artisan.
+
+* https://github.com/php-runtime/laravel
+
+#### PSR-7 and PSR-15
+
+Use the popular PSR architecture.
+
+* https://github.com/php-runtime/psr-nyholm-laminas
+
+#### Symfony
+
+The runtime for [Symfony](https://symfony.com/) is included in the runtime component.
+
+* https://github.com/symfony/runtime
+
 
 ## Contribute
 
