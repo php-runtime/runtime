@@ -25,7 +25,9 @@
         "psr-4": {
             "Runtime\\Bref\\": "src/bref/src",
             "Runtime\\PsrNyholmLaminas\\": "src/psr-nyholm-laminas/src",
-            "Runtime\\React\\": "src/react/src"
+            "Runtime\\React\\": "src/react/src",
+            "Runtime\\Swoole\\": "src/swoole/src",
+            "Swoole\\": "vendor/swoole/ide-helper/output/swoole/namespace"
         }
     },
     "minimum-stability": "dev",
