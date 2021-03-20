@@ -1,7 +1,7 @@
 {
-    "name": "runtime/react",
+    "name": "runtime/swoole",
     "type": "library",
-    "description": "ReactPHP runtime",
+    "description": "Swoole runtime",
     "license": "MIT",
     "authors": [
         {
@@ -10,22 +10,22 @@
         }
     ],
     "require": {
-        "psr/http-server-handler": "^1.0",
-        "react/http": "^1.2",
         "symfony/runtime": "5.x-dev"
     },
     "require-dev": {
+         "swoole/ide-helper": "^4.6",
+        "symfony/http-foundation": "^4.4 || ^5.2",
+        "symfony/http-kernel": "^4.4 || ^5.2",
         "symfony/phpunit-bridge": "^5.2"
     },
     "autoload": {
         "psr-4": {
-            "Runtime\\React\\": "src/",
-            "Symfony\\Runtime\\Psr\\Http\\": "runtime/"
+            "Runtime\\Swoole\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Runtime\\React\\Tests\\": "tests/"
+            "Runtime\\Swoole\\Tests\\": "tests/"
         }
     },
     "minimum-stability": "dev",
