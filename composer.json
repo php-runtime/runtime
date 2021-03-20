@@ -22,7 +22,8 @@
         "symfony/http-foundation": "^5.2",
         "symfony/http-kernel": "^5.2",
         "symfony/psr-http-message-bridge": "^2.1",
-        "symfony/runtime": "5.x-dev"
+        "symfony/runtime": "5.x-dev",
+        "laminas/laminas-diactoros": "^2.5"
     },
     "require-dev": {
         "bamarni/composer-bin-plugin": "^1.4",
@@ -33,6 +34,7 @@
         "psr-4": {
             "Runtime\\Bref\\": "src/bref/src",
             "Runtime\\Laravel\\": "src/laravel/src",
+            "Runtime\\PsrLaminas\\": "src/psr-laminas/src",
             "Runtime\\PsrNyholmLaminas\\": "src/psr-nyholm-laminas/src",
             "Runtime\\React\\": "src/react/src",
             "Runtime\\RoadRunnerNyholm\\": "src/roadrunner-nyholm/src",
