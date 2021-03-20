@@ -18,7 +18,8 @@
         "react/http": "^1.2",
         "symfony/http-foundation": "^5.2",
         "symfony/http-kernel": "^5.2",
-        "symfony/runtime": "5.x-dev"
+        "symfony/runtime": "5.x-dev",
+        "spiral/roadrunner": "^2.0"
     },
     "require-dev": {
         "bamarni/composer-bin-plugin": "^1.4",
@@ -29,6 +30,7 @@
             "Runtime\\Bref\\": "src/bref/src",
             "Runtime\\PsrNyholmLaminas\\": "src/psr-nyholm-laminas/src",
             "Runtime\\React\\": "src/react/src",
+            "Runtime\\RoadRunnerNyholm\\": "src/roadrunner-nyholm/src",
             "Runtime\\Swoole\\": "src/swoole/src"
         }
     },
