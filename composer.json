@@ -19,8 +19,8 @@
         "spiral/roadrunner": "^2.0",
         "symfony/http-foundation": "^5.2",
         "symfony/http-kernel": "^5.2",
-        "symfony/runtime": "5.x-dev",
-        "symfony/psr-http-message-bridge": "^2.1"
+        "symfony/psr-http-message-bridge": "^2.1",
+        "symfony/runtime": "5.x-dev"
     },
     "require-dev": {
         "bamarni/composer-bin-plugin": "^1.4",

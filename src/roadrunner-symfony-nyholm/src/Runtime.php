@@ -2,11 +2,9 @@
 
 namespace Runtime\RoadRunnerSymfonyNyholm;
 
-
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Runtime\RunnerInterface;
 use Symfony\Component\Runtime\SymfonyRuntime;
-
 
 /**
  * A runtime for RoadRunner.

@@ -3,7 +3,6 @@
 namespace Runtime\RoadRunnerSymfonyNyholm;
 
 use Nyholm\Psr7;
-use Psr\Http\Server\RequestHandlerInterface;
 use Spiral\RoadRunner;
 use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
 use Symfony\Bridge\PsrHttpMessage\Factory\PsrHttpFactory;
@@ -45,7 +44,6 @@ class Runner implements RunnerInterface
                 if ($this->kernel instanceof TerminableInterface) {
                     $this->kernel->terminate($sfRequest, $sfResponse);
                 }
-
             } catch (\Throwable $e) {
                 $worker->getWorker()->error((string) $e);
             }
