@@ -52,3 +52,37 @@ in to Bref/Swoole/RoadRunner etc.
 
 All runtimes has hard dependencies to make installation easier. Everything should
 "just work".
+
+## Supported environments
+
+### Bref
+
+Run your application on AWS Lambda with [Bref](https://bref.sh/).
+
+* https://github.com/php-runtime/bref
+
+### PSR-7 and PSR-15
+
+Use the popular PSR architecture.
+
+* https://github.com/php-runtime/psr-nyholm-laminas
+
+### ReactPHP
+
+Event-driven, non-blocking I/O with [ReactPHP](https://reactphp.org/).
+
+* https://github.com/php-runtime/reactphp
+
+### RoadRunner
+
+Spin up multiple PHP processes with Golang using [RoadRunner](https://roadrunner.dev/).
+
+* https://github.com/php-runtime/roadrunner-nyholm
+* https://github.com/php-runtime/roadrunner-symfony-nyholm
+
+### Swoole
+
+Build high-performance, scalable, concurrent HTTP services with [Swoole](https://www.swoole.co.uk/).
+
+* https://github.com/php-runtime/swoole
+
