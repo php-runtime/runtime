@@ -2,6 +2,7 @@
 
 namespace Runtime\Swoole;
 
+use Illuminate\Contracts\Http\Kernel;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Runtime\RunnerInterface;
 use Symfony\Component\Runtime\SymfonyRuntime;
@@ -29,6 +30,10 @@ class Runtime extends SymfonyRuntime
 
         if ($application instanceof HttpKernelInterface) {
             return new SymfonyRunner($application, $this->options['swoole_host'], $this->options['swoole_port']);
+        }
+
+        if ($application instanceof Kernel) {
+            return new LaravelRunner($application, $this->options['swoole_host'], $this->options['swoole_port']);
         }
 
         return parent::getRunner($application);
