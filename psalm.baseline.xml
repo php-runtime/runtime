@@ -24,6 +24,12 @@
       <code>int</code>
     </InvalidReturnType>
   </file>
+  <file src="src/psr-laminas/src/Runtime.php">
+    <InvalidArgument occurrences="2">
+      <code>['emitter' =&gt; $this-&gt;options['laminas_emitter'] ?? null]</code>
+      <code>['emitter' =&gt; $this-&gt;options['laminas_emitter'] ?? null]</code>
+    </InvalidArgument>
+  </file>
   <file src="src/psr-nyholm-laminas/src/Runtime.php">
     <InvalidArgument occurrences="2">
       <code>['emitter' =&gt; $this-&gt;options['laminas_emitter'] ?? null]</code>
