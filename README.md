@@ -1,10 +1,10 @@
 # PHP Runtimes
 
 In early 2021, Symfony created a "Runtime component". This component may look
-complex, weird and full of hacks but it is a game changer for how we run PHP
+complex, weird and full of hacks but it is a **game changer** for how we run PHP
 applications.
 
-With the Runtime component, we can look at each application as a black box. A box
+With the Runtime component, we can look at each application as a "black box". A box
 that has no connection to globals like `$_SERVER` or `$_GET`. To run the application
 you need (you guessed it) a `Runtime`. It is a class that looks at the black box
 to figure out what input it requires and handles the output.
@@ -12,7 +12,9 @@ to figure out what input it requires and handles the output.
 Consider this small application that returns an UUID.
 
 ```php
-class Application
+namespace App;
+
+class AcmeApplication
 {
     public function run() {
         return Uuid::uuid4()->toString();
@@ -20,18 +22,19 @@ class Application
 }
 ```
 
-To use this application with the Runtime component:
+To use this application with the Runtime component. We need our front-controller
+to return a callable that will create the application.
 
 ```php
 // index.php
 
 return function() {
-    return new Application();
+    return new App\AcmeApplication();
 }
 ```
 
-If you want to use this application in a CLI environment, you need to create a
-`Runtime` that knows how to run an `Application` object and print the output on
+If you want to use this application in a CLI environment, you need a
+`Runtime` that knows how to run an `App\AcmeApplication` object and print the output on
 CLI. If you want to use it with Nginx/PHP-FPM then you need another `Runtime`
 that converts the application output to a HTTP response.
 
