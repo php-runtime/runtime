@@ -45,12 +45,12 @@ It is easy to create a `Runtime` to run the application with Bref, Swoole or
 ReactPHP without making any change to the application itself.
 
 Since most modern PHP application is based on Symfony's HttpKernel, PSR-7 or PSR-15
-we dont need too many different runtimes. This organization holds many PHP packages
+we don't need too many different runtimes. This organization holds many PHP packages
 with runtimes for the most popular environments. It is not "*the source of all
 runtimes*", but rather a temporary place where runtimes can live before they move
 in to Bref/Swoole/RoadRunner etc.
 
-All runtimes has hard dependencies to make installation easier. Everything should
+All runtimes have hard dependencies to make installation easier. Everything should
 "just work".
 
 ## Available Runtimes
@@ -80,9 +80,9 @@ Build high-performance, scalable, concurrent HTTP services with [Swoole](https:/
 
 * https://github.com/php-runtime/swoole
 
-### PHP-FPM and traditional webservers
+### PHP-FPM and traditional web servers
 
-These runtimes are for PHP-FPM and the more traditional webservers one might
+These runtimes are for PHP-FPM and the more traditional web servers one might
 use for local development.
 
 #### Laravel
