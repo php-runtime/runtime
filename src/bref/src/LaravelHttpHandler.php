@@ -6,10 +6,8 @@ use Bref\Context\Context;
 use Bref\Event\Http\HttpHandler;
 use Bref\Event\Http\HttpRequestEvent;
 use Bref\Event\Http\HttpResponse;
-use Illuminate\Http\Request;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Symfony\Component\HttpKernel\TerminableInterface;
 use Illuminate\Contracts\Http\Kernel;
+use Illuminate\Http\Request;
 
 /**
  * A Bref handler for Laravel requests.
