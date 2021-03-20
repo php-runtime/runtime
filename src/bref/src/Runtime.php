@@ -4,6 +4,7 @@ namespace Runtime\Bref;
 
 use Bref\Event\Handler;
 use Bref\Event\Http\Psr15Handler;
+use Illuminate\Contracts\Http\Kernel;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Symfony\Component\Console\Application;
@@ -28,6 +29,10 @@ class Runtime extends SymfonyRuntime
     {
         if ($application instanceof HttpKernelInterface) {
             $application = new SymfonyHttpHandler($application);
+        }
+
+        if ($application instanceof Kernel) {
+            $application = new LaravelHttpHandler($application);
         }
 
         if ($application instanceof RequestHandlerInterface) {
