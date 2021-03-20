@@ -13,7 +13,7 @@
         "symfony/runtime": "5.x-dev"
     },
     "require-dev": {
-         "swoole/ide-helper": "^4.6",
+        "swoole/ide-helper": "^4.6",
         "symfony/http-foundation": "^4.4 || ^5.2",
         "symfony/http-kernel": "^4.4 || ^5.2",
         "symfony/phpunit-bridge": "^5.2"
