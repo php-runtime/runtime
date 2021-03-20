@@ -69,7 +69,7 @@ Use the popular PSR architecture.
 
 * https://github.com/php-runtime/psr-nyholm-laminas
 
-### Symfony
+#### Symfony
 
 The runtime for [Symfony](https://symfony.com/) is included in the runtime component.
 
