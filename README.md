@@ -61,6 +61,12 @@ Run your application on AWS Lambda with [Bref](https://bref.sh/).
 
 * https://github.com/php-runtime/bref
 
+### Laravel
+
+A runtime for [Laravel](https://laravel.com/) and Artisan.
+
+* https://github.com/php-runtime/laravel
+
 ### PSR-7 and PSR-15
 
 Use the popular PSR architecture.

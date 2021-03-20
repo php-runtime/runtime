@@ -1,0 +1,34 @@
+{
+    "name": "runtime/laravel",
+    "type": "library",
+    "description": "Laravel runtime",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tobias Nyholm",
+            "email": "tobias.nyholm@gmail.com"
+        }
+    ],
+    "require": {
+        "illuminate/contracts": "^8.33",
+        "symfony/runtime": "5.x-dev"
+    },
+    "require-dev": {
+        "illuminate/http": "^8.33",
+        "symfony/console": "^4.4 || ^5.2",
+        "symfony/phpunit-bridge": "^5.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Runtime\\Laravel\\": "src/",
+            "Symfony\\Runtime\\Illuminate\\Contracts\\": "runtime"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Runtime\\Laravel\\Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
