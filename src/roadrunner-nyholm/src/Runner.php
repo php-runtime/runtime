@@ -3,7 +3,6 @@
 namespace Runtime\RoadRunnerNyholm;
 
 use Nyholm\Psr7;
-use Psr\Http\Server\RequestHandlerInterface;
 use Spiral\RoadRunner;
 use Symfony\Component\Runtime\RunnerInterface;
 

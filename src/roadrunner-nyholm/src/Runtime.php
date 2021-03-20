@@ -4,11 +4,8 @@ namespace Runtime\RoadRunnerNyholm;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-
 use Symfony\Component\Runtime\GenericRuntime;
 use Symfony\Component\Runtime\RunnerInterface;
-use Symfony\Component\Runtime\SymfonyRuntime;
-
 
 /**
  * A runtime for RoadRunner.
