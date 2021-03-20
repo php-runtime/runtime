@@ -24,7 +24,6 @@ jobs:
         with:
           php-version: '7.4'
           coverage: none
-          extensions: swoole
 
       - name: Download dependencies
         uses: ramsey/composer-install@v1
@@ -88,7 +87,6 @@ jobs:
         with:
           php-version: '7.4'
           coverage: none
-          extensions: swoole
 
       - name: Download dependencies
         uses: ramsey/composer-install@v1
