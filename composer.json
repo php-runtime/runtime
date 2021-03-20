@@ -20,15 +20,19 @@
         "symfony/http-foundation": "^5.2",
         "symfony/http-kernel": "^5.2",
         "symfony/psr-http-message-bridge": "^2.1",
-        "symfony/runtime": "5.x-dev"
+        "symfony/runtime": "5.x-dev",
+        "illuminate/contracts": "^8.33",
+        "symfony/console": "^5.2"
     },
     "require-dev": {
         "bamarni/composer-bin-plugin": "^1.4",
-        "swoole/ide-helper": "^4.6"
+        "swoole/ide-helper": "^4.6",
+        "illuminate/http": "^8.33"
     },
     "autoload": {
         "psr-4": {
             "Runtime\\Bref\\": "src/bref/src",
+            "Runtime\\Laravel\\": "src/laravel/src",
             "Runtime\\PsrNyholmLaminas\\": "src/psr-nyholm-laminas/src",
             "Runtime\\React\\": "src/react/src",
             "Runtime\\RoadRunnerNyholm\\": "src/roadrunner-nyholm/src",
