@@ -53,25 +53,33 @@ in to Bref/Swoole/RoadRunner etc.
 All runtimes has hard dependencies to make installation easier. Everything should
 "just work".
 
-## Supported environments
+## Available Runtimes
+
+### PHP-FPM and "normal PHP" webservers
+
+#### Laravel
+
+A runtime for [Laravel](https://laravel.com/) and Artisan.
+
+* https://github.com/php-runtime/laravel
+
+#### PSR-7 and PSR-15
+
+Use the popular PSR architecture.
+
+* https://github.com/php-runtime/psr-nyholm-laminas
+
+### Symfony
+
+The runtime for [Symfony](https://symfony.com/) is included in the runtime component.
+
+* https://github.com/symfony/runtime
 
 ### Bref
 
 Run your application on AWS Lambda with [Bref](https://bref.sh/).
 
 * https://github.com/php-runtime/bref
-
-### Laravel
-
-A runtime for [Laravel](https://laravel.com/) and Artisan.
-
-* https://github.com/php-runtime/laravel
-
-### PSR-7 and PSR-15
-
-Use the popular PSR architecture.
-
-* https://github.com/php-runtime/psr-nyholm-laminas
 
 ### ReactPHP
 
