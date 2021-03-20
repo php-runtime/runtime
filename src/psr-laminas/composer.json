@@ -10,9 +10,9 @@
         }
     ],
     "require": {
+        "laminas/laminas-diactoros": "^2.5",
         "laminas/laminas-httphandlerrunner": "^1.2",
-        "symfony/runtime": "5.x-dev",
-        "laminas/laminas-diactoros": "^2.5"
+        "symfony/runtime": "5.x-dev"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^5.2"
