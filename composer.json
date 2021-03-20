@@ -40,6 +40,11 @@
             "Runtime\\Swoole\\": "src/swoole/src"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Swoole\\": "vendor/swoole/ide-helper/output/swoole/namespace"
+        }
+    },
     "minimum-stability": "dev",
     "prefer-stable": true
 }
