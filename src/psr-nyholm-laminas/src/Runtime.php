@@ -63,7 +63,7 @@ class Runtime extends GenericRuntime
         return parent::getArgument($parameter, $type);
     }
 
-    protected static function register(parent $runtime): parent
+    protected static function register(GenericRuntime $runtime): GenericRuntime
     {
         $self = new self($runtime->options + ['runtimes' => []]);
         $self->options['runtimes'] += [
@@ -90,11 +90,9 @@ class Runtime extends GenericRuntime
                     new $this->options['psr17_uploaded_file_factory'](),
                     new $this->options['psr17_stream_factory']()
                 );
-            } elseif (class_exists(Psr17Factory::class)) {
+            } else {
                 $psr17Factory = new Psr17Factory();
                 $this->requestCreator = new $creatorClass($psr17Factory, $psr17Factory, $psr17Factory, $psr17Factory);
-            } else {
-                throw new \LogicException(sprintf('The "%s" class requires PSR-17 factories. Try running "composer require nyholm/psr7" or provide class names to the "%s"::__construct().', self::class, self::class));
             }
         }
 
