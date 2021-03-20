@@ -1,0 +1,33 @@
+{
+    "name": "runtime/psr-laminas",
+    "type": "library",
+    "description": "PSR runtime with laminas/diactoros and laminas/laminas-httphandlerrunner",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tobias Nyholm",
+            "email": "tobias.nyholm@gmail.com"
+        }
+    ],
+    "require": {
+        "laminas/laminas-diactoros": "^2.5",
+        "laminas/laminas-httphandlerrunner": "^1.2",
+        "symfony/runtime": "5.x-dev"
+    },
+    "require-dev": {
+        "symfony/phpunit-bridge": "^5.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Runtime\\PsrLaminas\\": "src/",
+            "Symfony\\Runtime\\Psr\\Http\\": "runtime/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Runtime\\PsrLaminas\\Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

@@ -95,6 +95,7 @@ A runtime for [Laravel](https://laravel.com/) and Artisan.
 
 Use the popular PSR architecture.
 
+* https://github.com/php-runtime/psr-laminas
 * https://github.com/php-runtime/psr-nyholm-laminas
 
 #### Symfony
