@@ -12,9 +12,9 @@ to figure out what input it requires and handles the output.
 Consider this small application that returns an UUID.
 
 ```php
-namespace App;
+namespace Acme;
 
-class AcmeApplication
+class Application
 {
     public function run() {
         return Uuid::uuid4()->toString();
@@ -29,14 +29,14 @@ to return a callable that will create the application.
 // index.php
 
 return function() {
-    return new App\AcmeApplication();
+    return new Acme\Application();
 }
 ```
 
 If you want to use this application in a CLI environment, you need a
-`Runtime` that knows how to run an `App\AcmeApplication` object and print the output on
+`Runtime` that knows how to run an `Acme\Application` object and print the output on
 CLI. If you want to use it with Nginx/PHP-FPM then you need another `Runtime`
-that converts the application output to a HTTP response.
+that converts the application's output to a HTTP response.
 
 ## Why is this a good thing?
 
