@@ -19,6 +19,7 @@
         "spiral/roadrunner": "^2.0",
         "symfony/http-foundation": "^5.2",
         "symfony/http-kernel": "^5.2",
+        "symfony/psr-http-message-bridge": "^2.1",
         "symfony/runtime": "5.x-dev"
     },
     "require-dev": {
@@ -31,6 +32,7 @@
             "Runtime\\PsrNyholmLaminas\\": "src/psr-nyholm-laminas/src",
             "Runtime\\React\\": "src/react/src",
             "Runtime\\RoadRunnerNyholm\\": "src/roadrunner-nyholm/src",
+            "Runtime\\RoadRunnerSymfonyNyholm\\": "src/roadrunner-symfony-nyholm/src",
             "Runtime\\Swoole\\": "src/swoole/src"
         }
     },
