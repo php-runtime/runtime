@@ -26,9 +26,9 @@ use Illuminate\Contracts\Http\Kernel;
 
 define('LARAVEL_START', microtime(true));
 
-require_once __DIR__.'/vendor/autoload_runtime.php';
+require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
 
-$app = require __DIR__.'/bootstrap/app.php';
+$app = require dirname(__DIR__).'/bootstrap/app.php';
 
 return function () use ($app): Kernel {
     return $app->make(Kernel::class);
