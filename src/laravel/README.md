@@ -28,9 +28,13 @@ define('LARAVEL_START', microtime(true));
 
 require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
 
-$app = require dirname(__DIR__).'/bootstrap/app.php';
+return function (): Kernel {
+    static $app;
 
-return function () use ($app): Kernel {
+    if (null === $app) {
+        $app = require dirname(__DIR__).'/bootstrap/app.php';
+    }
+
     return $app->make(Kernel::class);
 };
 ```
@@ -46,9 +50,13 @@ define('LARAVEL_START', microtime(true));
 
 require_once __DIR__.'/vendor/autoload_runtime.php';
 
-$app = require __DIR__.'/bootstrap/app.php';
+return function (): Kernel {
+    static $app;
 
-return function () use ($app): Kernel {
+    if (null === $app) {
+        $app = require __DIR__.'/bootstrap/app.php';
+    }
+
     return $app->make(Kernel::class);
 };
 ```
