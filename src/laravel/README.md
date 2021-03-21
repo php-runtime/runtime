@@ -24,12 +24,11 @@ APP_RUNTIME=Runtime\Laravel\Runtime
 
 use Illuminate\Contracts\Http\Kernel;
 
-require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
+define('LARAVEL_START', microtime(true));
 
-if (null === $app) {
-    define('LARAVEL_START', microtime(true));
-    $app = require __DIR__.'/../bootstrap/app.php';
-}
+require_once __DIR__.'/vendor/autoload_runtime.php';
+
+$app = require __DIR__.'/../bootstrap/app.php';
 
 return function () use ($app): Kernel {
     return $app->make(Kernel::class);
@@ -47,10 +46,7 @@ define('LARAVEL_START', microtime(true));
 
 require_once __DIR__.'/vendor/autoload_runtime.php';
 
-if (null === $app) {
-    define('LARAVEL_START', microtime(true));
-    $app = require __DIR__.'/../bootstrap/app.php';
-}
+$app = require __DIR__.'/../bootstrap/app.php';
 
 return function () use ($app): Kernel {
     return $app->make(Kernel::class);
