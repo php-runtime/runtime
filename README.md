@@ -1,6 +1,6 @@
 # PHP Runtimes
 
-<img align="right" src="https://raw.githubusercontent.com/nyholm/runtime/main/.github/logo.png">
+<img align="right" src="https://raw.githubusercontent.com/nyholm/runtime/logo/.github/logo.png">
 
 In early 2021, Symfony created a "Runtime component". This component may look
 complex, weird and full of hacks but it is a **game changer** for how we run PHP
