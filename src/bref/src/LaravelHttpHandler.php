@@ -51,8 +51,9 @@ class LaravelHttpHandler extends HttpHandler
             $event->getBody()
         );
 
-        $response = $this->kernel->handle($request)->prepare($request);
+        $response = $this->kernel->handle($request);
         $this->kernel->terminate($request, $response);
+        $response->prepare($request);
 
         return new HttpResponse($response->getContent(), $response->headers->all(), $response->getStatusCode());
     }
