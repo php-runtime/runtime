@@ -41,7 +41,7 @@ class SymfonyHttpHandler extends HttpHandler
             'REQUEST_TIME' => time(),
             'REQUEST_TIME_FLOAT' => microtime(true),
             'REQUEST_URI' => $event->getUri(),
-        ], fn ($value) => $value !== null);
+        ], fn ($value) => null !== $value);
 
         foreach ($event->getHeaders() as $name => $values) {
             $server['HTTP_'.strtoupper($name)] = $values[0];
