@@ -21,6 +21,7 @@ class ConsoleApplicationRunner implements RunnerInterface
     public function __construct(Application $application)
     {
         $this->application = $application;
+        $this->application->setAutoExit(false);
     }
 
     public function run(): int
