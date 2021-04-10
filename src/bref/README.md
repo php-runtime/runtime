@@ -29,7 +29,7 @@ Define the environment variable `APP_RUNTIME` for your application on Lambda.
 
 ## How to use
 
-You need the extra lambda layer `arn:aws:lambda:eu-central-1:403367587399:layer:bref-symfony-runtime:3`
+You need the extra lambda layer `arn:aws:lambda:[region]:403367587399:layer:bref-sf-runtime:1`
 in serverless.yml.
 
 ```yaml
@@ -43,7 +43,7 @@ functions:
         timeout: 8
         layers:
             - ${bref:layer.php-74}
-            - arn:aws:lambda:eu-central-1:403367587399:layer:bref-symfony-runtime:3
+            - arn:aws:lambda:eu-central-1:403367587399:layer:bref-sf-runtime:1
         events:
             -   httpApi: '*'
 ```
