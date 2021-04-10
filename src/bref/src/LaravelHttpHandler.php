@@ -7,6 +7,7 @@ use Bref\Event\Http\HttpHandler;
 use Bref\Event\Http\HttpRequestEvent;
 use Bref\Event\Http\HttpResponse;
 use Illuminate\Contracts\Http\Kernel;
+use Illuminate\Http\Request;
 
 /**
  * A Bref handler for Laravel requests.
@@ -24,7 +25,7 @@ class LaravelHttpHandler extends HttpHandler
 
     public function handleRequest(HttpRequestEvent $event, Context $context): HttpResponse
     {
-        $request = SymfonyRequestBridge::convertRequest($event, $context);
+        $request = Request::createFromBase(SymfonyRequestBridge::convertRequest($event, $context));
         $response = $this->kernel->handle($request);
         $this->kernel->terminate($request, $response);
         $response->prepare($request);
