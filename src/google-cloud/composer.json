@@ -1,0 +1,20 @@
+{
+    "name": "runtime/google-cloud",
+    "type": "library",
+    "description": "Google Cloud runtime",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tobias Nyholm",
+            "email": "tobias.nyholm@gmail.com"
+        }
+    ],
+    "require": {
+        "symfony/runtime": "5.x-dev"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "bin": [
+        "router.php"
+    ]
+}
