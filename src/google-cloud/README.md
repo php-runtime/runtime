@@ -1,4 +1,4 @@
-# Google Cloud Runtime with nyholm/psr7
+# Google Cloud Runtime
 
 A runtime for [Google Cloud](https://cloud.google.com/).
 
@@ -38,4 +38,21 @@ still need to create an `index.php`.
 // This file is needed for google cloud
 ```
 
+## Troubleshooting
 
+### Cache/Build directory
+
+Note that Google Cloud will only deploy files that are not in `.gitignore`. You
+need to remove the `var/` entry before deployment to be able to warm up the cache etc.
+
+### Define Symfony environment
+
+Define environment variable `APP_ENV=prod` to use Symfony production mode.
+
+```
+gcloud functions deploy helloHttp \
+ --runtime php74 \
+ --trigger-http \
+ --allow-unauthenticated \
+ --set-env-vars "FUNCTION_SOURCE=public/index.php,APP_ENV=prod"
+```
