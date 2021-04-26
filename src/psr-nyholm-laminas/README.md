@@ -22,7 +22,7 @@ APP_RUNTIME=Runtime\PsrNyholmLaminas\Runtime
 ```php
 // public/index.php
 
-use Psr\Http\Server\RequestHandlerInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Nyholm\Psr7;
 
 require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
