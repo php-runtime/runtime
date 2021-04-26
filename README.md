@@ -63,6 +63,12 @@ Run your application on AWS Lambda with [Bref](https://bref.sh/).
 
 * https://github.com/php-runtime/bref
 
+### Google Cloud
+
+Run your application on [Google Cloud](https://cloud.google.com/).
+
+* https://github.com/php-runtime/google-cloud
+
 ### ReactPHP
 
 Event-driven, non-blocking I/O with [ReactPHP](https://reactphp.org/).
@@ -105,7 +111,6 @@ Use the popular PSR architecture.
 The runtime for [Symfony](https://symfony.com/) is included in the runtime component.
 
 * https://github.com/symfony/runtime
-
 
 ## Contribute
 
