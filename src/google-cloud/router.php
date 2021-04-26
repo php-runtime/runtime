@@ -1,15 +1,13 @@
 <?php
 
 /**
- * Determine the function source file to load
+ * Determine the function source file to load.
  */
-// Ensure function source is loaded relative to the application root directory
-$documentRoot = __DIR__ . '/../';
-//$documentRoot = __DIR__ . '/../../../';
+$documentRoot = __DIR__.'/../../../';
 if ($functionSource = $_SERVER['FUNCTION_SOURCE'] ?? null) {
     if (0 !== strpos($functionSource, '/')) {
         // Make the path relative
-        $relativeSource = $documentRoot . $functionSource;
+        $relativeSource = $documentRoot.$functionSource;
         if (!file_exists($relativeSource)) {
             throw new RuntimeException(sprintf('Unable to load function from "%s"', $relativeSource));
         }
@@ -17,7 +15,7 @@ if ($functionSource = $_SERVER['FUNCTION_SOURCE'] ?? null) {
     } else {
         require_once $_SERVER['SCRIPT_FILENAME'] = $functionSource;
     }
-} elseif (file_exists($defaultSource = $documentRoot . 'index.php')) {
+} elseif (file_exists($defaultSource = $documentRoot.'index.php')) {
     // Default to "index.php" in the root of the application.
     require_once $_SERVER['SCRIPT_FILENAME'] = $defaultSource;
 } else {
