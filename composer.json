@@ -33,6 +33,7 @@
     "autoload": {
         "psr-4": {
             "Runtime\\Bref\\": "src/bref/src",
+            "Runtime\\GoogleCloud\\": "src/google-cloud/src",
             "Runtime\\Laravel\\": "src/laravel/src",
             "Runtime\\PsrLaminas\\": "src/psr-laminas/src",
             "Runtime\\PsrNyholmLaminas\\": "src/psr-nyholm-laminas/src",

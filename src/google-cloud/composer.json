@@ -10,10 +10,25 @@
         }
     ],
     "require": {
+        "php": ">=7.2.5",
+        "ext-json": "*",
         "symfony/runtime": "5.x-dev"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^5.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Runtime\\GoogleCloud\\": "src/",
+            "Symfony\\Runtime\\Google\\CloudFunctions\\": "runtime/",
+            "Google\\CloudFunctions\\": "google/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Runtime\\GoogleCloud\\Tests\\": "tests/runtime",
+            "Google\\CloudFunctions\\Tests\\": "tests/google/"
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
