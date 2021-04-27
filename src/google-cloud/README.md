@@ -71,3 +71,35 @@ gcloud functions deploy helloHttp \
  --allow-unauthenticated \
  --set-env-vars "FUNCTION_SOURCE=public/index.php,APP_ENV=prod"
 ```
+
+## The long story
+
+This section is for you who are new to Symfony Runtime component.
+
+Symfony Runtime component will be released with Symfony 5.3 in May 2021. Here is
+the [official documentation](https://symfony.com/doc/5.3/components/runtime.html)
+there is also a compressed version in the [main readme](https://github.com/php-runtime/runtime).
+
+Every Symfony application from Symfony 5.3 will be created with this component as
+default. The component makes sure your application is decoupled from the global state.
+Which means your application is very portable. With some config (or automatic mapping)
+a `RuntimeInterface` is used as the "glue" between Nginx and your application.
+
+Of course, different `RuntimeInterface` "glue" between different things. One Runtime
+is for **Google Cloud**, one for **Bref/AWS**, one for **Swoole**, one for **RoadRunner**
+etc. The point is that your application does not care what runtime it is. This means
+that you can run your application locally with a normal web server (like Nginx) and
+deploy it to Google Cloud with zero changes and still be sure everything works.
+
+### Google Cloud Runtime specifically
+
+Since Google Cloud is very similar to a "normal web server", this runtime only
+contains 2 things:
+1. `router.php` which is a requirement from Google Cloud. Its job is just to redirect
+the request to the front controller. It is not used locally.
+2. Support for `CloudEvent`. If you write an application that expects a `Google\CloudFunctions\CloudEvent`
+this runtime will automatically detect that and create such object for you.
+
+It will support native PHP applications and Symfony HttpFoundation type applications
+out-of-the-box. To support PSR-7/PSR-15 or Laravel, one also need to install one additional
+runtime. See [main readme](https://github.com/php-runtime/runtime) for more information.
