@@ -26,7 +26,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Runtime\\GoogleCloud\\Tests\\": "tests/"
+            "Runtime\\GoogleCloud\\Tests\\": "tests/runtime",
+            "Google\\CloudFunctions\\Tests\\": "tests/google/"
         }
     },
     "minimum-stability": "dev",
