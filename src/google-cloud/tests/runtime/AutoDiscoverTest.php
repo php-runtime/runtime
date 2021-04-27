@@ -3,7 +3,7 @@
 namespace Runtime\GoogleCloud\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Runtime\React\Runtime;
+use Runtime\GoogleCloud\Runtime;
 
 class AutoDiscoverTest extends TestCase
 {
