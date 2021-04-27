@@ -51,29 +51,16 @@ class Runtime extends GenericRuntime
         return $self;
     }
 
-    private function createCloudEvent(): ?CloudEvent
+    protected function createCloudEvent(): ?CloudEvent
     {
-        $body = \fopen('php://input', 'r') ?: null;
-        if (null === $body) {
-            $message = 'Could not create CloudEvent from request with no body';
-            $this->sendHttpResponseAndExit(400, $message, [self::FUNCTION_STATUS_HEADER => 'crash']);
-
-            return null;
-        }
-
-        $body = stream_get_contents($body);
-        $rawHeaders = \function_exists('getallheaders') ? getallheaders() : $this->getHeadersFromServer($_SERVER);
-        $headers = [];
-        foreach ($rawHeaders as $name => $value) {
-            $headers[strtolower($name)] = $value;
-        }
-
+        $body = $this->getBody();
+        $headers = $this->getHeaders();
         $eventType = $this->getEventType($headers);
 
         // We expect JSON if the content-type ends in "json" or if the event
         // type is legacy or structured Cloud Event.
         $shouldValidateJson = in_array($eventType, [self::TYPE_LEGACY, self::TYPE_STRUCTURED])
-            || 'json' === substr($headers['content-type'], -4);
+            || (isset($headers['content-type']) && 'json' === substr($headers['content-type'], -4));
 
         if (!$shouldValidateJson) {
             $data = $body;
@@ -106,6 +93,42 @@ class Runtime extends GenericRuntime
         }
     }
 
+    protected function sendHttpResponseAndExit(int $status, string $body, array $headers)
+    {
+        error_log($body);
+        header('HTTP/1.1 '.$status);
+        foreach ($headers as $name => $value) {
+            header($name.': '.$value);
+        }
+        echo $body;
+
+        exit(0);
+    }
+
+    protected function getHeaders(): array
+    {
+        $rawHeaders = \function_exists('getallheaders') ? getallheaders() : $this->getHeadersFromServer($_SERVER);
+        $headers = [];
+        foreach ($rawHeaders as $name => $value) {
+            $headers[strtolower($name)] = $value;
+        }
+
+        return $headers;
+    }
+
+    protected function getBody(): string
+    {
+        $body = \fopen('php://input', 'r') ?: null;
+        if (null === $body) {
+            $message = 'Could not create CloudEvent from request with no body';
+            $this->sendHttpResponseAndExit(400, $message, [self::FUNCTION_STATUS_HEADER => 'crash']);
+
+            return '';
+        }
+
+        return stream_get_contents($body);
+    }
+
     /**
      * @psalm-return self::TYPE_*
      */
@@ -115,7 +138,7 @@ class Runtime extends GenericRuntime
             return self::TYPE_BINARY;
         }
 
-        if ('application/cloudevents+json' === $headers['content-type']) {
+        if (isset($headers['content-type']) && 'application/cloudevents+json' === $headers['content-type']) {
             return self::TYPE_STRUCTURED;
         }
 
@@ -148,7 +171,7 @@ class Runtime extends GenericRuntime
     /**
      * Implementation from Zend\Diactoros\marshalHeadersFromSapi().
      */
-    public static function getHeadersFromServer(array $server): array
+    private function getHeadersFromServer(array $server): array
     {
         $headers = [];
         foreach ($server as $key => $value) {
@@ -180,17 +203,5 @@ class Runtime extends GenericRuntime
         }
 
         return $headers;
-    }
-
-    private function sendHttpResponseAndExit(int $status, string $body, array $headers)
-    {
-        error_log($body);
-        header('HTTP/1.1 '.$status);
-        foreach ($headers as $name => $value) {
-            header($name.': '.$value);
-        }
-        echo $body;
-
-        exit(0);
     }
 }
