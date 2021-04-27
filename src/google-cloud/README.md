@@ -38,6 +38,19 @@ still need to create an `index.php`.
 // This file is needed for google cloud
 ```
 
+## Using CloudEvent
+
+```php
+// index.php
+use Google\CloudFunctions\CloudEvent;
+
+return function(CloudEvent $cloudevent) {
+    // Print the whole CloudEvent
+    $stdout = fopen('php://stdout', 'wb');
+    fwrite($stdout, $cloudevent);
+}
+```
+
 ## Troubleshooting
 
 ### Cache/Build directory

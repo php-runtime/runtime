@@ -10,7 +10,7 @@ class AutoDiscoverTest extends TestCase
     public function testAutoDiscoverClasses()
     {
         $classes = [
-            'Symfony\Runtime\Psr\Http\Server\RequestHandlerInterfaceRuntime',
+            'Symfony\Runtime\Psr\Http\Server\CloudEventRuntime',
         ];
 
         foreach ($classes as $class) {
