@@ -100,6 +100,6 @@ the request to the front controller. It is not used locally.
 2. Support for `CloudEvent`. If you write an application that expects a `Google\CloudFunctions\CloudEvent`
 this runtime will automatically detect that and create such object for you.
 
-So out-of-the-box it will support native PHP applications and Symfony HttpFoundation type
-application. To support PSR-7/PSR-15 or Laravel, one also needs to install one additional
+It will support native PHP applications and Symfony HttpFoundation type applications
+out-of-the-box. To support PSR-7/PSR-15 or Laravel, one also need to install one additional
 runtime. See [main readme](https://github.com/php-runtime/runtime) for more information.
