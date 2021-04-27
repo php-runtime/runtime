@@ -37,9 +37,9 @@ class LegacyEventMapperTest extends TestCase
                 'eventType' => 'providers/cloud.pubsub/eventTypes/topic.publish',
                 'resource' => [
                     'name' => 'projects/MY-PROJECT/topics/MY-TOPIC',
-                    'service' => 'pubsub.googleapis.com'
+                    'service' => 'pubsub.googleapis.com',
                 ],
-            ]
+            ],
         ];
         $cloudevent = $mapper->fromJsonData($jsonData);
 
@@ -71,7 +71,7 @@ class LegacyEventMapperTest extends TestCase
             'eventType' => 'providers/cloud.pubsub/eventTypes/topic.publish',
             'resource' => [
                 'name' => 'projects/MY-PROJECT/topics/MY-TOPIC',
-                'service' => 'pubsub.googleapis.com'
+                'service' => 'pubsub.googleapis.com',
             ],
         ];
         $cloudevent = $mapper->fromJsonData($jsonData);
@@ -137,9 +137,9 @@ class LegacyEventMapperTest extends TestCase
                 'eventType' => 'google.storage.object.finalize',
                 'resource' => [
                     'name' => 'projects/_/buckets/sample-bucket/objects/MyFile#1588778055917163',
-                    'service' => 'storage.googleapis.com'
+                    'service' => 'storage.googleapis.com',
                 ],
-            ]
+            ],
         ];
         $cloudevent = $mapper->fromJsonData($jsonData);
 
@@ -171,7 +171,7 @@ class LegacyEventMapperTest extends TestCase
             'email' => 'test@nowhere.com',
             'metadata' => [
               'createdAt' => '2020-05-26T10:42:27Z',
-              'lastSignedInAt' => '2020-10-24T11:00:00Z'
+              'lastSignedInAt' => '2020-10-24T11:00:00Z',
             ],
             'providerData' => [
               [
@@ -180,11 +180,11 @@ class LegacyEventMapperTest extends TestCase
                 'uid' => 'test@nowhere.com',
               ],
             ],
-            'uid' => 'UUpby3s4spZre6kHsgVSPetzQ8l2'
+            'uid' => 'UUpby3s4spZre6kHsgVSPetzQ8l2',
           ],
           'eventId' => 'aaaaaa-1111-bbbb-2222-cccccccccccc',
           'eventType' => 'providers/firebase.auth/eventTypes/user.create',
-          'notSupported' => new \stdClass,
+          'notSupported' => new \stdClass(),
           'resource' => 'projects/my-project-id',
           'timestamp' => '2020-09-29T11:32:00.000Z',
         ];

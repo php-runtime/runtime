@@ -38,7 +38,7 @@ class ContextTest extends TestCase
         $this->assertEquals('ghi', $context->getEventType());
         $this->assertEquals([
             'name' => 'jkl',
-            'service' => 'mno'
+            'service' => 'mno',
         ], $context->getResource());
         $this->assertEquals('jkl', $context->getResourceName());
         $this->assertEquals('mno', $context->getService());

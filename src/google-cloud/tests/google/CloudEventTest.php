@@ -38,12 +38,12 @@ class CloudEventTest extends TestCase
             'My Subject',
             '2020-12-08T20:03:19.162Z',
             [
-                "message" => [
-                    "data" => "SGVsbG8gdGhlcmU=",
-                    "messageId" => "1408577928008405",
-                    "publishTime" => "2020-08-06T22:31:14.536Z"
+                'message' => [
+                    'data' => 'SGVsbG8gdGhlcmU=',
+                    'messageId' => '1408577928008405',
+                    'publishTime' => '2020-08-06T22:31:14.536Z',
                 ],
-                "subscription" => "projects/MY-PROJECT/subscriptions/MY-SUB"
+                'subscription' => 'projects/MY-PROJECT/subscriptions/MY-SUB',
             ]
         );
 
