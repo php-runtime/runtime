@@ -12,6 +12,7 @@
     "require": {
         "bref/bref": "^1.2",
         "clue/arguments": "^2.1",
+        "guzzlehttp/psr7": "^2.0",
         "illuminate/contracts": "^8.33",
         "laminas/laminas-diactoros": "^2.5",
         "laminas/laminas-httphandlerrunner": "^1.2",
@@ -33,6 +34,7 @@
     "autoload": {
         "psr-4": {
             "Runtime\\Bref\\": "src/bref/src",
+            "Runtime\\Guzzle\\": "src/psr-guzzle/src",
             "Runtime\\GoogleCloud\\": "src/google-cloud/src",
             "Runtime\\Laravel\\": "src/laravel/src",
             "Runtime\\PsrLaminas\\": "src/psr-laminas/src",
