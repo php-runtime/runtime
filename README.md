@@ -107,6 +107,7 @@ Use the popular PSR architecture.
 * https://github.com/php-runtime/psr-laminas
 * https://github.com/php-runtime/psr-nyholm
 * https://github.com/php-runtime/psr-nyholm-laminas
+* https://github.com/php-runtime/psr-17 (generic)
 
 #### Symfony
 

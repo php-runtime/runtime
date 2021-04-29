@@ -1,9 +1,14 @@
 <?php
 
 use Symfony\Component\Runtime\SymfonyRuntime;
+use Nyholm\Psr7\Factory\Psr17Factory;
 
 $_SERVER['APP_RUNTIME_OPTIONS'] = [
     'project_dir' => __DIR__,
+    'psr17_server_request_factory' => Psr17Factory::class,
+    'psr17_uri_factory' => Psr17Factory::class,
+    'psr17_uploaded_file_factory' => Psr17Factory::class,
+    'psr17_stream_factory' => Psr17Factory::class,
 ];
 
 if (file_exists(dirname(__DIR__, 2).'/vendor/autoload.php')) {
