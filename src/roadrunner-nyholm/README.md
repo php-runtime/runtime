@@ -1,6 +1,8 @@
 # RoadRunner Runtime with nyholm/psr7
 
-A runtime for [RoadRunner](https://roadrunner.dev/)
+A runtime for [RoadRunner](https://roadrunner.dev/).
+
+If you are new to the Symfony Runtime component, read more in the [main readme](https://github.com/php-runtime/runtime).
 
 ## Installation
 

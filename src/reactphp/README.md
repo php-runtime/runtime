@@ -1,6 +1,8 @@
 # ReactPHP Runtime
 
-A runtime for [ReactPHP](https://reactphp.org/)
+A runtime for [ReactPHP](https://reactphp.org/).
+
+If you are new to the Symfony Runtime component, read more in the [main readme](https://github.com/php-runtime/runtime).
 
 ## Installation
 

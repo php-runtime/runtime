@@ -2,6 +2,8 @@
 
 A runtime for [Google Cloud](https://cloud.google.com/).
 
+If you are new to the Symfony Runtime component, see the "The Long Story" down below.
+
 ## Installation
 
 This runtime layer is special. It includes a `router.php` to enable the use of
@@ -55,12 +57,12 @@ return function(CloudEvent $cloudevent) {
 
 ## Troubleshooting
 
-### Cache/Build directory
+### Cache/Build Directory
 
 Note that Google Cloud will only deploy files that are not in `.gitignore`. You
 need to remove the `var/` entry before deployment to be able to warm up the cache etc.
 
-### Define Symfony environment
+### Define Symfony Environment
 
 Define environment variable `APP_ENV=prod` to use Symfony production mode.
 
@@ -72,7 +74,7 @@ gcloud functions deploy helloHttp \
  --set-env-vars "FUNCTION_SOURCE=public/index.php,APP_ENV=prod"
 ```
 
-## The long story
+## The Long Story
 
 This section is for you who are new to Symfony Runtime component.
 
@@ -91,7 +93,7 @@ etc. The point is that your application does not care what runtime it is. This m
 that you can run your application locally with a normal web server (like Nginx) and
 deploy it to Google Cloud with zero changes and still be sure everything works.
 
-### Google Cloud Runtime specifically
+### Google Cloud Runtime Specifically
 
 Since Google Cloud is very similar to a "normal web server", this runtime only
 contains 2 things:

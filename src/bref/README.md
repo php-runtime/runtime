@@ -4,6 +4,8 @@ Here is [an example application](https://github.com/Nyholm/bref-runtime-demo).
 With this runtime you may use the exact same application for in local development
 and in production. Another benefit is that we will not use PHP-FPM.
 
+If you are new to the Symfony Runtime component, read more in the [main readme](https://github.com/php-runtime/runtime).
+
 ## Installation
 
 ```
