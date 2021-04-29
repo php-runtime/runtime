@@ -10,12 +10,12 @@ namespace Runtime\PsrNyholm;
 
 class EmitterException extends \RuntimeException
 {
-    public static function forHeadersSent() : self
+    public static function forHeadersSent(): self
     {
         return new self('Unable to emit response; headers already sent');
     }
 
-    public static function forOutputSent() : self
+    public static function forOutputSent(): self
     {
         return new self('Output has been emitted previously; cannot emit response');
     }

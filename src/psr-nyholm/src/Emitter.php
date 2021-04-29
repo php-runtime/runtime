@@ -56,7 +56,7 @@ class Emitter implements RunnerInterface
      *
      * @Copyright (c) 2020 Laminas Project a Series of LF Projects, LLC.
      */
-    public function emit(ResponseInterface $response) : void
+    public function emit(ResponseInterface $response): void
     {
         if (headers_sent()) {
             throw EmitterException::forHeadersSent();
@@ -83,16 +83,16 @@ class Emitter implements RunnerInterface
      *
      * @Copyright (c) 2020 Laminas Project a Series of LF Projects, LLC.
      */
-    private function emitStatusLine(ResponseInterface $response) : void
+    private function emitStatusLine(ResponseInterface $response): void
     {
         $reasonPhrase = $response->getReasonPhrase();
-        $statusCode   = $response->getStatusCode();
+        $statusCode = $response->getStatusCode();
 
         header(sprintf(
             'HTTP/%s %d%s',
             $response->getProtocolVersion(),
             $statusCode,
-            ($reasonPhrase ? ' ' . $reasonPhrase : '')
+            ($reasonPhrase ? ' '.$reasonPhrase : '')
         ), true, $statusCode);
     }
 
@@ -106,13 +106,13 @@ class Emitter implements RunnerInterface
      *
      * @Copyright (c) 2020 Laminas Project a Series of LF Projects, LLC.
      */
-    private function emitHeaders(ResponseInterface $response) : void
+    private function emitHeaders(ResponseInterface $response): void
     {
         $statusCode = $response->getStatusCode();
 
         foreach ($response->getHeaders() as $header => $values) {
-            $name  = ucwords($header, '-');
-            $first = $name === 'Set-Cookie' ? false : true;
+            $name = ucwords($header, '-');
+            $first = 'Set-Cookie' === $name ? false : true;
             foreach ($values as $value) {
                 header(sprintf('%s: %s', $name, $value), $first, $statusCode);
                 $first = false;
