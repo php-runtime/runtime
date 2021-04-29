@@ -55,6 +55,8 @@ in to Bref/Swoole/RoadRunner etc.
 All runtimes have hard dependencies to make installation easier. Everything should
 "just work".
 
+Read more at the [Symfony documentation](https://symfony.com/doc/5.3/components/runtime.html).
+
 ## Available Runtimes
 
 ### Bref

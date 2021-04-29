@@ -2,6 +2,8 @@
 
 A runtime with support for any PSR-17 compatible implementation.
 
+If you are new to the Symfony Runtime component, read more in the [main readme](https://github.com/php-runtime/runtime).
+
 ## Installation
 
 Install this runtime plus a package that [provide psr/http-factory-implementation](https://packagist.org/providers/psr/http-factory-implementation).

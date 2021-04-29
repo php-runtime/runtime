@@ -2,6 +2,8 @@
 
 A runtime with `laminas/diactoros` and `laminas/laminas-httphandlerrunner`.
 
+If you are new to the Symfony Runtime component, read more in the [main readme](https://github.com/php-runtime/runtime).
+
 ## Installation
 
 ```
