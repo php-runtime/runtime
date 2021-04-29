@@ -37,6 +37,7 @@
             "Runtime\\Guzzle\\": "src/psr-guzzle/src",
             "Runtime\\GoogleCloud\\": "src/google-cloud/src",
             "Runtime\\Laravel\\": "src/laravel/src",
+            "Runtime\\Psr17\\": "src/psr-17/src",
             "Runtime\\PsrLaminas\\": "src/psr-laminas/src",
             "Runtime\\PsrNyholm\\": "src/psr-nyholm/src",
             "Runtime\\PsrNyholmLaminas\\": "src/psr-nyholm-laminas/src",
