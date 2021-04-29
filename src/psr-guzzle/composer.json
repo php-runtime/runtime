@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "guzzlehttp/psr7": "^2.0",
+        "guzzlehttp/psr7": "^1.8 || ^2.0",
         "psr/http-server-handler": "^1.0",
         "symfony/runtime": "^5.3"
     },
