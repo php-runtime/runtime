@@ -24,7 +24,7 @@
         "symfony/http-foundation": "^5.2",
         "symfony/http-kernel": "^5.2",
         "symfony/psr-http-message-bridge": "^2.1",
-        "symfony/runtime": "5.x-dev"
+        "symfony/runtime": "^5.3"
     },
     "require-dev": {
         "bamarni/composer-bin-plugin": "^1.4",

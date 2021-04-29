@@ -12,7 +12,7 @@
     "require": {
         "laminas/laminas-diactoros": "^2.5",
         "laminas/laminas-httphandlerrunner": "^1.2",
-        "symfony/runtime": "5.x-dev"
+        "symfony/runtime": "^5.3"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^5.2"

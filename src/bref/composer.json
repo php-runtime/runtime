@@ -14,7 +14,7 @@
         "clue/arguments": "^2.1",
         "psr/http-server-handler": "^1.0",
         "riverline/multipart-parser": "^2.0",
-        "symfony/runtime": "5.x-dev"
+        "symfony/runtime": "^5.3"
     },
     "require-dev": {
         "symfony/http-foundation": "^4.4 || ^5.2",
