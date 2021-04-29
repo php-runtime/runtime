@@ -116,4 +116,4 @@ The runtime for [Symfony](https://symfony.com/) is included in the runtime compo
 
 ## Contribute
 
-Contributions are always welcomed. Send you PR or open an issue here: https://github.com/php-runtime/runtime
+Contributions are always welcomed. Send your PR or open an issue here: https://github.com/php-runtime/runtime
