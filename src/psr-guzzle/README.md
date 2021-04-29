@@ -1,6 +1,6 @@
 # PSR-7 and PSR-15 Runtime
 
-A runtime with `composer require guzzlehttp/psr7`.
+A runtime with `guzzlehttp/psr7`.
 
 ## Installation
 
