@@ -1,6 +1,6 @@
 <?php
 
-namespace Runtime\PsrNyholm;
+namespace Runtime\Psr17;
 
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7Server\ServerRequestCreator;
@@ -21,6 +21,21 @@ class Runtime extends GenericRuntime
      * @var ServerRequestCreator|null
      */
     private $requestCreator;
+
+    /**
+     * @param array{
+     *   debug?: ?bool,
+     *   server_request_creator?: ?string|callable,
+     *   psr17_server_request_factory?: ?string,
+     *   psr17_uri_factory?: ?string,
+     *   psr17_uploaded_file_factory?: ?string,
+     *   psr17_stream_factory?: ?string,
+     * } $options
+     */
+    public function __construct(array $options = [])
+    {
+        parent::__construct($options);
+    }
 
     public function getRunner(?object $application): RunnerInterface
     {
@@ -66,8 +81,21 @@ class Runtime extends GenericRuntime
     private function createRequest()
     {
         if (null === $this->requestCreator) {
-            $psr17Factory = new Psr17Factory();
-            $this->requestCreator = new ServerRequestCreator($psr17Factory, $psr17Factory, $psr17Factory, $psr17Factory);
+            $creatorClass = $this->options['server_request_creator'] ?? ServerRequestCreator::class;
+            if (isset($this->options['psr17_server_request_factory'], $this->options['psr17_uri_factory'], $this->options['psr17_uploaded_file_factory'], $this->options['psr17_stream_factory'])) {
+                $this->requestCreator = new $creatorClass(
+                    new $this->options['psr17_server_request_factory'](),
+                    new $this->options['psr17_uri_factory'](),
+                    new $this->options['psr17_uploaded_file_factory'](),
+                    new $this->options['psr17_stream_factory']()
+                );
+            } elseif (is_callable($creatorClass)) {
+                return $creatorClass();
+            } elseif ($creatorClass !== ServerRequestCreator::class) {
+                $this->requestCreator = new $creatorClass();
+            } else {
+                throw new \RuntimeException('You need to specify your PSR-17 classes to create PSR-7 a request');
+            }
         }
 
         return $this->requestCreator->fromGlobals();
