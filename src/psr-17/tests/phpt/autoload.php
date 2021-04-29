@@ -1,7 +1,7 @@
 <?php
 
-use Symfony\Component\Runtime\SymfonyRuntime;
 use Nyholm\Psr7\Factory\Psr17Factory;
+use Symfony\Component\Runtime\SymfonyRuntime;
 
 $_SERVER['APP_RUNTIME_OPTIONS'] = [
     'project_dir' => __DIR__,

@@ -2,7 +2,6 @@
 
 namespace Runtime\Psr17;
 
-use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7Server\ServerRequestCreator;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -25,7 +24,7 @@ class Runtime extends GenericRuntime
     /**
      * @param array{
      *   debug?: ?bool,
-     *   server_request_creator?: ?string|callable,
+     *   server_request_creator?: ?string,
      *   psr17_server_request_factory?: ?string,
      *   psr17_uri_factory?: ?string,
      *   psr17_uploaded_file_factory?: ?string,
@@ -91,7 +90,7 @@ class Runtime extends GenericRuntime
                 );
             } elseif (is_callable($creatorClass)) {
                 return $creatorClass();
-            } elseif ($creatorClass !== ServerRequestCreator::class) {
+            } elseif (ServerRequestCreator::class !== $creatorClass) {
                 $this->requestCreator = new $creatorClass();
             } else {
                 throw new \RuntimeException('You need to specify your PSR-17 classes to create PSR-7 a request');
