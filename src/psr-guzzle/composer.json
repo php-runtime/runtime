@@ -1,0 +1,33 @@
+{
+    "name": "runtime/psr-guzzle",
+    "type": "library",
+    "description": "PSR runtime with guzzlehttp/psr7 ",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tobias Nyholm",
+            "email": "tobias.nyholm@gmail.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/psr7": "^2.0",
+        "psr/http-server-handler": "^1.0",
+        "symfony/runtime": "5.x-dev"
+    },
+    "require-dev": {
+        "symfony/phpunit-bridge": "^5.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Runtime\\PsrGuzzle\\": "src/",
+            "Symfony\\Runtime\\Psr\\Http\\": "runtime/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Runtime\\PsrGuzzle\\Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
