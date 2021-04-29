@@ -11,7 +11,7 @@
     ],
     "require": {
         "illuminate/contracts": "^8.33",
-        "symfony/runtime": "5.x-dev"
+        "symfony/runtime": "^5.3"
     },
     "require-dev": {
         "illuminate/http": "^8.33",

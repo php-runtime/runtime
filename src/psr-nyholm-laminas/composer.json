@@ -13,7 +13,7 @@
         "laminas/laminas-httphandlerrunner": "^1.2",
         "nyholm/psr7": "^1.3",
         "nyholm/psr7-server": "^1.0",
-        "symfony/runtime": "5.x-dev"
+        "symfony/runtime": "^5.3"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^5.2"

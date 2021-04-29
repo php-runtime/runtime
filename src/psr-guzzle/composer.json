@@ -12,7 +12,7 @@
     "require": {
         "guzzlehttp/psr7": "^2.0",
         "psr/http-server-handler": "^1.0",
-        "symfony/runtime": "5.x-dev"
+        "symfony/runtime": "^5.3"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^5.2"
