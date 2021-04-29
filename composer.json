@@ -36,6 +36,7 @@
             "Runtime\\GoogleCloud\\": "src/google-cloud/src",
             "Runtime\\Laravel\\": "src/laravel/src",
             "Runtime\\PsrLaminas\\": "src/psr-laminas/src",
+            "Runtime\\PsrNyholm\\": "src/psr-nyholm/src",
             "Runtime\\PsrNyholmLaminas\\": "src/psr-nyholm-laminas/src",
             "Runtime\\React\\": "src/react/src",
             "Runtime\\RoadRunnerNyholm\\": "src/roadrunner-nyholm/src",
