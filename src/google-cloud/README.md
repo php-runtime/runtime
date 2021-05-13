@@ -18,7 +18,7 @@ composer require runtime/google-cloud symfony/runtime
 
 If you want to use it with PSR-7.
 ```
-composer require runtime/google-cloud runtime/psr-nyholm-laminas
+composer require runtime/google-cloud runtime/psr-nyholm
 ```
 
 ## Usage
