@@ -64,6 +64,7 @@ class Runner implements RunnerInterface
                     $session = $sfRequest->getSession();
 
                     $sessionId = \session_id();
+                    // we can not use $session->isStarted() here as this state is not longer available at this time
                     $writeSessionCookie = $sessionId
                         && $sessionId !== $requestSessionId;
 
