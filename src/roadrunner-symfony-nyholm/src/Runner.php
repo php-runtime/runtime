@@ -10,7 +10,7 @@ use Symfony\Bridge\PsrHttpMessage\HttpFoundationFactoryInterface;
 use Symfony\Bridge\PsrHttpMessage\HttpMessageFactoryInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\HttpKernel\TerminableInterface;
 use Symfony\Component\Runtime\RunnerInterface;
 
@@ -29,7 +29,7 @@ class Runner implements RunnerInterface
      */
     private $sessionOptions;
 
-    public function __construct(Kernel $kernel, ?HttpFoundationFactoryInterface $httpFoundationFactory = null, ?HttpMessageFactoryInterface $httpMessageFactory = null)
+    public function __construct(KernelInterface $kernel, ?HttpFoundationFactoryInterface $httpFoundationFactory = null, ?HttpMessageFactoryInterface $httpMessageFactory = null)
     {
         $this->kernel = $kernel;
         $this->psrFactory = new Psr7\Factory\Psr17Factory();
@@ -59,16 +59,12 @@ class Runner implements RunnerInterface
                 /** @var Response $sfResponse */
                 $sfResponse = $this->kernel->handle($sfRequest);
 
-                $hasRequestSession = $sfRequest->hasSession();
-                if ($hasRequestSession) {
+                if ($sfRequest->hasSession()) {
                     $session = $sfRequest->getSession();
 
                     $sessionId = \session_id();
                     // we can not use $session->isStarted() here as this state is not longer available at this time
-                    $writeSessionCookie = $sessionId
-                        && $sessionId !== $requestSessionId;
-
-                    if ($writeSessionCookie) {
+                    if ($sessionId && $sessionId !== $requestSessionId) {
                         $expires = 0;
                         $lifetime = $sessionOptions['cookie_lifetime'] ?? null;
                         if ($lifetime) {
@@ -91,11 +87,11 @@ class Runner implements RunnerInterface
                     }
                 }
 
+                // TODO: remove debug headers
                 $sfResponse->headers->set('X-REQUEST-SESSION-ID', $requestSessionId);
                 $sfResponse->headers->set('X-NEW-SESSION-ID', $sessionId);
                 $sfResponse->headers->set('X-SESSION-STATUS', session_status() === \PHP_SESSION_ACTIVE ? 'active' : 'none');
                 $sfResponse->headers->set('X-SESSION-STARTED', $session->isStarted() ? 'true' : 'false');
-                $sfResponse->headers->set('X-WRITE-SESSION', $writeSessionCookie ? 'true' : 'false');
                 $sfResponse->headers->set('X-STRICT-SESSION', \ini_get('session.use_strict_mode') ? 'true' : 'false');
                 $sfResponse->headers->set('X-HEADERS', \json_encode(headers_list(), \JSON_PRETTY_PRINT));
 
