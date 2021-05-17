@@ -6,7 +6,7 @@ on:
 jobs:
   phpstan:
     name: PHPStan
-    runs-on: Ubuntu-20.04
+    runs-on: ubuntu-20.04
 
     steps:
       - name: Checkout code
@@ -22,23 +22,19 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
+          php-version: 8.0
           coverage: none
+          tools: phpstan:0.12.88, cs2pr
 
       - name: Download dependencies
         uses: ramsey/composer-install@v1
-        with:
-          composer-options: --no-interaction --prefer-dist --optimize-autoloader
 
-      - name: Download PHPStan
-        run: composer bin phpstan update --no-interaction --no-progress
-
-      - name: Execute PHPStan
-        run: vendor/bin/phpstan analyze --no-progress
+      - name: PHPStan
+        run: phpstan analyze --no-progress --error-format=checkstyle | cs2pr
 
   php-cs-fixer:
     name: PHP-CS-Fixer
-    runs-on: Ubuntu-20.04
+    runs-on: ubuntu-20.04
 
     steps:
       - name: Checkout code
@@ -54,23 +50,16 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
+          php-version: 8.0
           coverage: none
+          tools: php-cs-fixer:2.19.0, cs2pr
 
-      - name: Download dependencies
-        uses: ramsey/composer-install@v1
-        with:
-          composer-options: --no-interaction --prefer-dist --optimize-autoloader
-
-      - name: Download PHP CS Fixer
-        run: composer bin php-cs-fixer update --no-interaction --no-progress
-
-      - name: Execute PHP CS Fixer
-        run: vendor/bin/php-cs-fixer fix --diff-format udiff --dry-run
+      - name: PHP-CS-Fixer
+        run: php-cs-fixer fix --dry-run --format=checkstyle | cs2pr
 
   psalm:
     name: Psalm
-    runs-on: Ubuntu-20.04
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -85,26 +74,22 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
+          php-version: 8.0
           coverage: none
+          tools: vimeo/psalm:4.7.2
 
       - name: Download dependencies
         uses: ramsey/composer-install@v1
-        with:
-          composer-options: --no-interaction --prefer-dist --optimize-autoloader
 
-      - name: Download Psalm
-        run: composer bin psalm update --no-interaction --no-progress
-
-      - name: Execute Psalm
-        run: vendor/bin/psalm.phar --no-progress --output-format=github
+      - name: Psalm
+        run: psalm --no-progress --output-format=github
 
   composer-normalize:
     name: Composer Normalize
-    runs-on: Ubuntu-20.04
+    runs-on: ubuntu-20.04
 
     steps:
-      - name: Set up PHP
+      - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: 7.4
