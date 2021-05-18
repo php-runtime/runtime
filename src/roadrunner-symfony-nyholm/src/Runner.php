@@ -66,7 +66,7 @@ class Runner implements RunnerInterface
                     // TODO session cookie should only be set when persisted by symfony: see E at https://github.com/php-runtime/runtime/issues/46
                     if ($sessionId && $sessionId !== $requestSessionId) {
                         $expires = 0;
-                        $lifetime = $sessionOptions['cookie_lifetime'] ?? null;
+                        $lifetime = $this->sessionOptions['cookie_lifetime'] ?? null;
                         if ($lifetime) {
                             $expires = time() + $lifetime;
                         }
