@@ -38,7 +38,6 @@ class Runner implements RunnerInterface
 
         $kernel->boot();
         $container = $kernel->getContainer();
-        /** @var array<string, mixed> $sessionOptions */
         $this->sessionOptions = $container->getParameter('session.storage.options');
         $kernel->shutdown();
     }
@@ -55,18 +54,16 @@ class Runner implements RunnerInterface
                 $sessionName = $this->sessionOptions['name'] ?? \session_name();
                 $requestSessionId = $sfRequest->cookies->get($sessionName, '');
 
-                // TODO invalid session id should be expired: see https://github.com/php-runtime/runtime/issues/46
+                // TODO invalid session id should be expired: see F at https://github.com/php-runtime/runtime/issues/46
                 \session_id($requestSessionId);
 
                 /** @var Response $sfResponse */
                 $sfResponse = $this->kernel->handle($sfRequest);
 
                 if ($sfRequest->hasSession()) {
-                    $session = $sfRequest->getSession();
-
                     $sessionId = \session_id();
                     // we can not use $session->isStarted() here as this state is not longer available at this time
-                    // TODO session cookie should only be set when persisted by symfony: see https://github.com/php-runtime/runtime/issues/46
+                    // TODO session cookie should only be set when persisted by symfony: see E at https://github.com/php-runtime/runtime/issues/46
                     if ($sessionId && $sessionId !== $requestSessionId) {
                         $expires = 0;
                         $lifetime = $sessionOptions['cookie_lifetime'] ?? null;
@@ -98,7 +95,7 @@ class Runner implements RunnerInterface
             } catch (\Throwable $e) {
                 $worker->getWorker()->error((string) $e);
             } finally {
-                if (session_status() === PHP_SESSION_ACTIVE) {
+                if (PHP_SESSION_ACTIVE === session_status()) {
                     session_abort();
                 }
 
