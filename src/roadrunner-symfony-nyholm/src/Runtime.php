@@ -2,7 +2,7 @@
 
 namespace Runtime\RoadRunnerSymfonyNyholm;
 
-use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Runtime\RunnerInterface;
 use Symfony\Component\Runtime\SymfonyRuntime;
 
@@ -15,7 +15,7 @@ class Runtime extends SymfonyRuntime
 {
     public function getRunner(?object $application): RunnerInterface
     {
-        if ($application instanceof HttpKernelInterface) {
+        if ($application instanceof KernelInterface) {
             return new Runner($application);
         }
 
