@@ -9,7 +9,8 @@ use Symfony\Bridge\PsrHttpMessage\Factory\PsrHttpFactory;
 use Symfony\Bridge\PsrHttpMessage\HttpFoundationFactoryInterface;
 use Symfony\Bridge\PsrHttpMessage\HttpMessageFactoryInterface;
 use Symfony\Component\HttpFoundation\Cookie;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
+use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\HttpKernel\TerminableInterface;
 use Symfony\Component\Runtime\RunnerInterface;
@@ -50,43 +51,7 @@ class Runner implements RunnerInterface
         while ($request = $worker->waitRequest()) {
             try {
                 $sfRequest = $this->httpFoundationFactory->createRequest($request);
-
-                $sessionName = $this->sessionOptions['name'] ?? \session_name();
-                $requestSessionId = $sfRequest->cookies->get($sessionName, '');
-
-                // TODO invalid session id should be expired: see F at https://github.com/php-runtime/runtime/issues/46
-                \session_id($requestSessionId);
-
-                /** @var Response $sfResponse */
-                $sfResponse = $this->kernel->handle($sfRequest);
-
-                if ($sfRequest->hasSession()) {
-                    $sessionId = \session_id();
-                    // we can not use $session->isStarted() here as this state is not longer available at this time
-                    // TODO session cookie should only be set when persisted by symfony: see E at https://github.com/php-runtime/runtime/issues/46
-                    if ($sessionId && $sessionId !== $requestSessionId) {
-                        $expires = 0;
-                        $lifetime = $this->sessionOptions['cookie_lifetime'] ?? null;
-                        if ($lifetime) {
-                            $expires = time() + $lifetime;
-                        }
-
-                        $sfResponse->headers->setCookie(
-                            Cookie::create(
-                                $sessionName,
-                                $sessionId,
-                                $expires,
-                                $this->sessionOptions['cookie_path'] ?? '/',
-                                $this->sessionOptions['cookie_domain'] ?? null,
-                                $this->sessionOptions['cookie_secure'] ?? null,
-                                $this->sessionOptions['cookie_httponly'] ?? true,
-                                false,
-                                $this->sessionOptions['cookie_samesite'] ?? Cookie::SAMESITE_LAX,
-                            )
-                        );
-                    }
-                }
-
+                $sfResponse = $this->handle($sfRequest);
                 $worker->respond($this->httpMessageFactory->createResponse($sfResponse));
 
                 if ($this->kernel instanceof TerminableInterface) {
@@ -106,5 +71,45 @@ class Runner implements RunnerInterface
         }
 
         return 0;
+    }
+
+    private function handle(SymfonyRequest $request): SymfonyResponse
+    {
+        $sessionName = $this->sessionOptions['name'] ?? \session_name();
+        $requestSessionId = $request->cookies->get($sessionName, '');
+
+        // TODO invalid session id should be expired: see F at https://github.com/php-runtime/runtime/issues/46
+        \session_id($requestSessionId);
+
+        $response = $this->kernel->handle($request);
+
+        if ($request->hasSession()) {
+            $sessionId = \session_id();
+            // we can not use $session->isStarted() here as this state is not longer available at this time
+            // TODO session cookie should only be set when persisted by symfony: see E at https://github.com/php-runtime/runtime/issues/46
+            if ($sessionId && $sessionId !== $requestSessionId) {
+                $expires = 0;
+                $lifetime = $this->sessionOptions['cookie_lifetime'] ?? null;
+                if ($lifetime) {
+                    $expires = time() + $lifetime;
+                }
+
+                $response->headers->setCookie(
+                    Cookie::create(
+                        $sessionName,
+                        $sessionId,
+                        $expires,
+                        $this->sessionOptions['cookie_path'] ?? '/',
+                        $this->sessionOptions['cookie_domain'] ?? null,
+                        $this->sessionOptions['cookie_secure'] ?? null,
+                        $this->sessionOptions['cookie_httponly'] ?? true,
+                        false,
+                        $this->sessionOptions['cookie_samesite'] ?? Cookie::SAMESITE_LAX
+                    )
+                );
+            }
+        }
+
+        return $response;
     }
 }
