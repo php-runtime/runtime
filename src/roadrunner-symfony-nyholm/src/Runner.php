@@ -54,6 +54,8 @@ class Runner implements RunnerInterface
 
                 $sessionName = $this->sessionOptions['name'] ?? \session_name();
                 $requestSessionId = $sfRequest->cookies->get($sessionName, '');
+
+                // TODO invalid session id should be expired: see https://github.com/php-runtime/runtime/issues/46
                 \session_id($requestSessionId);
 
                 /** @var Response $sfResponse */
@@ -64,6 +66,7 @@ class Runner implements RunnerInterface
 
                     $sessionId = \session_id();
                     // we can not use $session->isStarted() here as this state is not longer available at this time
+                    // TODO session cookie should only be set when persisted by symfony: see https://github.com/php-runtime/runtime/issues/46
                     if ($sessionId && $sessionId !== $requestSessionId) {
                         $expires = 0;
                         $lifetime = $sessionOptions['cookie_lifetime'] ?? null;
@@ -86,14 +89,6 @@ class Runner implements RunnerInterface
                         );
                     }
                 }
-
-                // TODO: remove debug headers
-                $sfResponse->headers->set('X-REQUEST-SESSION-ID', $requestSessionId);
-                $sfResponse->headers->set('X-NEW-SESSION-ID', $sessionId);
-                $sfResponse->headers->set('X-SESSION-STATUS', session_status() === \PHP_SESSION_ACTIVE ? 'active' : 'none');
-                $sfResponse->headers->set('X-SESSION-STARTED', $session->isStarted() ? 'true' : 'false');
-                $sfResponse->headers->set('X-STRICT-SESSION', \ini_get('session.use_strict_mode') ? 'true' : 'false');
-                $sfResponse->headers->set('X-HEADERS', \json_encode(headers_list(), \JSON_PRETTY_PRINT));
 
                 $worker->respond($this->httpMessageFactory->createResponse($sfResponse));
 
