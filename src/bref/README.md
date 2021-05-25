@@ -31,26 +31,32 @@ Define the environment variable `APP_RUNTIME` for your application on Lambda.
 
 ## How to use
 
-You need the extra lambda layer `arn:aws:lambda:[region]:403367587399:layer:bref-sf-runtime:1`
-in serverless.yml.
+You need a new "bootstrap" file for AWS Lambda. That file should look like
+[this](https://github.com/brefphp/extra-php-extensions/blob/master/layers/symfony-runtime/bootstrap).
+The simplest way is to use the `${bref-extra:symfony-runtime-php-80}` from the
+[bref/extra-php-extension package](https://github.com/brefphp/extra-php-extensions).
 
-```yaml
-# serverless.yml
+```diff
+ # serverless.yml
 
-# ...
+ # ...
 
-functions:
-    app:
-        handler: public/index.php
-        timeout: 8
-        layers:
-            - ${bref:layer.php-74}
-            - arn:aws:lambda:eu-central-1:403367587399:layer:bref-sf-runtime:1
-        events:
-            -   httpApi: '*'
+ functions:
+     app:
+         handler: public/index.php
+         timeout: 8
+         layers:
+             - ${bref:layer.php-74}
++            - ${bref-extra:symfony-runtime-php-80}
+         events:
+             -   httpApi: '*'
 ```
 
+(You may also copy that bootstrap file yourself and place it in your project root.)
+
 ### Symfony application
+
+Use the standard Symfony 5.3+ index.php.
 
 ```php
 // public/index.php
@@ -63,7 +69,6 @@ return function (array $context) {
     return new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
 };
 ```
-
 
 ### PSR-15 application
 
@@ -119,6 +124,8 @@ to serverless.yml
 ```
 
 ### Console application
+
+Use the standard Symfony 5.3+ bin/console.
 
 ```php
 // bin/console
