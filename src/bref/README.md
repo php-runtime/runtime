@@ -46,7 +46,7 @@ The simplest way is to use the `${bref-extra:symfony-runtime-php-80}` from the
          handler: public/index.php
          timeout: 8
          layers:
-             - ${bref:layer.php-74}
+             - ${bref:layer.php-80}
 +            - ${bref-extra:symfony-runtime-php-80}
          events:
              -   httpApi: '*'
