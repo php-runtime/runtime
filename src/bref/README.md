@@ -36,10 +36,18 @@ You need a new "bootstrap" file for AWS Lambda. That file should look like
 The simplest way is to use the `${bref-extra:symfony-runtime-php-80}` from the
 [bref/extra-php-extension package](https://github.com/brefphp/extra-php-extensions).
 
+```
+composer require bref/extra-php-extensions
+```
+
 ```diff
  # serverless.yml
 
  # ...
+
+ plugins:
+    - ./vendor/bref/bref
++   - ./vendor/bref/extra-php-extensions
 
  functions:
      app:
