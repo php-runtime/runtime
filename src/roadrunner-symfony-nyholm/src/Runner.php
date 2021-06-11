@@ -76,6 +76,7 @@ class Runner implements RunnerInterface
     private function handle(SymfonyRequest $request): SymfonyResponse
     {
         $sessionName = $this->sessionOptions['name'] ?? \session_name();
+        /** @var string $requestSessionId */
         $requestSessionId = $request->cookies->get($sessionName, '');
 
         // TODO invalid session id should be expired: see F at https://github.com/php-runtime/runtime/issues/46
