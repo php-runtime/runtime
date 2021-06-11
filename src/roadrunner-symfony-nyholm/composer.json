@@ -13,10 +13,10 @@
         "nyholm/psr7": "^1.4",
         "spiral/roadrunner": "^2.0",
         "symfony/psr-http-message-bridge": "^2.1",
-        "symfony/runtime": "^5.3"
+        "symfony/runtime": "^5.3 || ^6.0"
     },
     "require-dev": {
-        "symfony/phpunit-bridge": "^5.2"
+        "symfony/phpunit-bridge": "^5.3"
     },
     "autoload": {
         "psr-4": {

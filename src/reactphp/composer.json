@@ -12,10 +12,10 @@
     "require": {
         "psr/http-server-handler": "^1.0",
         "react/http": "^1.2",
-        "symfony/runtime": "^5.3"
+        "symfony/runtime": "^5.3 || ^6.0"
     },
     "require-dev": {
-        "symfony/phpunit-bridge": "^5.2"
+        "symfony/phpunit-bridge": "^5.3"
     },
     "autoload": {
         "psr-4": {
