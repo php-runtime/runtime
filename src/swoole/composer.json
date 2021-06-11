@@ -10,13 +10,13 @@
         }
     ],
     "require": {
-        "symfony/runtime": "^5.3"
+        "symfony/runtime": "^5.3 || ^6.0"
     },
     "require-dev": {
         "swoole/ide-helper": "^4.6",
-        "symfony/http-foundation": "^4.4 || ^5.2",
-        "symfony/http-kernel": "^4.4 || ^5.2",
-        "symfony/phpunit-bridge": "^5.2"
+        "symfony/http-foundation": "^4.4 || ^5.2 || ^6.0",
+        "symfony/http-kernel": "^4.4 || ^5.2 || ^6.0",
+        "symfony/phpunit-bridge": "^5.3"
     },
     "autoload": {
         "psr-4": {
