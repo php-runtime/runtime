@@ -5,6 +5,7 @@ namespace Runtime\Swoole;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 use Swoole\Http\Server;
+use Symfony\Component\HttpFoundation\HeaderBag;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Runtime\RunnerInterface;
@@ -41,9 +42,10 @@ class SymfonyRunner implements RunnerInterface
                 [],
                 $request->cookie ?? [],
                 $request->files ?? [],
-                $request->server ?? [],
+                array_change_key_case($request->server ?? [], CASE_UPPER),
                 $request->rawContent()
             );
+            $sfRequest->headers = new HeaderBag($request->header);
 
             $sfResponse = $app->handle($sfRequest);
             foreach ($sfResponse->headers->all() as $name => $value) {
