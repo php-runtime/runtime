@@ -18,7 +18,7 @@ class Runtime extends SymfonyRuntime
         'host' => '127.0.0.1',
         'port' => 8000,
         'mode' => 2, // SWOOLE_PROCESS
-        'settings' => []
+        'settings' => [],
     ];
 
     public function __construct(array $options)

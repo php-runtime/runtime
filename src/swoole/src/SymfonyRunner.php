@@ -35,7 +35,7 @@ class SymfonyRunner implements RunnerInterface
         $app = $this->application;
 
         $server->on('workerStart', function (Server $server, int $workerId): void {
-           swoole_set_process_name("runtime/swoole worker $workerId");
+            swoole_set_process_name("runtime/swoole worker $workerId");
         });
 
         $server->on('request', function (Request $request, Response $response) use ($app) {
