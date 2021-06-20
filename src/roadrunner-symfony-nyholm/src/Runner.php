@@ -44,7 +44,7 @@ class Runner implements RunnerInterface
         }
 
         if (!$kernel instanceof KernelInterface) {
-            throw new \InvalidArgumentException(sprintf('Expected argument of type "%s", "%s" given.', KernelInterface::class, get_class($kernel)));
+            throw new \InvalidArgumentException(sprintf('Expected argument of type "%s" or "%s", "%s" given.', KernelInterface::class, HttpCache::class, get_class($kernel)));
         }
 
         $kernel->boot();
