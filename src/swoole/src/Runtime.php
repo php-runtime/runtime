@@ -14,10 +14,20 @@ use Symfony\Component\Runtime\SymfonyRuntime;
  */
 class Runtime extends SymfonyRuntime
 {
+    private const DEFAULT_OPTIONS = [
+        'host' => '127.0.0.1',
+        'port' => 8000,
+        'mode' => SWOOLE_PROCESS,
+        'settings' => []
+    ];
+
     public function __construct(array $options)
     {
-        $options['swoole_host'] = $options['swoole_host'] ?? $_SERVER['SWOOLE_HOST'] ?? $_ENV['SWOOLE_HOST'] ?? '127.0.0.1';
-        $options['swoole_port'] = $options['swoole_port'] ?? $_SERVER['SWOOLE_PORT'] ?? $_ENV['SWOOLE_PORT'] ?? 8000;
+        $options['host'] = $options['host'] ?? $_SERVER['SWOOLE_HOST'] ?? $_ENV['SWOOLE_HOST'] ?? self::DEFAULT_OPTIONS['host'];
+        $options['port'] = $options['port'] ?? $_SERVER['SWOOLE_PORT'] ?? $_ENV['SWOOLE_PORT'] ?? self::DEFAULT_OPTIONS['port'];
+        $options['mode'] = $options['mode'] ?? $_SERVER['SWOOLE_MODE'] ?? $_ENV['SWOOLE_MODE'] ?? self::DEFAULT_OPTIONS['mode'];
+
+        $options = array_replace_recursive(self::DEFAULT_OPTIONS, $options);
 
         parent::__construct($options);
     }
@@ -25,15 +35,15 @@ class Runtime extends SymfonyRuntime
     public function getRunner(?object $application): RunnerInterface
     {
         if (is_callable($application)) {
-            return new Runner($application, $this->options['swoole_host'], $this->options['swoole_port']);
+            return new Runner($application, $this->options);
         }
 
         if ($application instanceof HttpKernelInterface) {
-            return new SymfonyRunner($application, $this->options['swoole_host'], $this->options['swoole_port']);
+            return new SymfonyRunner($application, $this->options);
         }
 
         if ($application instanceof Kernel) {
-            return new LaravelRunner($application, $this->options['swoole_host'], $this->options['swoole_port']);
+            return new LaravelRunner($application, $this->options);
         }
 
         return parent::getRunner($application);

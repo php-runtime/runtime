@@ -18,21 +18,25 @@ use Symfony\Component\Runtime\RunnerInterface;
 class SymfonyRunner implements RunnerInterface
 {
     private $application;
-    private $port;
-    private $host;
+    private $options;
 
-    public function __construct(HttpKernelInterface $application, $host, $port)
+    public function __construct(HttpKernelInterface $application, array $options)
     {
         $this->application = $application;
-        $this->host = $host;
-        $this->port = $port;
+        $this->options = $options;
     }
 
     public function run(): int
     {
-        $server = new Server($this->host, $this->port);
+        $server = new Server($this->options['host'], $this->options['port'], $this->options['mode']);
+
+        $server->set($this->options['settings']);
 
         $app = $this->application;
+
+        $server->on('workerStart', function (Server $server, int $workerId): void {
+           swoole_set_process_name("runtime/swoole worker $workerId");
+        });
 
         $server->on('request', function (Request $request, Response $response) use ($app) {
             // convert to HttpFoundation request

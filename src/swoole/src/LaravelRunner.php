@@ -18,19 +18,19 @@ use Symfony\Component\Runtime\RunnerInterface;
 class LaravelRunner implements RunnerInterface
 {
     private $application;
-    private $port;
-    private $host;
+    private $options;
 
-    public function __construct(Kernel $application, $host, $port)
+    public function __construct(Kernel $application, array $options)
     {
         $this->application = $application;
-        $this->host = $host;
-        $this->port = $port;
+        $this->options = $options;
     }
 
     public function run(): int
     {
-        $server = new Server($this->host, $this->port);
+        $server = new Server($this->options['host'], $this->options['port'], $this->options['mode']);
+
+        $server->set($this->options['settings']);
 
         $app = $this->application;
 

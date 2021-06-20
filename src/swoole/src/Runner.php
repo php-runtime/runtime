@@ -13,19 +13,19 @@ use Symfony\Component\Runtime\RunnerInterface;
 class Runner implements RunnerInterface
 {
     private $application;
-    private $port;
-    private $host;
+    private $options;
 
-    public function __construct(callable $application, $host, $port)
+    public function __construct(callable $application, array $options)
     {
         $this->application = $application;
-        $this->host = $host;
-        $this->port = $port;
+        $this->options = $options;
     }
 
     public function run(): int
     {
-        $server = new Server($this->host, $this->port);
+        $server = new Server($this->options['host'], $this->options['port'], $this->options['mode']);
+
+        $server->set($this->options['settings']);
 
         $server->on('request', $this->application);
 
