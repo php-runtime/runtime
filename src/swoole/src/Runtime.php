@@ -17,7 +17,7 @@ class Runtime extends SymfonyRuntime
     private const DEFAULT_OPTIONS = [
         'host' => '127.0.0.1',
         'port' => 8000,
-        'mode' => SWOOLE_PROCESS,
+        'mode' => 2, // SWOOLE_PROCESS
         'settings' => []
     ];
 
