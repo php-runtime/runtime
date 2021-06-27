@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Runtime\Swoole\Tests;
+namespace Runtime\Swoole\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use Runtime\Swoole\CallableRunner;

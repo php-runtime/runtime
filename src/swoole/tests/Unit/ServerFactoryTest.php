@@ -1,6 +1,6 @@
 <?php
 
-namespace Runtime\Swoole\Tests;
+namespace Runtime\Swoole\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use Runtime\Swoole\ServerFactory;

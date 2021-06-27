@@ -1,6 +1,6 @@
 <?php
 
-namespace Runtime\Swoole\Tests;
+namespace Runtime\Swoole\Tests\Unit;
 
 use Illuminate\Contracts\Http\Kernel;
 use PHPUnit\Framework\TestCase;
