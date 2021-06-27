@@ -15,7 +15,6 @@
     "require-dev": {
         "ergebnis/composer-normalize": "^2.15",
         "illuminate/http": "^8.48",
-        "phpunit/phpunit": "^8.5",
         "swoole/ide-helper": "^4.6",
         "symfony/http-foundation": "^4.4 || ^5.2 || ^6.0",
         "symfony/http-kernel": "^4.4 || ^5.2 || ^6.0",
