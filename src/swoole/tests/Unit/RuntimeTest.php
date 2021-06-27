@@ -18,7 +18,8 @@ class RuntimeTest extends TestCase
         $options = [];
         $runtime = new Runtime($options);
 
-        $application = static function (): void {};
+        $application = static function (): void {
+        };
         $runner = $runtime->getRunner($application);
 
         self::assertInstanceOf(CallableRunner::class, $runner);

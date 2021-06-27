@@ -13,7 +13,8 @@ class CallableRunnerTest extends TestCase
 {
     public function testRun(): void
     {
-        $application = static function (): void {};
+        $application = static function (): void {
+        };
 
         $server = $this->createMock(Server::class);
         $server->expects(self::once())->method('start');

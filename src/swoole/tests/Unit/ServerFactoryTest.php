@@ -13,7 +13,8 @@ class ServerFactoryTest extends TestCase
     public function testCreateServerWithDefaultOptions(): void
     {
         $factory = new ServerFactory();
-        $server = $factory->createServer(static function (): void {});
+        $server = $factory->createServer(static function (): void {
+        });
         $defaults = ServerFactory::getDefaultOptions();
 
         self::assertSame($defaults['host'], $server->host);
@@ -34,7 +35,8 @@ class ServerFactoryTest extends TestCase
         ];
 
         $factory = new ServerFactory($options);
-        $server = $factory->createServer(static function (): void {});
+        $server = $factory->createServer(static function (): void {
+        });
 
         self::assertSame('0.0.0.0', $server->host);
         self::assertSame(9501, $server->port);
@@ -52,7 +54,8 @@ class ServerFactoryTest extends TestCase
         ];
 
         $factory = new ServerFactory($options);
-        $server = $factory->createServer(static function (): void {});
+        $server = $factory->createServer(static function (): void {
+        });
         $defaults = ServerFactory::getDefaultOptions();
 
         self::assertSame($defaults['host'], $server->host);
