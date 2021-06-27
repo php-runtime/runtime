@@ -44,6 +44,7 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           coverage: none
+          extensions: swoole
 
       - name: Download dependencies
         uses: ramsey/composer-install@v1
