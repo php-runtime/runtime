@@ -35,7 +35,7 @@ class Runner implements RunnerInterface
     /**
      * @var HttpKernelInterface|KernelInterface $kernel
      */
-    public function __construct(HttpKernelInterface $kernel, ?HttpFoundationFactoryInterface $httpFoundationFactory = null, ?HttpMessageFactoryInterface $httpMessageFactory = null)
+    public function __construct($kernel, ?HttpFoundationFactoryInterface $httpFoundationFactory = null, ?HttpMessageFactoryInterface $httpMessageFactory = null)
     {
         $this->kernel = $kernel;
         $this->psrFactory = new Psr7\Factory\Psr17Factory();
