@@ -33,7 +33,7 @@ class Runner implements RunnerInterface
     private $sessionOptions;
 
     /**
-     * @var HttpKernelInterface|KernelInterface $kernel
+     * @param HttpKernelInterface|KernelInterface $kernel
      */
     public function __construct($kernel, ?HttpFoundationFactoryInterface $httpFoundationFactory = null, ?HttpMessageFactoryInterface $httpMessageFactory = null)
     {
