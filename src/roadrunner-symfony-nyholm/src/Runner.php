@@ -32,6 +32,9 @@ class Runner implements RunnerInterface
      */
     private $sessionOptions;
 
+    /**
+     * @var HttpKernelInterface|KernelInterface $kernel
+     */
     public function __construct(HttpKernelInterface $kernel, ?HttpFoundationFactoryInterface $httpFoundationFactory = null, ?HttpMessageFactoryInterface $httpMessageFactory = null)
     {
         $this->kernel = $kernel;
