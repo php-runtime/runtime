@@ -14,26 +14,27 @@ use Symfony\Component\Runtime\SymfonyRuntime;
  */
 class Runtime extends SymfonyRuntime
 {
-    public function __construct(array $options)
-    {
-        $options['swoole_host'] = $options['swoole_host'] ?? $_SERVER['SWOOLE_HOST'] ?? $_ENV['SWOOLE_HOST'] ?? '127.0.0.1';
-        $options['swoole_port'] = $options['swoole_port'] ?? $_SERVER['SWOOLE_PORT'] ?? $_ENV['SWOOLE_PORT'] ?? 8000;
+    /** @var ?ServerFactory */
+    private $serverFactory;
 
-        parent::__construct($options);
+    public function __construct(array $options, ?ServerFactory $serverFactory = null)
+    {
+        $this->serverFactory = $serverFactory ?? new ServerFactory($options);
+        parent::__construct($this->serverFactory->getOptions());
     }
 
     public function getRunner(?object $application): RunnerInterface
     {
         if (is_callable($application)) {
-            return new Runner($application, $this->options['swoole_host'], $this->options['swoole_port']);
+            return new CallableRunner($this->serverFactory, $application);
         }
 
         if ($application instanceof HttpKernelInterface) {
-            return new SymfonyRunner($application, $this->options['swoole_host'], $this->options['swoole_port']);
+            return new SymfonyRunner($this->serverFactory, $application);
         }
 
         if ($application instanceof Kernel) {
-            return new LaravelRunner($application, $this->options['swoole_host'], $this->options['swoole_port']);
+            return new LaravelRunner($this->serverFactory, $application);
         }
 
         return parent::getRunner($application);

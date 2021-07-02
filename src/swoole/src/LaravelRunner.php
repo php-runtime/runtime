@@ -6,7 +6,6 @@ use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request as LaravelRequest;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
-use Swoole\Http\Server;
 use Symfony\Component\HttpFoundation\HeaderBag;
 use Symfony\Component\Runtime\RunnerInterface;
 
@@ -17,45 +16,44 @@ use Symfony\Component\Runtime\RunnerInterface;
  */
 class LaravelRunner implements RunnerInterface
 {
+    /** @var ServerFactory */
+    private $serverFactory;
+    /** @var Kernel */
     private $application;
-    private $port;
-    private $host;
 
-    public function __construct(Kernel $application, $host, $port)
+    public function __construct(ServerFactory $serverFactory, Kernel $application)
     {
+        $this->serverFactory = $serverFactory;
         $this->application = $application;
-        $this->host = $host;
-        $this->port = $port;
     }
 
     public function run(): int
     {
-        $server = new Server($this->host, $this->port);
-
-        $app = $this->application;
-
-        $server->on('request', function (Request $request, Response $response) use ($app) {
-            // convert to HttpFoundation request
-            $sfRequest = new LaravelRequest(
-                $request->get ?? [],
-                $request->post ?? [],
-                [],
-                $request->cookie ?? [],
-                $request->files ?? [],
-                array_change_key_case($request->server ?? [], CASE_UPPER),
-                $request->rawContent()
-            );
-            $sfRequest->headers = new HeaderBag($request->header);
-
-            $sfResponse = $app->handle($sfRequest);
-            foreach ($sfResponse->headers->all() as $name => $value) {
-                $response->header($name, $value);
-            }
-            $response->end($sfResponse->getContent());
-        });
-
-        $server->start();
+        $this->serverFactory->createServer([$this, 'handle'])->start();
 
         return 0;
+    }
+
+    public function handle(Request $request, Response $response): void
+    {
+        // convert to HttpFoundation request
+        $sfRequest = new LaravelRequest(
+            $request->get ?? [],
+            $request->post ?? [],
+            [],
+            $request->cookie ?? [],
+            $request->files ?? [],
+            array_change_key_case($request->server ?? [], CASE_UPPER),
+            $request->rawContent()
+        );
+        $sfRequest->headers = new HeaderBag($request->header);
+
+        $sfResponse = $this->application->handle($sfRequest);
+        foreach ($sfResponse->headers->all() as $name => $values) {
+            foreach ($values as $value) {
+                $response->header($name, $value);
+            }
+        }
+        $response->end($sfResponse->getContent());
     }
 }
