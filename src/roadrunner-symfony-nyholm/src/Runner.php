@@ -11,6 +11,8 @@ use Symfony\Bridge\PsrHttpMessage\HttpMessageFactoryInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
+use Symfony\Component\HttpKernel\HttpCache\HttpCache;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\HttpKernel\TerminableInterface;
 use Symfony\Component\Runtime\RunnerInterface;
@@ -30,12 +32,23 @@ class Runner implements RunnerInterface
      */
     private $sessionOptions;
 
-    public function __construct(KernelInterface $kernel, ?HttpFoundationFactoryInterface $httpFoundationFactory = null, ?HttpMessageFactoryInterface $httpMessageFactory = null)
+    /**
+     * @param HttpKernelInterface|KernelInterface $kernel
+     */
+    public function __construct($kernel, ?HttpFoundationFactoryInterface $httpFoundationFactory = null, ?HttpMessageFactoryInterface $httpMessageFactory = null)
     {
         $this->kernel = $kernel;
         $this->psrFactory = new Psr7\Factory\Psr17Factory();
         $this->httpFoundationFactory = $httpFoundationFactory ?? new HttpFoundationFactory();
         $this->httpMessageFactory = $httpMessageFactory ?? new PsrHttpFactory($this->psrFactory, $this->psrFactory, $this->psrFactory, $this->psrFactory);
+
+        if ($kernel instanceof HttpCache) {
+            $kernel = $kernel->getKernel();
+        }
+
+        if (!$kernel instanceof KernelInterface) {
+            throw new \InvalidArgumentException(sprintf('Expected argument of type "%s" or "%s", "%s" given.', KernelInterface::class, HttpCache::class, get_class($kernel)));
+        }
 
         $kernel->boot();
         $container = $kernel->getContainer();

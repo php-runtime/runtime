@@ -10,8 +10,11 @@
         }
     ],
     "require": {
+        "php": ">=7.2.5",
         "nyholm/psr7": "^1.4",
         "spiral/roadrunner": "^2.0",
+        "symfony/dependency-injection": "^5.3 || ^6.0",
+        "symfony/http-kernel": "^5.3 || ^6.0",
         "symfony/psr-http-message-bridge": "^2.1",
         "symfony/runtime": "^5.3 || ^6.0"
     },
