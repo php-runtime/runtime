@@ -92,15 +92,16 @@ class Runner implements RunnerInterface
         /** @var string $requestSessionId */
         $requestSessionId = $request->cookies->get($sessionName, '');
 
-        // TODO invalid session id should be expired: see F at https://github.com/php-runtime/runtime/issues/46
-        \session_id($requestSessionId);
+        // the session_id method returns in strict session mode an empty string if set id was not valid
+        $isRequestSessionIdValid = (bool) \session_id($requestSessionId);
 
         $response = $this->kernel->handle($request);
 
+        $hasNewSessionCookie = false;
         if ($request->hasSession()) {
             $sessionId = \session_id();
             // we can not use $session->isStarted() here as this state is not longer available at this time
-            // TODO session cookie should only be set when persisted by symfony: see E at https://github.com/php-runtime/runtime/issues/46
+            // TODO session cookie should only be set when persisted by symfony: see "Problem E" at https://github.com/php-runtime/runtime/issues/46
             if ($sessionId && $sessionId !== $requestSessionId) {
                 $expires = 0;
                 $lifetime = $this->sessionOptions['cookie_lifetime'] ?? null;
@@ -108,6 +109,7 @@ class Runner implements RunnerInterface
                     $expires = time() + $lifetime;
                 }
 
+                $hasNewSessionCookie = true;
                 $response->headers->setCookie(
                     Cookie::create(
                         $sessionName,
@@ -122,6 +124,19 @@ class Runner implements RunnerInterface
                     )
                 );
             }
+        }
+
+        if ($hasNewSessionCookie && !$isRequestSessionIdValid && $requestSessionId) {
+            // remove invalid session id if no new session was started this happens for example after an logout
+            // when invalidate_session is activate which is default behaviour in symfony security config
+            $response->headers->clearCookie(
+                $sessionName,
+                $this->sessionOptions['cookie_path'] ?? '/',
+                $this->sessionOptions['cookie_domain'] ?? null,
+                $this->sessionOptions['cookie_secure'] ?? null,
+                $this->sessionOptions['cookie_httponly'] ?? true,
+                $this->sessionOptions['cookie_samesite'] ?? Cookie::SAMESITE_LAX
+            );
         }
 
         return $response;
