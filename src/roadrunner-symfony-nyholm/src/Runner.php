@@ -27,33 +27,12 @@ class Runner implements RunnerInterface
     private $httpMessageFactory;
     private $psrFactory;
 
-    /**
-     * @var array<string, mixed>
-     */
-    private $sessionOptions;
-
-    /**
-     * @param HttpKernelInterface|KernelInterface $kernel
-     */
-    public function __construct($kernel, ?HttpFoundationFactoryInterface $httpFoundationFactory = null, ?HttpMessageFactoryInterface $httpMessageFactory = null)
+    public function __construct(HttpKernelInterface $kernel, ?HttpFoundationFactoryInterface $httpFoundationFactory = null, ?HttpMessageFactoryInterface $httpMessageFactory = null)
     {
         $this->kernel = $kernel;
         $this->psrFactory = new Psr7\Factory\Psr17Factory();
         $this->httpFoundationFactory = $httpFoundationFactory ?? new HttpFoundationFactory();
         $this->httpMessageFactory = $httpMessageFactory ?? new PsrHttpFactory($this->psrFactory, $this->psrFactory, $this->psrFactory, $this->psrFactory);
-
-        if ($kernel instanceof HttpCache) {
-            $kernel = $kernel->getKernel();
-        }
-
-        if (!$kernel instanceof KernelInterface) {
-            throw new \InvalidArgumentException(sprintf('Expected argument of type "%s" or "%s", "%s" given.', KernelInterface::class, HttpCache::class, get_class($kernel)));
-        }
-
-        $kernel->boot();
-        $container = $kernel->getContainer();
-        $this->sessionOptions = $container->getParameter('session.storage.options');
-        $kernel->shutdown();
     }
 
     public function run(): int
@@ -64,7 +43,7 @@ class Runner implements RunnerInterface
         while ($request = $worker->waitRequest()) {
             try {
                 $sfRequest = $this->httpFoundationFactory->createRequest($request);
-                $sfResponse = $this->handle($sfRequest);
+                $sfResponse = $this->kernel->handle($sfRequest);
                 $worker->respond($this->httpMessageFactory->createResponse($sfResponse));
 
                 if ($this->kernel instanceof TerminableInterface) {
@@ -73,6 +52,7 @@ class Runner implements RunnerInterface
             } catch (\Throwable $e) {
                 $worker->getWorker()->error((string) $e);
             } finally {
+                // TODO move this cleanup also to Symfony
                 if (PHP_SESSION_ACTIVE === session_status()) {
                     session_abort();
                 }
@@ -84,61 +64,5 @@ class Runner implements RunnerInterface
         }
 
         return 0;
-    }
-
-    private function handle(SymfonyRequest $request): SymfonyResponse
-    {
-        $sessionName = $this->sessionOptions['name'] ?? \session_name();
-        /** @var string $requestSessionId */
-        $requestSessionId = $request->cookies->get($sessionName, '');
-
-        // the session_id method returns in strict session mode an empty string if set id was not valid
-        $isRequestSessionIdValid = (bool) \session_id($requestSessionId);
-
-        $response = $this->kernel->handle($request);
-
-        $hasNewSessionCookie = false;
-        if ($request->hasSession()) {
-            $sessionId = \session_id();
-            // we can not use $session->isStarted() here as this state is not longer available at this time
-            // TODO session cookie should only be set when persisted by symfony: see "Problem E" at https://github.com/php-runtime/runtime/issues/46
-            if ($sessionId && $sessionId !== $requestSessionId) {
-                $expires = 0;
-                $lifetime = $this->sessionOptions['cookie_lifetime'] ?? null;
-                if ($lifetime) {
-                    $expires = time() + $lifetime;
-                }
-
-                $hasNewSessionCookie = true;
-                $response->headers->setCookie(
-                    Cookie::create(
-                        $sessionName,
-                        $sessionId,
-                        $expires,
-                        $this->sessionOptions['cookie_path'] ?? '/',
-                        $this->sessionOptions['cookie_domain'] ?? null,
-                        $this->sessionOptions['cookie_secure'] ?? null,
-                        $this->sessionOptions['cookie_httponly'] ?? true,
-                        false,
-                        $this->sessionOptions['cookie_samesite'] ?? Cookie::SAMESITE_LAX
-                    )
-                );
-            }
-        }
-
-        if ($hasNewSessionCookie && !$isRequestSessionIdValid && $requestSessionId) {
-            // remove invalid session id if no new session was started this happens for example after an logout
-            // when invalidate_session is activate which is default behaviour in symfony security config
-            $response->headers->clearCookie(
-                $sessionName,
-                $this->sessionOptions['cookie_path'] ?? '/',
-                $this->sessionOptions['cookie_domain'] ?? null,
-                $this->sessionOptions['cookie_secure'] ?? null,
-                $this->sessionOptions['cookie_httponly'] ?? true,
-                $this->sessionOptions['cookie_samesite'] ?? Cookie::SAMESITE_LAX
-            );
-        }
-
-        return $response;
     }
 }
