@@ -36,6 +36,30 @@ return function () {
 };
 ```
 
+### PSR
+
+```php
+// public/index.php
+
+use Nyholm\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+
+require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
+
+class App implements RequestHandlerInterface {
+    public function handle(ServerRequestInterface $request): ResponseInterface {
+        $name = $request->getQueryParams()['name'] ?? 'World';
+        return new Response(200, ['Server' => 'swoole-runtime'], "Hello, $name!");
+    }
+}
+
+return function(): RequestHandlerInterface {
+    return new App();
+};
+```
+
 ### Symfony
 
 ```php
