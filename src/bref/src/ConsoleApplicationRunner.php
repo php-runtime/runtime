@@ -37,8 +37,9 @@ class ConsoleApplicationRunner implements RunnerInterface
                 $output = new BufferedOutput();
                 $exitCode = $this->application->run($input, $output);
 
+                $content = $output->fetch();
                 // Echo the output so that it is written to CloudWatch logs
-                echo $output->fetch();
+                echo $content;
 
                 if ($exitCode > 0) {
                     throw new \Exception('The command exited with a non-zero status code: '.$exitCode);
@@ -46,7 +47,7 @@ class ConsoleApplicationRunner implements RunnerInterface
 
                 return [
                     'exitCode' => $exitCode, // will always be 0
-                    'output' => $output->fetch(),
+                    'output' => $content,
                 ];
             });
         }
