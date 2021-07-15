@@ -64,7 +64,7 @@ composer require bref/extra-php-extensions
 
 ### Symfony application
 
-Use the standard Symfony 5.3+ index.php.
+Use the standard Symfony 5.3+ `public/index.php`.
 
 ```php
 // public/index.php
@@ -77,6 +77,22 @@ return function (array $context) {
     return new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
 };
 ```
+
+```diff
+ # serverless.yml
+
+ functions:
+     web:
+         handler: public/index.php
+         timeout: 28
+         layers:
+-            - ${bref:layer.php-80-fpm}
++            - ${bref:layer.php-80}
++            - ${bref-extra:symfony-runtime-php-80}
+         events:
+             - httpApi: '*'
+```
+
 
 ### PSR-15 application
 
@@ -133,7 +149,7 @@ to serverless.yml
 
 ### Console application
 
-Use the standard Symfony 5.3+ bin/console.
+Use the standard Symfony 5.3+ `bin/console`.
 
 ```php
 // bin/console
@@ -154,7 +170,11 @@ return function (array $context) {
  # serverless.yml
 
  functions:
-     app:
--         handler: public/index.php
-+         handler: bin/console
+     console:
+         handler: bin/console
+         timeout: 120
+         layers:
+             - ${bref:layer.php-80}
+-            - ${bref:layer.console}
++            - ${bref-extra:symfony-runtime-php-80}
 ```
