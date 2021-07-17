@@ -1,4 +1,4 @@
-# Swoole Runtime
+# Swoole Runtime  with nyholm/psr7
 
 A runtime for [Swoole](https://www.swoole.co.uk/).
 
@@ -7,7 +7,7 @@ If you are new to the Symfony Runtime component, read more in the [main readme](
 ## Installation
 
 ```
-composer require runtime/swoole
+composer require runtime/swoole-nyholm
 ```
 
 ## Usage
@@ -15,7 +15,7 @@ composer require runtime/swoole
 Define the environment variable `APP_RUNTIME` for your application.
 
 ```
-APP_RUNTIME=Runtime\Swoole\Runtime
+APP_RUNTIME=Runtime\SwooleNyholm\Runtime
 ```
 
 ### Pure PHP
@@ -36,17 +36,27 @@ return function () {
 };
 ```
 
-### Symfony
+### PSR
 
 ```php
 // public/index.php
 
-use App\Kernel;
+use Nyholm\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
 
-return function (array $context) {
-    return new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
+class App implements RequestHandlerInterface {
+    public function handle(ServerRequestInterface $request): ResponseInterface {
+        $name = $request->getQueryParams()['name'] ?? 'World';
+        return new Response(200, ['Server' => 'swoole-runtime'], "Hello, $name!");
+    }
+}
+
+return function(): RequestHandlerInterface {
+    return new App();
 };
 ```
 

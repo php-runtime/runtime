@@ -1,6 +1,6 @@
 <?php
 
-namespace Runtime\Swoole;
+namespace Runtime\SwooleNyholm;
 
 use Psr\Http\Server\RequestHandlerInterface;
 use Swoole\Http\Request;
@@ -9,14 +9,13 @@ use Symfony\Component\Runtime\RunnerInterface;
 
 class RequestHandlerRunner implements RunnerInterface
 {
-    /**
-     * @var int
-     */
     private const CHUNK_SIZE = 2097152; // 2MB
+
     /**
      * @var ServerFactory
      */
     private $serverFactory;
+
     /**
      * @var RequestHandlerInterface
      */

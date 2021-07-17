@@ -1,14 +1,12 @@
 <?php
 
-namespace Runtime\Swoole\Tests\Unit;
+namespace Runtime\SwooleNyholm\Tests\Unit;
 
-use Illuminate\Contracts\Http\Kernel;
 use PHPUnit\Framework\TestCase;
-use Runtime\Swoole\CallableRunner;
-use Runtime\Swoole\LaravelRunner;
-use Runtime\Swoole\Runtime;
-use Runtime\Swoole\SymfonyRunner;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+use Runtime\SwooleNyholm\CallableRunner;
+use Runtime\SwooleNyholm\RequestHandlerRunner;
+use Runtime\SwooleNyholm\Runtime;
 use Symfony\Component\Runtime\Runner\ClosureRunner;
 
 class RuntimeTest extends TestCase
@@ -25,26 +23,15 @@ class RuntimeTest extends TestCase
         self::assertInstanceOf(CallableRunner::class, $runner);
     }
 
-    public function testGetRunnerCreatesARunnerForSymfony(): void
+    public function testGetRunnerCreatesARunnerForRequestHandlers(): void
     {
         $options = [];
         $runtime = new Runtime($options);
 
-        $application = $this->createMock(HttpKernelInterface::class);
+        $application = $this->createMock(RequestHandlerInterface::class);
         $runner = $runtime->getRunner($application);
 
-        self::assertInstanceOf(SymfonyRunner::class, $runner);
-    }
-
-    public function testGetRunnerCreatesARunnerForLaravel(): void
-    {
-        $options = [];
-        $runtime = new Runtime($options);
-
-        $application = $this->createMock(Kernel::class);
-        $runner = $runtime->getRunner($application);
-
-        self::assertInstanceOf(LaravelRunner::class, $runner);
+        self::assertInstanceOf(RequestHandlerRunner::class, $runner);
     }
 
     public function testGetRunnerFallbacksToClosureRunner(): void

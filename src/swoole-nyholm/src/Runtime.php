@@ -1,9 +1,8 @@
 <?php
 
-namespace Runtime\Swoole;
+namespace Runtime\SwooleNyholm;
 
-use Illuminate\Contracts\Http\Kernel;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Symfony\Component\Runtime\RunnerInterface;
 use Symfony\Component\Runtime\SymfonyRuntime;
 
@@ -29,12 +28,8 @@ class Runtime extends SymfonyRuntime
             return new CallableRunner($this->serverFactory, $application);
         }
 
-        if ($application instanceof HttpKernelInterface) {
-            return new SymfonyRunner($this->serverFactory, $application);
-        }
-
-        if ($application instanceof Kernel) {
-            return new LaravelRunner($this->serverFactory, $application);
+        if ($application instanceof RequestHandlerInterface) {
+            return new RequestHandlerRunner($this->serverFactory, $application);
         }
 
         return parent::getRunner($application);

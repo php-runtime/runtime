@@ -1,6 +1,6 @@
 <?php
 
-namespace Runtime\Swoole;
+namespace Runtime\SwooleNyholm;
 
 use Nyholm\Psr7\Stream;
 use PHPUnit\Framework\TestCase;
