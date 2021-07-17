@@ -44,7 +44,8 @@
             "Runtime\\React\\": "src/react/src",
             "Runtime\\RoadRunnerNyholm\\": "src/roadrunner-nyholm/src",
             "Runtime\\RoadRunnerSymfonyNyholm\\": "src/roadrunner-symfony-nyholm/src",
-            "Runtime\\Swoole\\": "src/swoole/src"
+            "Runtime\\Swoole\\": "src/swoole/src",
+            "Runtime\\SwooleNyholm\\": "src/swoole-nyholm/src"
         }
     },
     "autoload-dev": {
