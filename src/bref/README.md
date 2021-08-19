@@ -180,6 +180,5 @@ return function (array $context) {
          events:
              - schedule:
                  rate: rate(30 minutes)
-                 input:
-                   - app:invoice:send
+                 input: '"app:invoice:send"'
 ```
