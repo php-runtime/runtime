@@ -177,4 +177,8 @@ return function (array $context) {
              - ${bref:layer.php-80}
 -            - ${bref:layer.console}
 +            - ${bref-extra:symfony-runtime-php-80}
+         events:
+             - schedule:
+                 rate: rate(30 minutes)
+                 input: '"app:invoice:send"'
 ```
