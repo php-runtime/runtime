@@ -89,6 +89,7 @@ Spin up multiple PHP processes with Golang using [RoadRunner](https://roadrunner
 Build high-performance, scalable, concurrent HTTP services with [Swoole](https://www.swoole.co.uk/).
 
 * https://github.com/php-runtime/swoole
+* https://github.com/php-runtime/swoole-nyholm
 
 ### PHP-FPM and traditional web servers
 
