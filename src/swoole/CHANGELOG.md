@@ -1,5 +1,12 @@
 # Change Log
 
+## 0.2.0
+
+### Added
+
+- Support for Swoole's Server mode
+- Support for more settings
+
 ## 0.1.1
 
 ### Fixed
