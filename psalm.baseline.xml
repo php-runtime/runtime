@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.6.0@77feecb3707bd50378c21ae4d3fe9e320e6cea65">
+<files psalm-version="4.8.1@f73f2299dbc59a3e6c4d66cff4605176e728ee69">
   <file src="src/bref/src/BrefRunner.php">
     <InternalClass occurrences="1">
       <code>LambdaRuntime::fromEnvironmentVariable()</code>
@@ -35,5 +35,15 @@
       <code>['emitter' =&gt; $this-&gt;options['laminas_emitter'] ?? null]</code>
       <code>['emitter' =&gt; $this-&gt;options['laminas_emitter'] ?? null]</code>
     </InvalidArgument>
+  </file>
+  <file src="src/swoole/src/LaravelRunner.php">
+    <InvalidScalarArgument occurrences="1">
+      <code>$sfResponse-&gt;getStatusCode()</code>
+    </InvalidScalarArgument>
+  </file>
+  <file src="src/swoole/src/SymfonyRunner.php">
+    <InvalidScalarArgument occurrences="1">
+      <code>$sfResponse-&gt;getStatusCode()</code>
+    </InvalidScalarArgument>
   </file>
 </files>
