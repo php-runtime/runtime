@@ -14,7 +14,7 @@ if (!isset($_SERVER['APP_RUNTIME'])) {
 }
 
 $config = [
-    'bref_runner_type' => 'local'
+    'bref_runner_type' => 'local',
 ];
 
 /*
@@ -38,15 +38,15 @@ $_SERVER['SCRIPT_FILENAME'] = $file;
 if (isset($argv[2])) {
     $json = $argv[2];
     if (is_file($json)) {
-        $json = file_get_contents($data);
+        $json = file_get_contents($json);
     }
-    
+
     try {
         $data = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
     } catch (JsonException $e) {
         throw new Exception('The JSON provided for the event data is invalid JSON.');
     }
-    
+
     $config['bref_local_runner_data'] = $data;
 }
 

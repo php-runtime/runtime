@@ -4,8 +4,6 @@ namespace Runtime\Bref;
 
 use Bref\Context\Context;
 use Bref\Event\Handler;
-use Bref\Runtime\Invoker;
-use Bref\Runtime\LambdaRuntime;
 use Symfony\Component\Runtime\RunnerInterface;
 
 /**
@@ -26,8 +24,7 @@ class LocalRunner implements RunnerInterface
 
     public function run(): int
     {
-        $invoker = new Invoker();
-        $invoker->invoke($this->handler, $this->data, new Context('', 0, '', ''));
+        $this->handler->handle($this->data, new Context('', 0, '', ''));
 
         return 0;
     }
