@@ -34,6 +34,7 @@ class LaravelRunnerTest extends TestCase
     {
         $sfResponse = $this->createMock(\Symfony\Component\HttpFoundation\Response::class);
         $sfResponse->headers = new HeaderBag(['X-Test' => 'Swoole-Runtime']);
+        $sfResponse->expects(self::once())->method('getStatusCode')->willReturn(201);
         $sfResponse->expects(self::once())->method('getContent')->willReturn('Test');
 
         $application = $this->createMock(Kernel::class);
@@ -44,6 +45,7 @@ class LaravelRunnerTest extends TestCase
 
         $response = $this->createMock(Response::class);
         $response->expects(self::once())->method('header')->with('x-test', 'Swoole-Runtime');
+        $response->expects(self::once())->method('status')->with(201);
         $response->expects(self::once())->method('end')->with('Test');
 
         $factory = $this->createMock(ServerFactory::class);

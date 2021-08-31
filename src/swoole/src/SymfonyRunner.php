@@ -54,6 +54,8 @@ class SymfonyRunner implements RunnerInterface
                 $response->header($name, $value);
             }
         }
+
+        $response->status($sfResponse->getStatusCode());
         $response->end($sfResponse->getContent());
     }
 }
