@@ -40,10 +40,11 @@ class Runtime extends SymfonyRuntime
         }
 
         if ($application instanceof ContainerInterface) {
-            $handler = getenv('_HANDLER');
-            // TODO error checking
-            [$script, $service] = explode(':', $handler);
-            $application = $application->get($service);
+            $handler = explode(':', $_SERVER['_HANDLER']);
+            if (!isset($handler[1]) || '' === $handler[1]) {
+                throw new \RuntimeException(sprintf('Application is instance of ContainerInterface but the handler does not contain a service. The handler must be on format "path/to/file.php:App\\Lambda\\MyHandler". You provided "%s".', $_SERVER['_HANDLER']));
+            }
+            $application = $application->get($handler[1]);
         }
 
         if ($application instanceof Handler) {
