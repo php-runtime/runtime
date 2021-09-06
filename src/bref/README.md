@@ -150,7 +150,7 @@ to serverless.yml
 #### Invoke handlers locally
 
 Using a service from the container makes the handlers very simple to unit test.
-However, if you are lazy you may want to invoke them locally from CLI.
+However, if you are lazy, you may want to invoke them locally from CLI.
 
 Run the following command to invoke the `App\Lambda\MyLambda` service.
 
