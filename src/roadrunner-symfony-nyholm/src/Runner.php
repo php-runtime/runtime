@@ -51,15 +51,6 @@ class Runner implements RunnerInterface
                 }
             } catch (\Throwable $e) {
                 $worker->getWorker()->error((string) $e);
-            } finally {
-                // TODO move this cleanup also to Symfony
-                if (PHP_SESSION_ACTIVE === session_status()) {
-                    session_abort();
-                }
-
-                // reset all session variables to initialize state
-                $_SESSION = [];
-                session_id(''); // in this case session_start() will generate us a new session_id()
             }
         }
 
