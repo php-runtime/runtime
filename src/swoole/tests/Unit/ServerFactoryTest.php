@@ -20,6 +20,7 @@ class ServerFactoryTest extends TestCase
         self::assertSame($defaults['host'], $server->host);
         self::assertSame($defaults['port'], $server->port);
         self::assertSame($defaults['mode'], $server->mode);
+        self::assertSame($defaults['sock_type'], $server->type);
         self::assertSame($defaults['settings'], $server->setting);
     }
 
@@ -29,6 +30,7 @@ class ServerFactoryTest extends TestCase
             'host' => '0.0.0.0',
             'port' => 9501,
             'mode' => 1,
+            'sock_type' => 2,
             'settings' => [
                 'worker_num' => 1,
             ],
@@ -41,6 +43,7 @@ class ServerFactoryTest extends TestCase
         self::assertSame('0.0.0.0', $server->host);
         self::assertSame(9501, $server->port);
         self::assertSame(1, $server->mode);
+        self::assertSame(2, $server->type);
         self::assertSame(['worker_num' => 1], $server->setting);
     }
 
@@ -48,6 +51,7 @@ class ServerFactoryTest extends TestCase
     {
         $options = [
             'mode' => 1,
+            'sock_type' => 2,
             'settings' => [
                 'worker_num' => 1,
             ],
@@ -61,6 +65,7 @@ class ServerFactoryTest extends TestCase
         self::assertSame($defaults['host'], $server->host);
         self::assertSame($defaults['port'], $server->port);
         self::assertSame(1, $server->mode);
+        self::assertSame(2, $server->type);
         self::assertSame(['worker_num' => 1], $server->setting);
     }
 }
