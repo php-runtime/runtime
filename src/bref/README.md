@@ -144,7 +144,27 @@ to serverless.yml
  functions:
      app:
 -         handler: public/index.php
-+         handler: public/index.php:App\Service\MyHandler
++         handler: public/index.php:App\Lambda\MyLambda
+```
+
+#### Invoke handlers locally
+
+Using a service from the container makes the handlers very simple to unit test.
+However, if you are lazy, you may want to invoke them locally from CLI.
+
+Run the following command to invoke the `App\Lambda\MyLambda` service.
+
+```cli
+./vendor/bin/bref-local-handler.php ./bin/container.php:App\\Lambda\\MyLambda
+```
+
+If your service expects some event data, add it as a JSON string or a path to a
+file containing JSON.
+
+```cli
+./vendor/bin/bref-local-handler.php ./bin/container.php:App\\Lambda\\MyLambda '{"foo":"bar"}'
+
+./vendor/bin/bref-local-handler.php ./bin/container.php:App\\Lambda\\MyLambda example/input.json
 ```
 
 ### Console application
