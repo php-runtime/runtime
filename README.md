@@ -123,7 +123,7 @@ The runtime for [Symfony](https://symfony.com/) is included in the runtime compo
 On Symfony < 5.4 session data will not be properly stored when using a "non-traditional"
 webserver like Bref, Google, ReactPHP, RoadRunner or Swoole. This problem (or missing
 feature) has been added in Symfony 5.4 and 6.0. You need to use the unreleased version
-of ´symfony/http-kernel` for sessions to work properly.
+of `symfony/http-kernel` for sessions to work properly.
 
 ## Contribute
 
