@@ -135,6 +135,19 @@ HTTP
         $this->assertSame('bar', $post['foo']);
     }
 
+    public function testLambdaContext()
+    {
+        $requestContext = ['http' => ['method' => 'GET']];
+        $request = SymfonyRequestBridge::convertRequest(new HttpRequestEvent([
+            'requestContext' => $requestContext,
+        ]), $invocationContext = $this->getContext());
+        $this->assertTrue($request->server->has('LAMBDA_INVOCATION_CONTEXT'));
+        $this->assertTrue($request->server->has('LAMBDA_REQUEST_CONTEXT'));
+
+        $this->assertSame(json_encode($invocationContext), $request->server->get('LAMBDA_INVOCATION_CONTEXT'));
+        $this->assertSame(json_encode($requestContext), $request->server->get('LAMBDA_REQUEST_CONTEXT'));
+    }
+
     private function getContext()
     {
         return new Context('id', 1000, 'function', 'trace');
