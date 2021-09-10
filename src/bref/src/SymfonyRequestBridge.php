@@ -38,6 +38,8 @@ class SymfonyRequestBridge
             'REQUEST_TIME_FLOAT' => microtime(true),
             'REQUEST_URI' => $event->getUri(),
             'REMOTE_ADDR' => '127.0.0.1',
+            'LAMBDA_INVOCATION_CONTEXT' => json_encode($context),
+            'LAMBDA_REQUEST_CONTEXT' => json_encode($event->getRequestContext()),
         ], fn ($value) => null !== $value);
 
         foreach ($event->getHeaders() as $name => $values) {

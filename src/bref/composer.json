@@ -10,6 +10,7 @@
         }
     ],
     "require": {
+        "ext-json": "*",
         "bref/bref": "^1.2",
         "clue/arguments": "^2.1",
         "psr/http-server-handler": "^1.0",
