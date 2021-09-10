@@ -1,5 +1,16 @@
 # Change Log
 
+## 0.2.1
+
+### Added
+
+- Option for SWOOLE_SOCK_TCP
+
+### Fixed
+
+- Response status code
+- Session handling for Symfony 5.4 and up.
+
 ## 0.2.0
 
 ### Added

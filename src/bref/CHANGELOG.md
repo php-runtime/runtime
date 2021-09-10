@@ -2,6 +2,18 @@
 
 ## [NOT RELEASED]
 
+## 0.2.0
+
+### Added
+
+- `vendor/bin/bref-local-handler.php` to invoke PSR-11 handlers locally.
+- Invocation and request context to the Request ServerBag
+
+### Fixed
+
+- Session handling for Symfony 5.4 and up.
+- Error handling on invalid `_HANDLER` string
+
 ## 0.1.1
 
 ### Added
