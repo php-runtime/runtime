@@ -2,6 +2,8 @@
 
 ## [NOT RELEASED]
 
+### 0.1.1
+
 ### Added
 
 - Add support for Symfony 6

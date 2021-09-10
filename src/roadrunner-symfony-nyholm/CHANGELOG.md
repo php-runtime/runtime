@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.2.0
+
+### Fixed
+
+- Session handling for Symfony 5.4 and up.
+
 ## 0.1.1
 
 ### Added
