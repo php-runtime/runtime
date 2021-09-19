@@ -31,7 +31,12 @@ class BrefRunner implements RunnerInterface
             if (++$loops > $this->loopMax) {
                 return 0;
             }
-            $lambda->processNextEvent($this->handler);
+
+            // In case the execution failed, we force starting a new process regardless of BREF_LOOP_MAX
+            // Why: an exception could have left the application in a non-clean state, this is preventive
+            if (! $lambda->processNextEvent($this->handler)) {
+                return 1;
+            }
         }
     }
 }
