@@ -2,10 +2,10 @@
 <files psalm-version="4.8.1@f73f2299dbc59a3e6c4d66cff4605176e728ee69">
   <file src="src/bref/src/BrefRunner.php">
     <InternalClass occurrences="1">
-      <code>LambdaRuntime::fromEnvironmentVariable()</code>
+      <code>LambdaRuntime::fromEnvironmentVariable('symfony-runtime')</code>
     </InternalClass>
     <InternalMethod occurrences="2">
-      <code>LambdaRuntime::fromEnvironmentVariable()</code>
+      <code>LambdaRuntime::fromEnvironmentVariable('symfony-runtime')</code>
       <code>processNextEvent</code>
     </InternalMethod>
     <InvalidReturnType occurrences="1">
@@ -14,10 +14,10 @@
   </file>
   <file src="src/bref/src/ConsoleApplicationRunner.php">
     <InternalClass occurrences="1">
-      <code>LambdaRuntime::fromEnvironmentVariable()</code>
+      <code>LambdaRuntime::fromEnvironmentVariable('symfony-runtime-console')</code>
     </InternalClass>
     <InternalMethod occurrences="2">
-      <code>LambdaRuntime::fromEnvironmentVariable()</code>
+      <code>LambdaRuntime::fromEnvironmentVariable('symfony-runtime-console')</code>
       <code>processNextEvent</code>
     </InternalMethod>
     <InvalidReturnType occurrences="1">

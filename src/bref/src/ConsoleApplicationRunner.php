@@ -26,7 +26,7 @@ class ConsoleApplicationRunner implements RunnerInterface
 
     public function run(): int
     {
-        $lambda = LambdaRuntime::fromEnvironmentVariable();
+        $lambda = LambdaRuntime::fromEnvironmentVariable('symfony-runtime-console');
 
         while (true) {
             $lambda->processNextEvent(function ($event, Context $context): array {
