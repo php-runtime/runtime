@@ -2,6 +2,12 @@
 
 ## [NOT RELEASED]
 
+## 0.2.1
+
+### Added
+
+- Support for Bref 1.3
+
 ## 0.2.0
 
 ### Added
