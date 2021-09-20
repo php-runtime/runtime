@@ -38,7 +38,7 @@ class BrefRunner implements RunnerInterface
              * left the application in a non-clean state.
              */
             if (!$lambda->processNextEvent($this->handler)) {
-                return 1;
+                return 0;
             }
         }
     }
