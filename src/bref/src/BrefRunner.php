@@ -24,7 +24,7 @@ class BrefRunner implements RunnerInterface
 
     public function run(): int
     {
-        $lambda = LambdaRuntime::fromEnvironmentVariable('runtime');
+        $lambda = LambdaRuntime::fromEnvironmentVariable('symfony-runtime');
 
         $loops = 0;
         while (true) {
