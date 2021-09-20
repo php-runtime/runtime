@@ -26,7 +26,7 @@ class ConsoleApplicationRunner implements RunnerInterface
 
     public function run(): int
     {
-        $lambda = LambdaRuntime::fromEnvironmentVariable();
+        $lambda = LambdaRuntime::fromEnvironmentVariable('runtimeconsole');
 
         while (true) {
             $lambda->processNextEvent(function ($event, Context $context): array {
