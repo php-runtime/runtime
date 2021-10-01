@@ -57,5 +57,7 @@ class LaravelRunner implements RunnerInterface
 
         $response->status($sfResponse->getStatusCode());
         $response->end($sfResponse->getContent());
+
+        $this->application->terminate($sfRequest, $sfResponse);
     }
 }
