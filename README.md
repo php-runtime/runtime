@@ -24,7 +24,7 @@ class Application
 }
 ```
 
-To use this application with the Runtime component. We need our front-controller
+To use this application with the Runtime component we need our front-controller
 to return a callable that will create the application.
 
 ```php
