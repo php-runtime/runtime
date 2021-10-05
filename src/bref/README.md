@@ -10,10 +10,10 @@ We support all kinds of applications. See the following sections for details.
 1. [PSR-15 application](#psr-15-application)
 1. [Console application](#console-application)
 1. [PSR-11 container application](#psr-11-container)
-    2. [Invoke handlers locally](#invoke-handlers-locally)
-    2. [Simplify serverless.yml](#simplify-serverlessyml)
-    2. [Typed handlers](#typed-handlers)
-    2. [Symfony Messenger integration](#symfony-messenger-integration)
+    1. [Invoke handlers locally](#invoke-handlers-locally)
+    1. [Simplify serverless.yml](#simplify-serverlessyml)
+    1. [Typed handlers](#typed-handlers)
+    1. [Symfony Messenger integration](#symfony-messenger-integration)
 
 If you are new to the Symfony Runtime component, read more in the
 [main readme](https://github.com/php-runtime/runtime).
