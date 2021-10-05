@@ -4,12 +4,12 @@ Deploy an application with AWS Lambda using Bref.
 
 We support all kinds of applications. See the following sections for details.
 
-1. Installation and usage
-1. Symfony application
-1. Laravel application
-1. PSR-15 application
-1. Console application
-1. PSR-11 container application
+1. [Installation and usage](#installation)
+1. [Symfony application](#symfony-application)
+1. [Laravel application](#laravel-application)
+1. [PSR-15 application](#psr-15-application)
+1. [Console application](#console-application)
+1. [PSR-11 container application](#psr-11-container)
 
 If you are new to the Symfony Runtime component, read more in the
 [main readme](https://github.com/php-runtime/runtime).
@@ -129,7 +129,7 @@ See [`runtime/laravel`](https://github.com/php-runtime/laravel) on how to run
 this locally.
 
 
-### PSR-15 application
+## PSR-15 application
 
 You need some extra features from Bref. Install it with
 
@@ -166,7 +166,7 @@ return function () {
 };
 ```
 
-### Console application
+## Console application
 
 Use the standard Symfony 5.3+ `bin/console`.
 
@@ -202,7 +202,7 @@ functions:
                 input: '"app:invoice:send"'
 ```
 
-### PSR-11 Container
+## PSR-11 Container
 
 The PSR-11 container is great. It really shines in internal microservices where
 you dont have to deal with HTTP or security. Your application just call your microservice
@@ -230,7 +230,7 @@ return function (array $context) {
 Now we write a class/service that implements `Bref\Event\Handler`.
 
 ```php
-namespce App\Lambda;
+namespace App\Lambda;
 
 use Bref\Context\Context;
 use Bref\Event\Handler;
