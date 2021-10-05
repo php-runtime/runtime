@@ -10,6 +10,7 @@ We support all kinds of applications. See the following sections for details.
 1. [PSR-15 application](#psr-15-application)
 1. [Console application](#console-application)
 1. [PSR-11 container application](#psr-11-container)
+  2. [Invoke handlers locally](#invoke-handlers-locally)
 
 If you are new to the Symfony Runtime component, read more in the
 [main readme](https://github.com/php-runtime/runtime).
@@ -22,7 +23,7 @@ composer require runtime/bref
 
 To get started, we need a `serverless.yml` file in our projects root. We also
 use the `./vendor/runtime/bref-layer` plugin. Now we can tell AWS that we want
-to use a `${runtime-bref:php-80}` "layer" to run our application on.
+to use a "layer" called `${runtime-bref:php-80}` to run our application on.
 
 Next we need to define the environment variable `APP_RUNTIME` so the Runtime component
 knows what runtime to use.
@@ -307,4 +308,85 @@ serverless.yml file to read more natually.
      hello:
 -         handler: lambda.php:App\Lambda\HelloWorld
 +         handler: App\Lambda\HelloWorld
+```
+
+#### Typed handlers
+
+To better integrate with different AWS events, one can use "typed handlers".
+These are classes that implements `Bref\Event\Handler` and provides some helper
+methods or classes.
+
+To use them, you need to install Bref:
+
+```
+composer req bref/bref
+```
+
+We use the same PSR-11 configuration from above and write custom handler like:
+
+```php
+namespace App\Lambda;
+
+use Bref\Context\Context;
+use Bref\Event\S3\S3Event;
+use Bref\Event\S3\S3Handler;
+
+class S3FileCreated extends S3Handler
+{
+    public function handleS3(S3Event $event, Context $context): void
+    {
+        $bucketName = $event->getRecords()[0]->getBucket()->getName();
+        $fileName = $event->getRecords()[0]->getObject()->getKey();
+
+        // do something with the file
+    }
+}
+```
+
+```yaml
+# serverless.yml
+
+# ...
+
+functions:
+    s3_photos:
+        handler: lambda.php:App\Lambda\S3FileCreated
+        layers:
+            - ${runtime-bref:php-80}
+        events:
+            - s3:
+                  bucket: photos
+                  event: s3:ObjectCreated:*
+```
+
+Read more about different typed handlers at [Bref's documentation](https://bref.sh/docs/function/handlers.html).
+
+### Symfony Messenger integration
+
+Similar to the typed handlers above, if you use [`bref/symfony-messenger`](https://github.com/brefphp/symfony-messenger)
+you may also want to define a worker function.
+
+```yaml
+# serverless.yml
+
+# ...
+
+functions:
+    worker:
+        handler: lambda.php:Bref\Symfony\Messenger\Service\Sqs\SqsConsumer
+        timeout: 120
+        layers:
+            - ${runtime-bref:php-80}
+        events:
+            - sqs:
+                  batchSize: 1 # Only 1 item at a time to simplify error handling
+                  arn: !GetAtt workqueue.Arn
+
+resources:
+    Resources:
+        workqueue:
+            Type: "AWS::SQS::Queue"
+            Properties:
+                QueueName: ${self:service}-workqueue
+                VisibilityTimeout: 600
 ```
