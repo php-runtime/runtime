@@ -26,7 +26,9 @@
         "psr-4": {
             "Runtime\\Bref\\": "src/"
         },
-        "files": ["bref/autoload.php"]
+        "files": [
+            "bref/autoload.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
