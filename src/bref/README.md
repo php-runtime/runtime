@@ -10,7 +10,10 @@ We support all kinds of applications. See the following sections for details.
 1. [PSR-15 application](#psr-15-application)
 1. [Console application](#console-application)
 1. [PSR-11 container application](#psr-11-container)
-  2. [Invoke handlers locally](#invoke-handlers-locally)
+    2. [Invoke handlers locally](#invoke-handlers-locally)
+    2. [Simplify serverless.yml](#simplify-serverlessyml)
+    2. [Typed handlers](#typed-handlers)
+    2. [Symfony Messenger integration](#symfony-messenger-integration)
 
 If you are new to the Symfony Runtime component, read more in the
 [main readme](https://github.com/php-runtime/runtime).
@@ -264,7 +267,7 @@ When this is deployed it can be invoked by
 serverless invoke --function hello --data '{"name":"Tobias"}'
 ```
 
-#### Invoke handlers locally
+### Invoke handlers locally
 
 Using a service from the container makes the handlers very simple to unit test.
 However, if you are lazy, you may want to invoke them locally from CLI.
@@ -284,7 +287,7 @@ file containing JSON.
 ./vendor/bin/bref-local-handler.php ./bin/container.php:App\\Lambda\\HelloWorld example/input.json
 ```
 
-#### Simplify serverless.yml
+### Simplify serverless.yml
 
 The syntax `handler: lambda.php:App\Lambda\HelloWorld` might be a bit weird to write,
 but you may add an environment variable called `FALLBACK_CONTAINER_FILE` which
@@ -310,7 +313,7 @@ serverless.yml file to read more natually.
 +         handler: App\Lambda\HelloWorld
 ```
 
-#### Typed handlers
+### Typed handlers
 
 To better integrate with different AWS events, one can use "typed handlers".
 These are classes that implements `Bref\Event\Handler` and provides some helper
