@@ -3,6 +3,7 @@
 namespace Runtime\Bref;
 
 use Bref\Event\Handler;
+use Bref\Event\Http\HttpHandler;
 use Bref\Event\Http\Psr15Handler;
 use Illuminate\Contracts\Http\Kernel;
 use Psr\Container\ContainerInterface;
@@ -33,24 +34,33 @@ class Runtime extends SymfonyRuntime
 
     public function getRunner(?object $application): RunnerInterface
     {
-        if ($application instanceof HttpKernelInterface) {
-            $application = new SymfonyHttpHandler($application);
-        }
-
-        if ($application instanceof Kernel) {
-            $application = new LaravelHttpHandler($application);
-        }
-
-        if ($application instanceof RequestHandlerInterface) {
-            $application = new Psr15Handler($application);
-        }
-
         if ($application instanceof ContainerInterface) {
             $handler = explode(':', $_SERVER['_HANDLER']);
             if (!isset($handler[1]) || '' === $handler[1]) {
                 throw new \RuntimeException(sprintf('Application is instance of ContainerInterface but the handler does not contain a service. The handler must be on format "path/to/file.php:App\\Lambda\\MyHandler". You provided "%s".', $_SERVER['_HANDLER']));
             }
             $application = $application->get($handler[1]);
+        }
+
+        if ($application instanceof HttpKernelInterface) {
+            if (!class_exists(HttpHandler::class)) {
+                throw new \RuntimeException(sprintf('The Bref Runtime needs package bref/bref to support %s applications. Try running "composer require bref/bref".', HttpKernelInterface::class));
+            }
+            $application = new SymfonyHttpHandler($application);
+        }
+
+        if ($application instanceof Kernel) {
+            if (!class_exists(HttpHandler::class)) {
+                throw new \RuntimeException(sprintf('The Bref Runtime needs package bref/bref to support %s applications. Try running "composer require bref/bref".', Kernel::class));
+            }
+            $application = new LaravelHttpHandler($application);
+        }
+
+        if ($application instanceof RequestHandlerInterface) {
+            if (!class_exists(Psr15Handler::class)) {
+                throw new \RuntimeException(sprintf('The Bref Runtime needs package bref/bref to support %s applications. Try running "composer require bref/bref".', RequestHandlerInterface::class));
+            }
+            $application = new Psr15Handler($application);
         }
 
         if ($application instanceof Handler) {
