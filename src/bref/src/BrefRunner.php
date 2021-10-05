@@ -3,7 +3,7 @@
 namespace Runtime\Bref;
 
 use Bref\Event\Handler;
-use Bref\Runtime\LambdaRuntime;
+use Runtime\Bref\Lambda\LambdaClient;
 use Symfony\Component\Runtime\RunnerInterface;
 
 /**
@@ -24,7 +24,7 @@ class BrefRunner implements RunnerInterface
 
     public function run(): int
     {
-        $lambda = LambdaRuntime::fromEnvironmentVariable('symfony-runtime');
+        $lambda = LambdaClient::fromEnvironmentVariable('symfony-runtime');
 
         $loops = 0;
         while (true) {
