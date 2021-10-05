@@ -7,6 +7,7 @@ use Swoole\Http\Response;
 use Symfony\Component\HttpFoundation\HeaderBag;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpKernel\TerminableInterface;
 use Symfony\Component\Runtime\RunnerInterface;
 
 /**
@@ -57,5 +58,9 @@ class SymfonyRunner implements RunnerInterface
 
         $response->status($sfResponse->getStatusCode());
         $response->end($sfResponse->getContent());
+
+        if ($this->application instanceof TerminableInterface) {
+            $this->application->terminate($sfRequest, $sfResponse);
+        }
     }
 }
