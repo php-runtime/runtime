@@ -31,10 +31,10 @@ use Exception;
  */
 final class LambdaClient
 {
-    /** @var resource|null */
+    /** @var resource|\CurlHandle|null */
     private $handler;
 
-    /** @var resource|null */
+    /** @var resource|\CurlHandle|null */
     private $returnHandler;
 
     /** @var string */
@@ -50,8 +50,8 @@ final class LambdaClient
 
     public function __construct(string $apiUrl, string $layer)
     {
-        if ($apiUrl === '') {
-            die('At the moment lambdas can only be executed in an Lambda environment');
+        if ('' === $apiUrl) {
+            exit('At the moment lambdas can only be executed in an Lambda environment');
         }
 
         $this->apiUrl = $apiUrl;
@@ -66,7 +66,7 @@ final class LambdaClient
 
     private function closeHandler(): void
     {
-        if ($this->handler !== null) {
+        if (null !== $this->handler) {
             curl_close($this->handler);
             $this->handler = null;
         }
@@ -74,7 +74,7 @@ final class LambdaClient
 
     private function closeReturnHandler(): void
     {
-        if ($this->returnHandler !== null) {
+        if (null !== $this->returnHandler) {
             curl_close($this->returnHandler);
             $this->returnHandler = null;
         }
@@ -90,7 +90,9 @@ final class LambdaClient
      *     $lambdaRuntime->processNextEvent(function ($event, Context $context) {
      *         return 'Hello ' . $event['name'] . '. We have ' . $context->getRemainingTimeInMillis()/1000 . ' seconds left';
      *     });
+     *
      * @return bool true if event was successfully handled
+     *
      * @throws Exception
      */
     public function processNextEvent(Handler $handler): bool
@@ -122,31 +124,31 @@ final class LambdaClient
      */
     private function waitNextInvocation(): array
     {
-        if ($this->handler === null) {
+        if (null === $this->handler) {
             $this->handler = curl_init("http://{$this->apiUrl}/2018-06-01/runtime/invocation/next");
             curl_setopt($this->handler, CURLOPT_FOLLOWLOCATION, true);
             curl_setopt($this->handler, CURLOPT_FAILONERROR, true);
         }
 
         // Retrieve invocation ID
-        $contextBuilder = new ContextBuilder;
+        $contextBuilder = new ContextBuilder();
         curl_setopt($this->handler, CURLOPT_HEADERFUNCTION, function ($ch, $header) use ($contextBuilder) {
-            if (! preg_match('/:\s*/', $header)) {
+            if (!preg_match('/:\s*/', $header)) {
                 return strlen($header);
             }
             [$name, $value] = preg_split('/:\s*/', $header, 2);
             $name = strtolower($name);
             $value = trim($value);
-            if ($name === 'lambda-runtime-aws-request-id') {
+            if ('lambda-runtime-aws-request-id' === $name) {
                 $contextBuilder->setAwsRequestId($value);
             }
-            if ($name === 'lambda-runtime-deadline-ms') {
+            if ('lambda-runtime-deadline-ms' === $name) {
                 $contextBuilder->setDeadlineMs(intval($value));
             }
-            if ($name === 'lambda-runtime-invoked-function-arn') {
+            if ('lambda-runtime-invoked-function-arn' === $name) {
                 $contextBuilder->setInvokedFunctionArn($value);
             }
-            if ($name === 'lambda-runtime-trace-id') {
+            if ('lambda-runtime-trace-id' === $name) {
                 $contextBuilder->setTraceId($value);
             }
 
@@ -165,15 +167,15 @@ final class LambdaClient
         if (curl_errno($this->handler) > 0) {
             $message = curl_error($this->handler);
             $this->closeHandler();
-            throw new Exception('Failed to fetch next Lambda invocation: ' . $message);
+            throw new Exception('Failed to fetch next Lambda invocation: '.$message);
         }
-        if ($body === '') {
+        if ('' === $body) {
             throw new Exception('Empty Lambda runtime API response');
         }
 
         $context = $contextBuilder->buildContext();
 
-        if ($context->getAwsRequestId() === '') {
+        if ('' === $context->getAwsRequestId()) {
             throw new Exception('Failed to determine the Lambda invocation ID');
         }
 
@@ -205,7 +207,7 @@ final class LambdaClient
             'stack' => $stackTraceAsArray,
         ];
 
-        if ($error->getPrevious() !== null) {
+        if (null !== $error->getPrevious()) {
             $previousError = $error;
             $previousErrors = [];
             do {
@@ -215,7 +217,7 @@ final class LambdaClient
                     'errorMessage' => $previousError->getMessage(),
                     'stack' => explode(PHP_EOL, $previousError->getTraceAsString()),
                 ];
-            } while ($previousError->getPrevious() !== null);
+            } while (null !== $previousError->getPrevious());
 
             $errorFormatted['previous'] = $previousErrors;
         }
@@ -223,7 +225,7 @@ final class LambdaClient
         // Log the exception in CloudWatch
         // We aim to use the same log format as what we can see when throwing an exception in the NodeJS runtime
         // See https://github.com/brefphp/bref/pull/579
-        echo $invocationId . "\tInvoke Error\t" . json_encode($errorFormatted) . PHP_EOL;
+        echo $invocationId."\tInvoke Error\t".json_encode($errorFormatted).PHP_EOL;
 
         // Send an "error" Lambda response
         $url = "http://{$this->apiUrl}/2018-06-01/runtime/invocation/$invocationId/error";
@@ -245,7 +247,7 @@ final class LambdaClient
         echo "$message\n";
         if ($error) {
             if ($error instanceof Exception) {
-                $errorMessage = get_class($error) . ': ' . $error->getMessage();
+                $errorMessage = get_class($error).': '.$error->getMessage();
             } else {
                 $errorMessage = $error->getMessage();
             }
@@ -260,7 +262,7 @@ final class LambdaClient
 
         $url = "http://{$this->apiUrl}/2018-06-01/runtime/init/error";
         $this->postJson($url, [
-            'errorMessage' => $message . ' ' . ($error ? $error->getMessage() : ''),
+            'errorMessage' => $message.' '.($error ? $error->getMessage() : ''),
             'errorType' => $error ? get_class($error) : 'Internal',
             'stackTrace' => $error ? explode(PHP_EOL, $error->getTraceAsString()) : [],
         ]);
@@ -274,14 +276,11 @@ final class LambdaClient
     private function postJson(string $url, $data): void
     {
         $jsonData = json_encode($data);
-        if ($jsonData === false) {
-            throw new Exception(sprintf(
-                "The Lambda response cannot be encoded to JSON.\nThis error usually happens when you try to return binary content. If you are writing an HTTP application and you want to return a binary HTTP response (like an image, a PDF, etc.), please read this guide: https://bref.sh/docs/runtimes/http.html#binary-responses\nHere is the original JSON error: '%s'",
-                json_last_error_msg()
-            ));
+        if (false === $jsonData) {
+            throw new Exception(sprintf("The Lambda response cannot be encoded to JSON.\nThis error usually happens when you try to return binary content. If you are writing an HTTP application and you want to return a binary HTTP response (like an image, a PDF, etc.), please read this guide: https://bref.sh/docs/runtimes/http.html#binary-responses\nHere is the original JSON error: '%s'", json_last_error_msg()));
         }
 
-        if ($this->returnHandler === null) {
+        if (null === $this->returnHandler) {
             $this->returnHandler = curl_init();
             curl_setopt($this->returnHandler, CURLOPT_CUSTOMREQUEST, 'POST');
             curl_setopt($this->returnHandler, CURLOPT_RETURNTRANSFER, true);
@@ -292,13 +291,13 @@ final class LambdaClient
         curl_setopt($this->returnHandler, CURLOPT_POSTFIELDS, $jsonData);
         curl_setopt($this->returnHandler, CURLOPT_HTTPHEADER, [
             'Content-Type: application/json',
-            'Content-Length: ' . strlen($jsonData),
+            'Content-Length: '.strlen($jsonData),
         ]);
         curl_exec($this->returnHandler);
         if (curl_errno($this->returnHandler) > 0) {
             $errorMessage = curl_error($this->returnHandler);
             $this->closeReturnHandler();
-            throw new Exception('Error while calling the Lambda runtime API: ' . $errorMessage);
+            throw new Exception('Error while calling the Lambda runtime API: '.$errorMessage);
         }
     }
 
@@ -343,7 +342,7 @@ final class LambdaClient
         }
 
         // Support cases where the sockets extension is not installed
-        if (! function_exists('socket_create')) {
+        if (!function_exists('socket_create')) {
             return;
         }
 
