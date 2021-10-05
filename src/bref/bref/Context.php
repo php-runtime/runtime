@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Bref\Context;
 
@@ -55,7 +57,7 @@ final class Context implements \JsonSerializable
     }
 
     /**
-     * Returns content of the AWS X-Ray trace information header
+     * Returns content of the AWS X-Ray trace information header.
      *
      * @see  https://docs.aws.amazon.com/xray/latest/devguide/xray-concepts.html#xray-concepts-tracingheader
      */

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Bref\Event;
 
@@ -10,7 +12,8 @@ use Bref\Context\Context;
 interface Handler
 {
     /**
-     * @param mixed $event The raw event data.
+     * @param mixed $event the raw event data
+     *
      * @return mixed|void
      */
     public function handle($event, Context $context);
