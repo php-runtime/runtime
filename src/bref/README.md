@@ -217,7 +217,7 @@ The first thing we need is a file that returns a PSR-11 container. See below
 for an example for Symfony.
 
 ```php
-// lambda.php
+// bin/container.php
 
 use App\Kernel;
 
@@ -248,7 +248,7 @@ class HelloWorld implements Handler
 }
 ```
 
-Now we need to update serverless.yml to say "Use lambda.php to get the container
+Now we need to update serverless.yml to say "Use bin/container.php to get the container
 and then load service App\Lambda\HelloWorld".
 
 ```yaml
@@ -258,7 +258,10 @@ and then load service App\Lambda\HelloWorld".
 
 functions:
     hello:
-        handler: lambda.php:App\Lambda\HelloWorld
+        handler: bin/container.php:App\Lambda\HelloWorld
+        layers:
+            - ${runtime-bref:php-80}
+
 ```
 
 When this is deployed it can be invoked by
@@ -289,7 +292,7 @@ file containing JSON.
 
 ### Simplify serverless.yml
 
-The syntax `handler: lambda.php:App\Lambda\HelloWorld` might be a bit weird to write,
+The syntax `handler: bin/container.php:App\Lambda\HelloWorld` might be a bit weird to write,
 but you may add an environment variable called `FALLBACK_CONTAINER_FILE` which
 includes the file to where we can get the PSR-11 container. This may help the
 serverless.yml file to read more natually.
@@ -304,13 +307,16 @@ serverless.yml file to read more natually.
      environment:
         APP_ENV: prod
         APP_RUNTIME: Runtime\Bref\Runtime
-+       FALLBACK_CONTAINER_FILE: lambda.php
++       FALLBACK_CONTAINER_FILE: bin/container.php
         BREF_LOOP_MAX: 100 # Optional
 
  functions:
      hello:
--         handler: lambda.php:App\Lambda\HelloWorld
-+         handler: App\Lambda\HelloWorld
+-        handler: bin/container.php:App\Lambda\HelloWorld
++        handler: App\Lambda\HelloWorld
+         layers:
+           - ${runtime-bref:php-80}
+
 ```
 
 ### Typed handlers
@@ -353,7 +359,7 @@ class S3FileCreated extends S3Handler
 
 functions:
     s3_photos:
-        handler: lambda.php:App\Lambda\S3FileCreated
+        handler: bin/container.php:App\Lambda\S3FileCreated
         layers:
             - ${runtime-bref:php-80}
         events:
@@ -376,7 +382,7 @@ you may also want to define a worker function.
 
 functions:
     worker:
-        handler: lambda.php:Bref\Symfony\Messenger\Service\Sqs\SqsConsumer
+        handler: bin/container.php:Bref\Symfony\Messenger\Service\Sqs\SqsConsumer
         timeout: 120
         layers:
             - ${runtime-bref:php-80}
