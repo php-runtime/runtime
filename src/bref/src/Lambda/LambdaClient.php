@@ -5,6 +5,7 @@ namespace Runtime\Bref\Lambda;
 use Bref\Context\Context;
 use Bref\Event\Handler;
 use Exception;
+use Runtime\Bref\Timeout\Timeout;
 
 /**
  * A port of LambdaRuntime from bref/bref package. That class is internal so
@@ -100,6 +101,12 @@ final class LambdaClient
         [$event, $context] = $this->waitNextInvocation();
         \assert($context instanceof Context);
 
+        $remainingTimeInMillis = $context->getRemainingTimeInMillis();
+        if (0 < $remainingTimeInMillis) {
+            // Throw exception before Lambda pulls the plug.
+            Timeout::enable($remainingTimeInMillis);
+        }
+
         $this->ping();
 
         try {
@@ -110,6 +117,8 @@ final class LambdaClient
             $this->signalFailure($context->getAwsRequestId(), $e);
 
             return false;
+        } finally {
+            Timeout::reset();
         }
 
         return true;

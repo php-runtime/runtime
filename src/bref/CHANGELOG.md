@@ -20,6 +20,8 @@ you will get an exception. Run `composer require bref/bref` to solve the issue.
 - We do not use internal classes in Bref any more (https://github.com/php-runtime/runtime/pull/88)
 - Some handlers do not require the `bref/bref` package (https://github.com/php-runtime/runtime/pull/89)
 - We include a runtime specific Bref layer (https://github.com/php-runtime/bref-layer)
+- Support for handle timeouts and lets your application shut down. This will shorten
+the actual execution time with 2 seconds.
 
 ### Fixed
 
