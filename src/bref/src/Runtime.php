@@ -9,6 +9,7 @@ use Illuminate\Contracts\Http\Kernel;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Symfony\Component\Console\Application;
+use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Runtime\RunnerInterface;
 use Symfony\Component\Runtime\SymfonyRuntime;
@@ -37,9 +38,15 @@ class Runtime extends SymfonyRuntime
         if ($application instanceof ContainerInterface) {
             $handler = explode(':', $_SERVER['_HANDLER']);
             if (!isset($handler[1]) || '' === $handler[1]) {
-                throw new \RuntimeException(sprintf('Application is instance of ContainerInterface but the handler does not contain a service. The handler must be on format "path/to/file.php:App\\Lambda\\MyHandler". You provided "%s".', $_SERVER['_HANDLER']));
+                // We assume that $handler[0] is your service name, ie you are using FALLBACK_CONTAINER_FILE
+                $handler[1] = $handler[0];
             }
-            $application = $application->get($handler[1]);
+
+            try {
+                $application = $application->get($handler[1]);
+            } catch (ServiceNotFoundException $e) {
+                throw new \RuntimeException(sprintf('Application is instance of ContainerInterface but the service is not found. The handler must be on format "path/to/file.php:App\\Lambda\\MyHandler". You provided "%s".', $_SERVER['_HANDLER']), 0, $e);
+            }
         }
 
         if ($application instanceof HttpKernelInterface) {
