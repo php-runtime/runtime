@@ -1,10 +1,22 @@
 # Bref Runtime
 
-Here is [an example application](https://github.com/Nyholm/bref-runtime-demo).
-With this runtime you may use the exact same application for in local development
-and in production. Another benefit is that we will not use PHP-FPM.
+Deploy an application with AWS Lambda using Bref.
 
-If you are new to the Symfony Runtime component, read more in the [main readme](https://github.com/php-runtime/runtime).
+We support all kinds of applications. See the following sections for details.
+
+1. [Installation and usage](#installation)
+1. [Symfony application](#symfony-application)
+1. [Laravel application](#laravel-application)
+1. [PSR-15 application](#psr-15-application)
+1. [Console application](#console-application)
+1. [PSR-11 container application](#psr-11-container)
+    1. [Invoke handlers locally](#invoke-handlers-locally)
+    1. [Simplify serverless.yml](#simplify-serverlessyml)
+    1. [Typed handlers](#typed-handlers)
+    1. [Symfony Messenger integration](#symfony-messenger-integration)
+
+If you are new to the Symfony Runtime component, read more in the
+[main readme](https://github.com/php-runtime/runtime).
 
 ## Installation
 
@@ -12,57 +24,55 @@ If you are new to the Symfony Runtime component, read more in the [main readme](
 composer require runtime/bref
 ```
 
-Define the environment variable `APP_RUNTIME` for your application on Lambda.
+To get started, we need a `serverless.yml` file in our projects root. We also
+use the `./vendor/runtime/bref-layer` plugin. Now we can tell AWS that we want
+to use a "layer" called `${runtime-bref:php-80}` to run our application on.
 
-```diff
- # serverless.yml
+Next we need to define the environment variable `APP_RUNTIME` so the Runtime component
+knows what runtime to use.
 
- # ...
+```yaml
+# serverless.yml
+service: my-app-name
 
- provider:
-     name: aws
-     runtime: provided.al2
-     memorySize: 1792
-     environment:
-         APP_ENV: prod
-+        APP_RUNTIME: Runtime\Bref\Runtime
-+        BREF_LOOP_MAX: 100  # Optional
+plugins:
+    - ./vendor/runtime/bref-layer # <----- Add the extra Serverless plugin
+
+provider:
+    name: aws
+    region: eu-central-1
+    runtime: provided.al2
+    memorySize: 1792
+    environment:
+       APP_ENV: prod
+       APP_RUNTIME: Runtime\Bref\Runtime
+       BREF_LOOP_MAX: 100 # Optional
+
+
+functions:
+    website:
+        handler: public/index.php
+        layers:
+            - ${runtime-bref:php-80}
+        events:
+            # Specify that we want HTTP requests
+            -   httpApi: '*'
 ```
 
-## How to use
+That is really it!
 
-You need a new "bootstrap" file for AWS Lambda. That file should look like
-[this](https://github.com/brefphp/extra-php-extensions/blob/master/layers/symfony-runtime/bootstrap).
-The simplest way is to use the `${bref-extra:symfony-runtime-php-80}` from the
-[bref/extra-php-extension package](https://github.com/brefphp/extra-php-extensions).
+We use this file for all kinds of applications. The only thing we change in the
+`events`. Imagine that we want to listen to changes to S3 or new SQS messages.
+Or we could let this function to be invoked by another application in our system
+using a `Bref\Event\Handler`.
+
+## Symfony application
+
+You need some extra features from Bref. Install it with
 
 ```
-composer require bref/extra-php-extensions
+composer req bref/bref
 ```
-
-```diff
- # serverless.yml
-
- # ...
-
- plugins:
-    - ./vendor/bref/bref
-+   - ./vendor/bref/extra-php-extensions
-
- functions:
-     app:
-         handler: public/index.php
-         timeout: 8
-         layers:
-             - ${bref:layer.php-80}
-+            - ${bref-extra:symfony-runtime-php-80}
-         events:
-             -   httpApi: '*'
-```
-
-(You may also copy that bootstrap file yourself and place it in your project root.)
-
-### Symfony application
 
 Use the standard Symfony 5.3+ `public/index.php`.
 
@@ -78,23 +88,65 @@ return function (array $context) {
 };
 ```
 
-```diff
- # serverless.yml
+There is nothing special you need to do.
 
- functions:
-     web:
-         handler: public/index.php
-         timeout: 28
-         layers:
--            - ${bref:layer.php-80-fpm}
-+            - ${bref:layer.php-80}
-+            - ${bref-extra:symfony-runtime-php-80}
-         events:
-             - httpApi: '*'
+Here is [an example application](https://github.com/Nyholm/bref-runtime-demo).
+With this runtime you may use the exact same application for in local development
+and in production.
+
+
+## Laravel application
+
+You need some extra features from Bref. Install it with
+
+```
+composer req bref/bref
 ```
 
+To run a Laravel application, you need to update your front controller to look
+similar to this:
 
-### PSR-15 application
+```php
+// public/index.php
+
+use Illuminate\Contracts\Http\Kernel;
+
+define('LARAVEL_START', microtime(true));
+
+require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
+
+return function (): Kernel {
+    static $app;
+
+    if (null === $app) {
+        $app = require dirname(__DIR__).'/bootstrap/app.php';
+    }
+
+    return $app->make(Kernel::class);
+};
+
+```
+
+Now you are up and running on AWS Lambda!
+
+See [`runtime/laravel`](https://github.com/php-runtime/laravel) on how to run
+this locally.
+
+
+## PSR-15 application
+
+You need some extra features from Bref. Install it with
+
+```
+composer req bref/bref
+```
+
+Bref is using [`nyholm/psr7`](https://github.com/nyholm/psr7) to provide a PSR-7
+and PSR-15 experience. See [`runtime/psr-nyholm`](https://github.com/php-runtime/psr-nyholm)
+how to run your application locally.
+
+The following code is an example PSR-15 application with the Runtime component.
+If it works locally it will also with on AWS Lambda.
 
 ```php
 // public/index.php
@@ -118,56 +170,7 @@ return function () {
 };
 ```
 
-### PSR-11 Container
-
-```php
-// public/index.php
-
-use App\Kernel;
-
-require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
-
-return function (array $context) {
-    $kernel =  new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
-    $kernel->boot();
-
-    return $kernel->getContainer();
-};
-```
-
-To define what service to fetch form the container, one need to do one small change
-to serverless.yml
-
-```diff
- # serverless.yml
-
- functions:
-     app:
--         handler: public/index.php
-+         handler: public/index.php:App\Lambda\MyLambda
-```
-
-#### Invoke handlers locally
-
-Using a service from the container makes the handlers very simple to unit test.
-However, if you are lazy, you may want to invoke them locally from CLI.
-
-Run the following command to invoke the `App\Lambda\MyLambda` service.
-
-```cli
-./vendor/bin/bref-local-handler.php ./bin/container.php:App\\Lambda\\MyLambda
-```
-
-If your service expects some event data, add it as a JSON string or a path to a
-file containing JSON.
-
-```cli
-./vendor/bin/bref-local-handler.php ./bin/container.php:App\\Lambda\\MyLambda '{"foo":"bar"}'
-
-./vendor/bin/bref-local-handler.php ./bin/container.php:App\\Lambda\\MyLambda example/input.json
-```
-
-### Console application
+## Console application
 
 Use the standard Symfony 5.3+ `bin/console`.
 
@@ -186,19 +189,207 @@ return function (array $context) {
 };
 ```
 
+```yaml
+# serverless.yml
+
+# ...
+
+functions:
+    console:
+        handler: bin/console
+        timeout: 120
+        layers:
+           - ${runtime-bref:php-80}
+        events:
+            - schedule:
+                rate: rate(30 minutes)
+                input: '"app:invoice:send"'
+```
+
+## PSR-11 Container
+
+The PSR-11 container is great. It really shines in internal microservices where
+you dont have to deal with HTTP or security. Your application just call your microservice
+using an AWS Lambda api client (ie `aws/aws-sdk-php` or `async-aws/lambda`).
+It is also great for reacting to S3 or SQS events.
+
+The first thing we need is a file that returns a PSR-11 container. See below
+for an example for Symfony.
+
+```php
+// lambda.php
+
+use App\Kernel;
+
+require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
+
+return function (array $context) {
+    $kernel =  new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
+    $kernel->boot();
+
+    return $kernel->getContainer();
+};
+```
+
+Now we write a class/service that implements `Bref\Event\Handler`.
+
+```php
+namespace App\Lambda;
+
+use Bref\Context\Context;
+use Bref\Event\Handler;
+
+class HelloWorld implements Handler
+{
+    public function handle($event, Context $context)
+    {
+        return 'Hello ' . $event['name'];
+    }
+}
+```
+
+Now we need to update serverless.yml to say "Use lambda.php to get the container
+and then load service App\Lambda\HelloWorld".
+
+```yaml
+# serverless.yml
+
+# ...
+
+functions:
+    hello:
+        handler: lambda.php:App\Lambda\HelloWorld
+```
+
+When this is deployed it can be invoked by
+
+```
+serverless invoke --function hello --data '{"name":"Tobias"}'
+```
+
+### Invoke handlers locally
+
+Using a service from the container makes the handlers very simple to unit test.
+However, if you are lazy, you may want to invoke them locally from CLI.
+
+Run the following command to invoke the `App\Lambda\HelloWorld` service.
+
+```cli
+./vendor/bin/bref-local-handler.php ./bin/container.php:App\\Lambda\\HelloWorld
+```
+
+If your service expects some event data, add it as a JSON string or a path to a
+file containing JSON.
+
+```cli
+./vendor/bin/bref-local-handler.php ./bin/container.php:App\\Lambda\\HelloWorld '{"foo":"bar"}'
+
+./vendor/bin/bref-local-handler.php ./bin/container.php:App\\Lambda\\HelloWorld example/input.json
+```
+
+### Simplify serverless.yml
+
+The syntax `handler: lambda.php:App\Lambda\HelloWorld` might be a bit weird to write,
+but you may add an environment variable called `FALLBACK_CONTAINER_FILE` which
+includes the file to where we can get the PSR-11 container. This may help the
+serverless.yml file to read more natually.
+
 ```diff
  # serverless.yml
 
+ provider:
+     name: aws
+     runtime: provided.al2
+     # ...
+     environment:
+        APP_ENV: prod
+        APP_RUNTIME: Runtime\Bref\Runtime
++       FALLBACK_CONTAINER_FILE: lambda.php
+        BREF_LOOP_MAX: 100 # Optional
+
  functions:
-     console:
-         handler: bin/console
-         timeout: 120
-         layers:
-             - ${bref:layer.php-80}
--            - ${bref:layer.console}
-+            - ${bref-extra:symfony-runtime-php-80}
-         events:
-             - schedule:
-                 rate: rate(30 minutes)
-                 input: '"app:invoice:send"'
+     hello:
+-         handler: lambda.php:App\Lambda\HelloWorld
++         handler: App\Lambda\HelloWorld
+```
+
+### Typed handlers
+
+To better integrate with different AWS events, one can use "typed handlers".
+These are classes that implements `Bref\Event\Handler` and provides some helper
+methods or classes.
+
+To use them, you need to install Bref:
+
+```
+composer req bref/bref
+```
+
+We use the same PSR-11 configuration from above and write custom handler like:
+
+```php
+namespace App\Lambda;
+
+use Bref\Context\Context;
+use Bref\Event\S3\S3Event;
+use Bref\Event\S3\S3Handler;
+
+class S3FileCreated extends S3Handler
+{
+    public function handleS3(S3Event $event, Context $context): void
+    {
+        $bucketName = $event->getRecords()[0]->getBucket()->getName();
+        $fileName = $event->getRecords()[0]->getObject()->getKey();
+
+        // do something with the file
+    }
+}
+```
+
+```yaml
+# serverless.yml
+
+# ...
+
+functions:
+    s3_photos:
+        handler: lambda.php:App\Lambda\S3FileCreated
+        layers:
+            - ${runtime-bref:php-80}
+        events:
+            - s3:
+                  bucket: photos
+                  event: s3:ObjectCreated:*
+```
+
+Read more about different typed handlers at [Bref's documentation](https://bref.sh/docs/function/handlers.html).
+
+### Symfony Messenger integration
+
+Similar to the typed handlers above, if you use [`bref/symfony-messenger`](https://github.com/brefphp/symfony-messenger)
+you may also want to define a worker function.
+
+```yaml
+# serverless.yml
+
+# ...
+
+functions:
+    worker:
+        handler: lambda.php:Bref\Symfony\Messenger\Service\Sqs\SqsConsumer
+        timeout: 120
+        layers:
+            - ${runtime-bref:php-80}
+        events:
+            - sqs:
+                  batchSize: 1 # Only 1 item at a time to simplify error handling
+                  arn: !GetAtt workqueue.Arn
+
+resources:
+    Resources:
+        workqueue:
+            Type: "AWS::SQS::Queue"
+            Properties:
+                QueueName: ${self:service}-workqueue
+                VisibilityTimeout: 600
 ```

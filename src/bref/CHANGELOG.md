@@ -2,6 +2,19 @@
 
 ## [NOT RELEASED]
 
+## 0.3.0
+
+### BC breaks
+
+We do no longer require `bref/bref`. If you use Symfony/Laravel Kernel or PSR-15
+you will get an exception. Run `composer require bref/bref` to solve the issue.
+
+### Added
+
+- We do not use internal classes in Bref any more (https://github.com/php-runtime/runtime/pull/88)
+- Some handlers do not require the `bref/bref` package (https://github.com/php-runtime/runtime/pull/89)
+- We include a runtime specific Bref layer (https://github.com/php-runtime/bref-layer)
+
 ## 0.2.2
 
 ### Fixed
