@@ -16,8 +16,6 @@ use Symfony\Component\Runtime\SymfonyRuntime;
 
 class Runtime extends SymfonyRuntime
 {
-    private $handlerRunnerClass;
-
     /**
      * @param array{
      *   bref_loop_max?: int,
