@@ -48,9 +48,6 @@ class Runtime extends SymfonyRuntime
         }
     }
 
-    /**
-     * @param object|null $application
-     */
     private function tryToFindRunner(?object $application)
     {
         if ($application instanceof ContainerInterface) {
