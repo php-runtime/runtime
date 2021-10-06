@@ -24,7 +24,7 @@ class LocalRunner implements RunnerInterface
 
     public function run(): int
     {
-        $this->handler->handle($this->data, new Context('', 0, '', ''));
+        echo $this->handler->handle($this->data, new Context('', 0, '', ''));
 
         return 0;
     }
