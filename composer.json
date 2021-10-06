@@ -28,7 +28,7 @@
         "symfony/runtime": "^5.3 || ^6.0"
     },
     "require-dev": {
-        "guzzlehttp/test-server": "dev-main as 0.1.0",
+        "guzzlehttp/test-server": "^0.1",
         "illuminate/http": "^8.33",
         "swoole/ide-helper": "^4.6"
     },
@@ -54,12 +54,6 @@
             "Swoole\\": "vendor/swoole/ide-helper/output/swoole/namespace"
         }
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/guzzle/test-server"
-        }
-    ],
     "minimum-stability": "dev",
     "prefer-stable": true
 }
