@@ -48,7 +48,7 @@ final class SymfonyHttpBridge
         switch (true) {
             case $sfResponse instanceof BinaryFileResponse && $sfResponse->headers->has('Content-Range'):
             case $sfResponse instanceof StreamedResponse:
-                ob_start(function($buffer) use ($response) {
+                ob_start(function ($buffer) use ($response) {
                     $response->write($buffer);
 
                     return '';

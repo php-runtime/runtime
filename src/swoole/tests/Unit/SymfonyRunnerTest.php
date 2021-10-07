@@ -10,8 +10,8 @@ use Runtime\Swoole\SymfonyRunner;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 use Swoole\Http\Server;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class SymfonyRunnerTest extends TestCase
 {

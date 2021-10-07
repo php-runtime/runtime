@@ -2,8 +2,8 @@
 
 namespace Runtime\Swoole\Tests\Unit;
 
-use Runtime\Swoole\SymfonyHttpBridge;
 use PHPUnit\Framework\TestCase;
+use Runtime\Swoole\SymfonyHttpBridge;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -26,15 +26,15 @@ class SymfonyHttpBridgeTest extends TestCase
         $request->cookie = ['foo' => 'cookie'];
         $request->get = ['foo' => 'get'];
         $request->post = ['foo' => 'post'];
-        $request->files = array(
-            'foo' => array(
+        $request->files = [
+            'foo' => [
                 'name' => 'file',
                 'type' => 'image/png',
                 'tmp_name' => '/tmp/file',
                 'error' => UPLOAD_ERR_CANT_WRITE,
                 'size' => 0,
-            ),
-        );
+            ],
+        ];
         $request->expects(self::once())->method('rawContent')->willReturn('{"foo": "body"}');
 
         $sfRequest = SymfonyHttpBridge::convertSwooleRequest($request);
@@ -74,7 +74,7 @@ class SymfonyHttpBridgeTest extends TestCase
 
     public function testThatSymfonyStreamedResponseIsReflected(): void
     {
-        $sfResponse = new StreamedResponse(function() {
+        $sfResponse = new StreamedResponse(function () {
             echo "Foo\n";
             ob_flush();
 
