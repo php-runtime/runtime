@@ -13,8 +13,11 @@ final class Timeout
     /** @var bool */
     private static $initialized = false;
 
-    /** @var string|null */
-    private static $stackTrace = null;
+    /**
+     * @var bool
+     * @internal
+     */
+    public static $_tiggered = false;
 
     /**
      * @internal
@@ -44,8 +47,6 @@ final class Timeout
      */
     private static function init(): void
     {
-        self::$stackTrace = null;
-
         if (self::$initialized) {
             return;
         }
@@ -60,25 +61,16 @@ final class Timeout
         // Setup a handler for SIGALRM that throws an exception
         // This will interrupt any running PHP code, including `sleep()` or code stuck waiting for I/O.
         pcntl_signal(SIGALRM, function (): void {
-            if (null !== Timeout::$stackTrace) {
-                // we have already thrown an exception, do a harder exit.
-                error_log('Lambda timed out');
-                error_log((new LambdaTimeoutException())->getTraceAsString());
-                error_log('Original stack trace');
-                error_log(Timeout::$stackTrace);
-
-                exit(1);
-            }
-
+            Timeout::$_tiggered = true;
             $exception = new LambdaTimeoutException('Maximum AWS Lambda execution time reached');
-            Timeout::$stackTrace = $exception->getTraceAsString();
+            // we have already thrown an exception, do a harder exit.
+            error_log($exception->getMessage());
+            error_log($exception->getTraceAsString());
 
-            // Trigger another alarm after 1 second to do a hard exit.
-            pcntl_alarm(1);
-
-            throw $exception;
+            exit(1);
         });
 
+        self::$_tiggered = false;
         self::$initialized = true;
     }
 
@@ -91,7 +83,6 @@ final class Timeout
     {
         if (self::$initialized) {
             pcntl_alarm(0);
-            self::$stackTrace = null;
         }
     }
 }

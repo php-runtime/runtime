@@ -4,6 +4,7 @@ namespace Runtime\Bref;
 
 use Bref\Event\Handler;
 use Runtime\Bref\Lambda\LambdaClient;
+use Runtime\Bref\Timeout\Timeout;
 use Symfony\Component\Runtime\RunnerInterface;
 
 /**
@@ -27,7 +28,7 @@ class BrefRunner implements RunnerInterface
         $lambda = LambdaClient::fromEnvironmentVariable('symfony-runtime');
 
         $loops = 0;
-        while (true) {
+        while (!Timeout::$_tiggered) {
             if (++$loops > $this->loopMax) {
                 return 0;
             }
@@ -41,5 +42,7 @@ class BrefRunner implements RunnerInterface
                 return 0;
             }
         }
+
+        return 0;
     }
 }
