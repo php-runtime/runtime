@@ -4,9 +4,11 @@ namespace Runtime\Swoole;
 
 use Swoole\Http\Request;
 use Swoole\Http\Response;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\HeaderBag;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * Bridge between Symfony and Swoole Http API.
@@ -42,6 +44,24 @@ final class SymfonyHttpBridge
         }
 
         $response->status($sfResponse->getStatusCode());
-        $response->end($sfResponse->getContent());
+
+        switch (true) {
+            case $sfResponse instanceof BinaryFileResponse && $sfResponse->headers->has('Content-Range'):
+            case $sfResponse instanceof StreamedResponse:
+                ob_start(function($buffer) use ($response) {
+                    $response->write($buffer);
+
+                    return '';
+                });
+                $sfResponse->sendContent();
+                ob_end_clean();
+                $response->end();
+                break;
+            case $sfResponse instanceof BinaryFileResponse:
+                $response->sendfile($sfResponse->getFile()->getPathname());
+                break;
+            default:
+                $response->end($sfResponse->getContent());
+        }
     }
 }

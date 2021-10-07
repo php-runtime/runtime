@@ -6,9 +6,12 @@ use Runtime\Swoole\SymfonyHttpBridge;
 use PHPUnit\Framework\TestCase;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\HeaderBag;
+use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * @author Piotr Kugla <piku235@gmail.com>
@@ -65,6 +68,54 @@ class SymfonyHttpBridgeTest extends TestCase
         $response->expects(self::once())->method('header')->with('x-test', 'Swoole-Runtime');
         $response->expects(self::once())->method('status')->with(201);
         $response->expects(self::once())->method('end')->with('Test');
+
+        SymfonyHttpBridge::reflectSymfonyResponse($sfResponse, $response);
+    }
+
+    public function testThatSymfonyStreamedResponseIsReflected(): void
+    {
+        $sfResponse = new StreamedResponse(function() {
+            echo "Foo\n";
+            ob_flush();
+
+            echo "Bar\n";
+            ob_flush();
+        });
+
+        $response = $this->createMock(Response::class);
+        $response->expects(self::exactly(3))->method('write')->withConsecutive(["Foo\n"], ["Bar\n"], ['']);
+        $response->expects(self::once())->method('end');
+
+        SymfonyHttpBridge::reflectSymfonyResponse($sfResponse, $response);
+    }
+
+    public function testThatSymfonyBinaryFileResponseIsReflected(): void
+    {
+        $file = tempnam(sys_get_temp_dir(), uniqid());
+        file_put_contents($file, 'Foo');
+
+        $sfResponse = new BinaryFileResponse($file);
+
+        $response = $this->createMock(Response::class);
+        $response->expects(self::once())->method('sendfile')->with($file, null, null);
+
+        SymfonyHttpBridge::reflectSymfonyResponse($sfResponse, $response);
+    }
+
+    public function testThatSymfonyBinaryFileResponseWithRangeIsReflected(): void
+    {
+        $file = tempnam(sys_get_temp_dir(), uniqid());
+        file_put_contents($file, 'FooBar');
+
+        $request = new SymfonyRequest();
+        $request->headers->set('Range', 'bytes=2-4');
+
+        $sfResponse = new BinaryFileResponse($file);
+        $sfResponse->prepare($request);
+
+        $response = $this->createMock(Response::class);
+        $response->expects(self::once())->method('write')->with('oBa');
+        $response->expects(self::once())->method('end');
 
         SymfonyHttpBridge::reflectSymfonyResponse($sfResponse, $response);
     }
