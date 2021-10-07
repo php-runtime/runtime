@@ -4,7 +4,9 @@ namespace Runtime\Swoole\Tests\Unit;
 
 use Runtime\Swoole\SymfonyHttpBridge;
 use PHPUnit\Framework\TestCase;
+use Swoole\Http\Request;
 use Swoole\Http\Response;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\HeaderBag;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
@@ -13,6 +15,45 @@ use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
  */
 class SymfonyHttpBridgeTest extends TestCase
 {
+    public function testThatSwooleRequestIsConverted(): void
+    {
+        $request = $this->createMock(Request::class);
+        $request->server = ['request_method' => 'post'];
+        $request->header = ['content-type' => 'application/json'];
+        $request->cookie = ['foo' => 'cookie'];
+        $request->get = ['foo' => 'get'];
+        $request->post = ['foo' => 'post'];
+        $request->files = array(
+            'foo' => array(
+                'name' => 'file',
+                'type' => 'image/png',
+                'tmp_name' => '/tmp/file',
+                'error' => UPLOAD_ERR_CANT_WRITE,
+                'size' => 0,
+            ),
+        );
+        $request->expects(self::once())->method('rawContent')->willReturn('{"foo": "body"}');
+
+        $sfRequest = SymfonyHttpBridge::convertSwooleRequest($request);
+
+        $this->assertSame(['REQUEST_METHOD' => 'post'], $sfRequest->server->all());
+        $this->assertSame(['content-type' => ['application/json']], $sfRequest->headers->all());
+        $this->assertSame(['foo' => 'cookie'], $sfRequest->cookies->all());
+        $this->assertSame(['foo' => 'get'], $sfRequest->query->all());
+        $this->assertSame(['foo' => 'post'], $sfRequest->request->all());
+        $this->assertEquals('{"foo": "body"}', $sfRequest->getContent());
+
+        $this->assertCount(1, $sfRequest->files);
+
+        /** @var UploadedFile $file */
+        $file = $sfRequest->files->get('foo');
+        $this->assertNotNull($file);
+        $this->assertEquals('file', $file->getClientOriginalName());
+        $this->assertEquals('image/png', $file->getClientMimeType());
+        $this->assertEquals('/tmp/file', $file->getPathname());
+        $this->assertEquals(UPLOAD_ERR_CANT_WRITE, $file->getError());
+    }
+
     public function testThatSymfonyResponseIsReflected(): void
     {
         $sfResponse = $this->createMock(SymfonyResponse::class);

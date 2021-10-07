@@ -41,8 +41,6 @@ class LaravelRunnerTest extends TestCase
         $response->expects(self::once())->method('end')->with('foo');
 
         $request = $this->createMock(Request::class);
-        $request->header = [];
-
         $factory = $this->createMock(ServerFactory::class);
 
         $runner = new LaravelRunner($factory, $application);
