@@ -36,12 +36,7 @@
       <code>['emitter' =&gt; $this-&gt;options['laminas_emitter'] ?? null]</code>
     </InvalidArgument>
   </file>
-  <file src="src/swoole/src/LaravelRunner.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>$sfResponse-&gt;getStatusCode()</code>
-    </InvalidScalarArgument>
-  </file>
-  <file src="src/swoole/src/SymfonyRunner.php">
+  <file src="src/swoole/src/SymfonyHttpBridge.php">
     <InvalidScalarArgument occurrences="1">
       <code>$sfResponse-&gt;getStatusCode()</code>
     </InvalidScalarArgument>

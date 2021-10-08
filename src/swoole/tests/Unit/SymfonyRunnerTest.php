@@ -10,7 +10,7 @@ use Runtime\Swoole\SymfonyRunner;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 use Swoole\Http\Server;
-use Symfony\Component\HttpFoundation\HeaderBag;
+use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class SymfonyRunnerTest extends TestCase
@@ -32,22 +32,15 @@ class SymfonyRunnerTest extends TestCase
 
     public function testHandle(): void
     {
-        $sfResponse = $this->createMock(\Symfony\Component\HttpFoundation\Response::class);
-        $sfResponse->headers = new HeaderBag(['X-Test' => 'Swoole-Runtime']);
-        $sfResponse->expects(self::once())->method('getStatusCode')->willReturn(201);
-        $sfResponse->expects(self::once())->method('getContent')->willReturn('Test');
+        $sfResponse = new SymfonyResponse('foo');
 
         $application = $this->createMock(HttpKernelInterface::class);
         $application->expects(self::once())->method('handle')->willReturn($sfResponse);
 
-        $request = $this->createMock(Request::class);
-        $request->header = [];
-
         $response = $this->createMock(Response::class);
-        $response->expects(self::once())->method('header')->with('x-test', 'Swoole-Runtime');
-        $response->expects(self::once())->method('status')->with(201);
-        $response->expects(self::once())->method('end')->with('Test');
+        $response->expects(self::once())->method('end')->with('foo');
 
+        $request = $this->createMock(Request::class);
         $factory = $this->createMock(ServerFactory::class);
 
         $runner = new SymfonyRunner($factory, $application);
