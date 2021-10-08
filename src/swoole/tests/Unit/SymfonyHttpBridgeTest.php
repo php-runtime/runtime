@@ -7,6 +7,7 @@ use Runtime\Swoole\SymfonyHttpBridge;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\HeaderBag;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
@@ -59,13 +60,22 @@ class SymfonyHttpBridgeTest extends TestCase
 
     public function testThatSymfonyResponseIsReflected(): void
     {
+        $fooCookie = (string) new Cookie('foo', '123');
+        $barCookie = (string) new Cookie('bar', '234');
+
         $sfResponse = $this->createMock(SymfonyResponse::class);
-        $sfResponse->headers = new HeaderBag(['X-Test' => 'Swoole-Runtime']);
+        $sfResponse->headers = new HeaderBag([
+            'X-Test' => 'Swoole-Runtime',
+            'Set-Cookie' => [$fooCookie, $barCookie],
+        ]);
         $sfResponse->expects(self::once())->method('getStatusCode')->willReturn(201);
         $sfResponse->expects(self::once())->method('getContent')->willReturn('Test');
 
         $response = $this->createMock(Response::class);
-        $response->expects(self::once())->method('header')->with('x-test', 'Swoole-Runtime');
+        $response->expects(self::exactly(2))->method('header')->withConsecutive(
+            ['x-test', ['Swoole-Runtime']],
+            ['set-cookie', [$fooCookie, $barCookie]]
+        );
         $response->expects(self::once())->method('status')->with(201);
         $response->expects(self::once())->method('end')->with('Test');
 
