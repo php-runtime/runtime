@@ -8,6 +8,7 @@ use Bref\Event\Http\Psr15Handler;
 use Illuminate\Contracts\Http\Kernel;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Runtime\Bref\Lambda\LambdaClient;
 use Symfony\Component\Console\Application;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -32,6 +33,20 @@ class Runtime extends SymfonyRuntime
     }
 
     public function getRunner(?object $application): RunnerInterface
+    {
+        try {
+            return $this->tryToFindRunner($application);
+        } catch (\Throwable $e) {
+            if ('aws' === $this->options['bref_runner_type']) {
+                $lambda = LambdaClient::fromEnvironmentVariable('symfony-runtime');
+                $lambda->failInitialization('Could not get the Runtime runner.', $e);
+            }
+
+            throw $e;
+        }
+    }
+
+    private function tryToFindRunner(?object $application)
     {
         if ($application instanceof ContainerInterface) {
             $handler = explode(':', $_SERVER['_HANDLER']);
