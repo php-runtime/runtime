@@ -30,7 +30,7 @@
     "require-dev": {
         "guzzlehttp/test-server": "^0.1",
         "illuminate/http": "^8.33",
-        "swoole/ide-helper": "^4.6"
+        "swoole/ide-helper": "^4.8"
     },
     "autoload": {
         "psr-4": {
@@ -51,7 +51,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Swoole\\": "vendor/swoole/ide-helper/output/swoole/namespace"
+            "Swoole\\": "vendor/swoole/ide-helper/src/swoole/Swoole"
         }
     },
     "minimum-stability": "dev",
