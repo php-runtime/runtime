@@ -30,7 +30,7 @@
     "require-dev": {
         "guzzlehttp/test-server": "^0.1",
         "illuminate/http": "^8.33",
-        "swoole/ide-helper": "^4.6"
+        "swoole/ide-helper": "^4.8"
     },
     "autoload": {
         "psr-4": {
