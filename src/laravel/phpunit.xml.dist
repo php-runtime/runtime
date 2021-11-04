@@ -13,7 +13,6 @@
   <testsuites>
     <testsuite name="Test Suite">
       <directory>./tests</directory>
-      <directory suffix=".phpt">./tests/phpt</directory>
     </testsuite>
   </testsuites>
 </phpunit>
