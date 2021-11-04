@@ -15,9 +15,17 @@ composer require runtime/roadrunner-symfony-nyholm
 Define the environment variable `APP_RUNTIME` for your application.
 
 ```
+// .env
 APP_RUNTIME=Runtime\RoadRunnerSymfonyNyholm\Runtime
 ```
 
+```
+// .rr.yaml
+server:
+    ...
+    env:
+        APP_RUNTIME: Runtime\RoadRunnerSymfonyNyholm\Runtime
+```
 
 ```php
 // public/index.php
@@ -29,6 +37,4 @@ require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
 return function (array $context) {
     return new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);
 };
-
 ```
-
