@@ -22,8 +22,6 @@ class SymfonyRequestBridge
 {
     public static function convertRequest(HttpRequestEvent $event, Context $context): Request
     {
-        Request::setTrustedProxies(['127.0.0.1'], Request::HEADER_X_FORWARDED_FOR | Request::HEADER_X_FORWARDED_HOST | Request::HEADER_X_FORWARDED_PORT | Request::HEADER_X_FORWARDED_PROTO);
-
         // CGI Version 1.1 - Section 4.1
         $server = array_filter([
             'AUTH_TYPE' => $event->getHeaders()['auth-type'] ?? null, // 4.1.1

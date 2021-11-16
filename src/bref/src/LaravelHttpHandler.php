@@ -21,6 +21,8 @@ class LaravelHttpHandler extends HttpHandler
     public function __construct(Kernel $kernel)
     {
         $this->kernel = $kernel;
+
+        Request::setTrustedProxies(['127.0.0.1'], Request::HEADER_X_FORWARDED_FOR | Request::HEADER_X_FORWARDED_HOST | Request::HEADER_X_FORWARDED_PORT | Request::HEADER_X_FORWARDED_PROTO);
     }
 
     public function handleRequest(HttpRequestEvent $event, Context $context): HttpResponse
