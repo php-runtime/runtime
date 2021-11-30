@@ -15,6 +15,10 @@ you will get an exception. Run `composer require bref/bref` to solve the issue.
 - Some handlers do not require the `bref/bref` package (https://github.com/php-runtime/runtime/pull/89)
 - We include a runtime specific Bref layer (https://github.com/php-runtime/bref-layer)
 
+### Fixed
+
+- Fixed Trusted proxies configuration
+
 ## 0.2.2
 
 ### Fixed
