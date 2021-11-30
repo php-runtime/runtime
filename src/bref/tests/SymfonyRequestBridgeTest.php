@@ -7,6 +7,7 @@ use Bref\Event\Http\HttpRequestEvent;
 use PHPUnit\Framework\TestCase;
 use Runtime\Bref\SymfonyRequestBridge;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\Request;
 
 class SymfonyRequestBridgeTest extends TestCase
 {
@@ -150,6 +151,9 @@ HTTP
 
     private function getContext()
     {
+        // this is set in LaravelHttpHandler and SymfonyHttpHandler to allow overwrite of this value
+        Request::setTrustedProxies(['127.0.0.1'], Request::HEADER_X_FORWARDED_FOR | Request::HEADER_X_FORWARDED_HOST | Request::HEADER_X_FORWARDED_PORT | Request::HEADER_X_FORWARDED_PROTO);
+
         return new Context('id', 1000, 'function', 'trace');
     }
 }

@@ -6,6 +6,7 @@ use Bref\Context\Context;
 use Bref\Event\Http\HttpHandler;
 use Bref\Event\Http\HttpRequestEvent;
 use Bref\Event\Http\HttpResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\TerminableInterface;
 
@@ -21,6 +22,8 @@ class SymfonyHttpHandler extends HttpHandler
     public function __construct(HttpKernelInterface $kernel)
     {
         $this->kernel = $kernel;
+
+        Request::setTrustedProxies(['127.0.0.1'], Request::HEADER_X_FORWARDED_FOR | Request::HEADER_X_FORWARDED_HOST | Request::HEADER_X_FORWARDED_PORT | Request::HEADER_X_FORWARDED_PROTO);
     }
 
     public function handleRequest(HttpRequestEvent $event, Context $context): HttpResponse
