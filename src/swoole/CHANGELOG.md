@@ -1,5 +1,16 @@
 # Change Log
 
+## 0.3.0
+
+### Added
+
+- Support for kernel.terminate Symfony event
+- Binary file and streamed response 
+
+### Fixed
+
+- Overwritten headers in Swoole response
+
 ## 0.2.1
 
 ### Added
