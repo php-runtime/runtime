@@ -5,3 +5,12 @@ parameters:
 			count: 1
 			path: src/bref/src/ConsoleApplicationRunner.php
 
+		-
+			message: "#^Property Runtime\\\\Bref\\\\Lambda\\\\LambdaClient::\\$handler has unknown class CurlHandle as its type\\.$#"
+			count: 1
+			path: src/bref/src/ConsoleApplicationRunner.php
+
+		-
+			message: "#^Property Runtime\\\\Bref\\\\Lambda\\\\LambdaClient::\\$returnHandler has unknown class CurlHandle as its type\\.$#"
+			count: 1
+			path: src/bref/src/ConsoleApplicationRunner.php

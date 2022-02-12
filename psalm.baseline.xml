@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="4.20.0@f82a70e7edfc6cf2705e9374c8a0b6a974a779ed">
+  <file src="src/bref/src/BrefRunner.php">
+    <InvalidReturnType occurrences="1">
+      <code>int</code>
+    </InvalidReturnType>
+  </file>
   <file src="src/bref/src/ConsoleApplicationRunner.php">
     <InvalidReturnType occurrences="1">
       <code>int</code>
