@@ -2,6 +2,12 @@
 
 ## [NOT RELEASED]
 
+## 0.3.1
+
+### Fixed
+
+- [Console] Make sure to restart process if there is an uncaught exception
+
 ## 0.3.0
 
 ### BC breaks
