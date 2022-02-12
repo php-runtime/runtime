@@ -1,8 +1,8 @@
 {
     "name": "runtime/psr-17",
-    "type": "library",
     "description": "PSR runtime with support for any PSR-17 implementation",
     "license": "MIT",
+    "type": "library",
     "authors": [
         {
             "name": "Tobias Nyholm",
@@ -19,6 +19,8 @@
         "nyholm/psr7": "^1.4",
         "symfony/phpunit-bridge": "^5.3"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Runtime\\Psr17\\": "src/",
@@ -29,7 +31,5 @@
         "psr-4": {
             "Runtime\\Psr17\\Tests\\": "tests/"
         }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    }
 }

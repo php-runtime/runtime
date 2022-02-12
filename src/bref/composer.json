@@ -1,8 +1,8 @@
 {
     "name": "runtime/bref",
-    "type": "library",
     "description": "Bref runtime",
     "license": "MIT",
+    "type": "library",
     "authors": [
         {
             "name": "Tobias Nyholm",
@@ -25,6 +25,8 @@
         "symfony/http-kernel": "^5.4 || ^6.0",
         "symfony/phpunit-bridge": "^5.3"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Runtime\\Bref\\": "src/"
@@ -38,8 +40,6 @@
             "Runtime\\Bref\\Tests\\": "tests/"
         }
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "bin": [
         "bin/bref-local-handler.php"
     ]

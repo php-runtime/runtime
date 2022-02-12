@@ -1,8 +1,8 @@
 {
     "name": "runtime/psr-nyholm",
-    "type": "library",
     "description": "PSR runtime with nyholm/psr7 ",
     "license": "MIT",
+    "type": "library",
     "authors": [
         {
             "name": "Tobias Nyholm",
@@ -18,6 +18,8 @@
     "require-dev": {
         "symfony/phpunit-bridge": "^5.3"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Runtime\\PsrNyholm\\": "src/",
@@ -28,7 +30,5 @@
         "psr-4": {
             "Runtime\\PsrNyholm\\Tests\\": "tests/"
         }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    }
 }

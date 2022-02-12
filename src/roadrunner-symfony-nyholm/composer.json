@@ -1,8 +1,8 @@
 {
     "name": "runtime/roadrunner-symfony-nyholm",
-    "type": "library",
     "description": "Roadrunner runtime for with nyholm/psr7",
     "license": "MIT",
+    "type": "library",
     "authors": [
         {
             "name": "Tobias Nyholm",
@@ -21,6 +21,8 @@
     "require-dev": {
         "symfony/phpunit-bridge": "^5.3"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Runtime\\RoadRunnerSymfonyNyholm\\": "src/"
@@ -30,7 +32,5 @@
         "psr-4": {
             "Runtime\\RoadRunnerSymfonyNyholm\\Tests\\": "tests/"
         }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    }
 }

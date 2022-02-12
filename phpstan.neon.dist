@@ -1,3 +1,6 @@
+includes:
+  - ./phpstan-baseline.neon
+
 parameters:
     level: 5
     reportUnmatchedIgnoredErrors: false
@@ -5,6 +8,6 @@ parameters:
         - src
     tmpDir: .github/.cache/phpstan/
 
-    excludes_analyse:
+    excludePaths:
         - src/*/tests/*
         - src/*/vendor/*
