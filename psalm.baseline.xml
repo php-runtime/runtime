@@ -1,28 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.8.1@f73f2299dbc59a3e6c4d66cff4605176e728ee69">
-  <file src="src/bref/src/BrefRunner.php">
-    <InternalClass occurrences="1">
-      <code>LambdaRuntime::fromEnvironmentVariable('symfony-runtime')</code>
-    </InternalClass>
-    <InternalMethod occurrences="2">
-      <code>LambdaRuntime::fromEnvironmentVariable('symfony-runtime')</code>
-      <code>processNextEvent</code>
-    </InternalMethod>
+<files psalm-version="4.20.0@f82a70e7edfc6cf2705e9374c8a0b6a974a779ed">
+  <file src="src/bref/src/ConsoleApplicationRunner.php">
     <InvalidReturnType occurrences="1">
       <code>int</code>
     </InvalidReturnType>
   </file>
-  <file src="src/bref/src/ConsoleApplicationRunner.php">
-    <InternalClass occurrences="1">
-      <code>LambdaRuntime::fromEnvironmentVariable('symfony-runtime-console')</code>
-    </InternalClass>
-    <InternalMethod occurrences="2">
-      <code>LambdaRuntime::fromEnvironmentVariable('symfony-runtime-console')</code>
-      <code>processNextEvent</code>
-    </InternalMethod>
-    <InvalidReturnType occurrences="1">
-      <code>int</code>
-    </InvalidReturnType>
+  <file src="src/bref/src/SymfonyRequestBridge.php">
+    <InvalidArgument occurrences="1">
+      <code>$response-&gt;headers-&gt;all()</code>
+    </InvalidArgument>
   </file>
   <file src="src/psr-laminas/src/Runtime.php">
     <InvalidArgument occurrences="2">

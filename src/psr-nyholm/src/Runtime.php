@@ -38,7 +38,7 @@ class Runtime extends GenericRuntime
     /**
      * @return mixed
      */
-    protected function getArgument(\ReflectionParameter $parameter, ?string $type)
+    protected function getArgument(\ReflectionParameter $parameter, ?string $type): mixed
     {
         if (ServerRequestInterface::class === $type) {
             return $this->createRequest();

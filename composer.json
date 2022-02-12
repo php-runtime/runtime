@@ -1,8 +1,8 @@
 {
     "name": "runtime/runtime",
-    "type": "library",
     "description": "Includes all runtimes",
     "license": "MIT",
+    "type": "library",
     "authors": [
         {
             "name": "Tobias Nyholm",
@@ -32,6 +32,8 @@
         "illuminate/http": "^8.33",
         "swoole/ide-helper": "^4.8"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Runtime\\Bref\\": "src/bref/src",
@@ -53,7 +55,5 @@
         "psr-4": {
             "Swoole\\": "vendor/swoole/ide-helper/src/swoole/Swoole"
         }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    }
 }
