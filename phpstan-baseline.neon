@@ -8,4 +8,4 @@ parameters:
 		-
 			message: "#CurlHandle#"
 			count: 2
-			path: src/bref/src/LambdaClient.php
+			path: src/bref/src/Lambda/LambdaClient.php
