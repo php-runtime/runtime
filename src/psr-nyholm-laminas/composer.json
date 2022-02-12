@@ -1,8 +1,8 @@
 {
     "name": "runtime/psr-nyholm-laminas",
-    "type": "library",
     "description": "PSR runtime with nyholm/psr7 and laminas/laminas-httphandlerrunner",
     "license": "MIT",
+    "type": "library",
     "authors": [
         {
             "name": "Tobias Nyholm",
@@ -18,6 +18,8 @@
     "require-dev": {
         "symfony/phpunit-bridge": "^5.3"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Runtime\\PsrNyholmLaminas\\": "src/",
@@ -28,7 +30,5 @@
         "psr-4": {
             "Runtime\\PsrNyholmLaminas\\Tests\\": "tests/"
         }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    }
 }

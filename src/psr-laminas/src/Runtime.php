@@ -39,7 +39,10 @@ class Runtime extends GenericRuntime
         return parent::getRunner($application);
     }
 
-    protected function getArgument(\ReflectionParameter $parameter, ?string $type): mixed
+    /**
+     * @return mixed
+     */
+    protected function getArgument(\ReflectionParameter $parameter, ?string $type)
     {
         if (ServerRequestInterface::class === $type) {
             return ServerRequestFactory::fromGlobals();

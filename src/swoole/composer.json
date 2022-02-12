@@ -1,8 +1,8 @@
 {
     "name": "runtime/swoole",
-    "type": "library",
     "description": "Swoole runtime",
     "license": "MIT",
+    "type": "library",
     "authors": [
         {
             "name": "Tobias Nyholm",
@@ -12,9 +12,6 @@
     "require": {
         "symfony/runtime": "^5.3 || ^6.0"
     },
-    "conflict": {
-        "ext-swoole": "<4.6.0"
-    },
     "require-dev": {
         "illuminate/http": "^8.48",
         "swoole/ide-helper": "^4.6",
@@ -22,6 +19,11 @@
         "symfony/http-kernel": "^5.4 || ^6.0",
         "symfony/phpunit-bridge": "^5.3"
     },
+    "conflict": {
+        "ext-swoole": "<4.6.0"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Runtime\\Swoole\\": "src/"
@@ -31,7 +33,5 @@
         "psr-4": {
             "Runtime\\Swoole\\Tests\\": "tests/"
         }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    }
 }

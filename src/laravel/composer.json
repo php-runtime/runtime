@@ -1,8 +1,8 @@
 {
     "name": "runtime/laravel",
-    "type": "library",
     "description": "Laravel runtime",
     "license": "MIT",
+    "type": "library",
     "authors": [
         {
             "name": "Tobias Nyholm",
@@ -18,6 +18,8 @@
         "symfony/console": "^4.4 || ^5.2 || ^6.0",
         "symfony/phpunit-bridge": "^5.3"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Runtime\\Laravel\\": "src/",
@@ -28,7 +30,5 @@
         "psr-4": {
             "Runtime\\Laravel\\Tests\\": "tests/"
         }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    }
 }

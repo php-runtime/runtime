@@ -22,9 +22,9 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.0
+          php-version: 7.4
           coverage: none
-          tools: phpstan:0.12.88, cs2pr
+          tools: phpstan:1.4.6, cs2pr
 
       - name: Download dependencies
         uses: ramsey/composer-install@v1
