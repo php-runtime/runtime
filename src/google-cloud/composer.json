@@ -1,8 +1,8 @@
 {
     "name": "runtime/google-cloud",
-    "type": "library",
     "description": "Google Cloud runtime",
     "license": "MIT",
+    "type": "library",
     "authors": [
         {
             "name": "Tobias Nyholm",
@@ -17,6 +17,8 @@
     "require-dev": {
         "symfony/phpunit-bridge": "^5.3"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Runtime\\GoogleCloud\\": "src/",
@@ -30,8 +32,6 @@
             "Google\\CloudFunctions\\Tests\\": "tests/google/"
         }
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "bin": [
         "router.php"
     ]

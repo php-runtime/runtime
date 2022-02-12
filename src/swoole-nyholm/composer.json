@@ -1,8 +1,8 @@
 {
     "name": "runtime/swoole-nyholm",
-    "type": "library",
     "description": "Swoole runtime with nyholm/psr7",
     "license": "MIT",
+    "type": "library",
     "authors": [
         {
             "name": "Tobias Nyholm",
@@ -17,6 +17,8 @@
     "require-dev": {
         "symfony/phpunit-bridge": "^5.3"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Runtime\\SwooleNyholm\\": "src/"
@@ -26,7 +28,5 @@
         "psr-4": {
             "Runtime\\SwooleNyholm\\Tests\\": "tests/"
         }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    }
 }
