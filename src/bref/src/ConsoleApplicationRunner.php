@@ -25,7 +25,14 @@ class ConsoleApplicationRunner implements RunnerInterface
         $lambda = LambdaClient::fromEnvironmentVariable('symfony-runtime-console');
 
         while (true) {
-            $lambda->processNextEvent($this->handler);
+            /*
+             * In case the execution failed, we force starting a new process. This
+             * is because an uncaught exception could have left the application
+             * in a non-clean state.
+             */
+            if (!$lambda->processNextEvent($this->handler)) {
+                return 0;
+            }
         }
     }
 }
