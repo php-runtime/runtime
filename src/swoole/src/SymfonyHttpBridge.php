@@ -50,7 +50,7 @@ final class SymfonyHttpBridge
                     $response->write($buffer);
 
                     return '';
-                });
+                }, 4096);
                 $sfResponse->sendContent();
                 ob_end_clean();
                 $response->end();

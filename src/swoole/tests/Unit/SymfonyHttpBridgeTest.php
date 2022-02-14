@@ -129,4 +129,23 @@ class SymfonyHttpBridgeTest extends TestCase
 
         SymfonyHttpBridge::reflectSymfonyResponse($sfResponse, $response);
     }
+
+    public function testStreamedResponseWillRespondWithOneChunkAtATime(): void
+    {
+        $sfResponse = new StreamedResponse(static function () {
+            echo str_repeat('a', 4096);
+            echo str_repeat('b', 4095);
+        });
+
+        $response = $this->createMock(Response::class);
+        $response->expects(self::exactly(2))
+            ->method('write')
+            ->with(self::logicalOr(
+                str_repeat('a', 4096),
+                str_repeat('b', 4095)
+            ));
+        $response->expects(self::once())->method('end');
+
+        SymfonyHttpBridge::reflectSymfonyResponse($sfResponse, $response);
+    }
 }
