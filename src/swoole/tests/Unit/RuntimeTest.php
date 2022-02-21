@@ -15,7 +15,7 @@ class RuntimeTest extends TestCase
 {
     public function testGetRunnerCreatesARunnerForCallbacks(): void
     {
-        $options = [];
+        $options = ['error_handler' => false];
         $runtime = new Runtime($options);
 
         $application = static function (): void {
@@ -27,7 +27,7 @@ class RuntimeTest extends TestCase
 
     public function testGetRunnerCreatesARunnerForSymfony(): void
     {
-        $options = [];
+        $options = ['error_handler' => false];
         $runtime = new Runtime($options);
 
         $application = $this->createMock(HttpKernelInterface::class);
@@ -38,7 +38,7 @@ class RuntimeTest extends TestCase
 
     public function testGetRunnerCreatesARunnerForLaravel(): void
     {
-        $options = [];
+        $options = ['error_handler' => false];
         $runtime = new Runtime($options);
 
         $application = $this->createMock(Kernel::class);
@@ -49,7 +49,7 @@ class RuntimeTest extends TestCase
 
     public function testGetRunnerFallbacksToClosureRunner(): void
     {
-        $options = [];
+        $options = ['error_handler' => false];
         $runtime = new Runtime($options);
 
         $runner = $runtime->getRunner(null);
