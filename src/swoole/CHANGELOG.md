@@ -1,11 +1,17 @@
 # Change Log
 
+## 0.3.1
+
+### Fixed
+
+- Buffer each StreamedResponse chunk when sending data to swoole worker output
+
 ## 0.3.0
 
 ### Added
 
 - Support for kernel.terminate Symfony event
-- Binary file and streamed response 
+- Binary file and streamed response
 
 ### Fixed
 
