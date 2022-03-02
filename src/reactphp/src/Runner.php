@@ -3,29 +3,34 @@
 namespace Runtime\React;
 
 use Psr\Http\Message\ServerRequestInterface;
+use React\EventLoop\Factory;
+use React\Http\Server as HttpServer;
+use React\Socket\Server as SocketServer;
 use Symfony\Component\Runtime\RunnerInterface;
 
 class Runner implements RunnerInterface
 {
     private $application;
+    private $host;
     private $port;
 
-    public function __construct($application, $port)
+    public function __construct($application, $host, $port)
     {
         $this->application = $application;
+        $this->host = $host;
         $this->port = $port;
     }
 
     public function run(): int
     {
         $application = $this->application;
-        $loop = \React\EventLoop\Factory::create();
+        $loop = Factory::create();
 
-        $server = new \React\Http\Server($loop, function (ServerRequestInterface $request) use ($application) {
+        $server = new HttpServer($loop, function (ServerRequestInterface $request) use ($application) {
             return $application->handle($request);
         });
 
-        $socket = new \React\Socket\Server($this->port, $loop);
+        $socket = new SocketServer(sprintf('%s:%s', $this->host, $this->port), $loop);
         $server->listen($socket);
 
         $loop->run();
