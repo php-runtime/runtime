@@ -3,7 +3,6 @@
 namespace Runtime\React;
 
 use Psr\Http\Server\RequestHandlerInterface;
-use React\EventLoop\LoopInterface;
 use Symfony\Component\Runtime\RunnerInterface;
 
 class Runner implements RunnerInterface

@@ -9,7 +9,6 @@ use React\EventLoop\LoopInterface;
 use React\Http\HttpServer;
 use Runtime\React\Runner;
 use Runtime\React\ServerFactory;
-use Evenement\EventEmitter;
 
 class RunnerTest extends TestCase
 {
