@@ -3,6 +3,7 @@
 namespace Runtime\React;
 
 use Psr\Http\Server\RequestHandlerInterface;
+use React\EventLoop\Loop;
 use Symfony\Component\Runtime\GenericRuntime;
 use Symfony\Component\Runtime\RunnerInterface;
 
@@ -13,8 +14,6 @@ use Symfony\Component\Runtime\RunnerInterface;
  */
 class Runtime extends GenericRuntime
 {
-    private $host;
-    private $port;
     private const DEFAULT_OPTIONS = [
         'host' => '127.0.0.1',
         'port' => 8080,
@@ -29,8 +28,9 @@ class Runtime extends GenericRuntime
 
     public function getRunner(?object $application): RunnerInterface
     {
+        $factory = new ServerFactory($this->options);
         if ($application instanceof RequestHandlerInterface) {
-            return new Runner($application, $this->host, $this->port);
+            return new Runner($factory, Loop::get(), $application);
         }
 
         return parent::getRunner($application);
