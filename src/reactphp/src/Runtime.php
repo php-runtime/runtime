@@ -30,7 +30,7 @@ class Runtime extends GenericRuntime
     {
         $factory = new ServerFactory($this->options);
         if ($application instanceof RequestHandlerInterface) {
-            return new Runner($factory, Loop::get(), $application);
+            return new Runner($factory, $application);
         }
 
         return parent::getRunner($application);

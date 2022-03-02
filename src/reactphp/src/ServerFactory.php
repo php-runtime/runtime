@@ -4,7 +4,7 @@ namespace Runtime\React;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use React\EventLoop\LoopInterface;
+use React\EventLoop\Loop;
 use React\Http\HttpServer;
 use React\Socket\SocketServer;
 
@@ -29,14 +29,16 @@ class ServerFactory
         $this->options = array_replace_recursive(self::DEFAULT_OPTIONS, $options);
     }
 
-    public function createServer(LoopInterface $loop, RequestHandlerInterface $requestHandler): HttpServer
+    public function createServer(RequestHandlerInterface $requestHandler): HttpServer
     {
+        $loop = Loop::get();
         $server = new HttpServer($loop, function (ServerRequestInterface $request) use ($requestHandler) {
             return $requestHandler->handle($request);
         });
 
         $socket = new SocketServer(sprintf('%s:%s', $this->options['host'], $this->options['port']), [], $loop);
         $server->listen($socket);
+        $loop->run();
 
         return $server;
     }

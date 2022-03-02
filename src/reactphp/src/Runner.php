@@ -10,19 +10,16 @@ class Runner implements RunnerInterface
 {
     private RequestHandlerInterface $application;
     private ServerFactory $serverFactory;
-    private LoopInterface $loop;
 
-    public function __construct(ServerFactory $factory, LoopInterface $loop, RequestHandlerInterface $application)
+    public function __construct(ServerFactory $factory, RequestHandlerInterface $application)
     {
         $this->serverFactory = $factory;
-        $this->loop = $loop;
         $this->application = $application;
     }
 
     public function run(): int
     {
-        $this->serverFactory->createServer($this->loop, $this->application);
-        $this->loop->run();
+        $this->serverFactory->createServer($this->application);
 
         return 0;
     }

@@ -11,7 +11,7 @@
     ],
     "require": {
         "psr/http-server-handler": "^1.0",
-        "react/http": "^1.2",
+        "react/http": "^1.6",
         "symfony/runtime": "^5.3 || ^6.0"
     },
     "require-dev": {
