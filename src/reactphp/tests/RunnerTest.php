@@ -14,7 +14,7 @@ class RunnerTest extends TestCase
 {
     public function testRun(): void
     {
-        $handler = function(){};
+        $handler = function () {};
         $loop = $this->createMock(LoopInterface::class);
         Loop::set($loop);
         $server = new HttpServer($handler); //final, cannot be mocked
