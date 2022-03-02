@@ -3,7 +3,6 @@
 namespace Runtime\React;
 
 use Psr\Http\Server\RequestHandlerInterface;
-use React\EventLoop\Loop;
 use Symfony\Component\Runtime\GenericRuntime;
 use Symfony\Component\Runtime\RunnerInterface;
 
@@ -28,9 +27,8 @@ class Runtime extends GenericRuntime
 
     public function getRunner(?object $application): RunnerInterface
     {
-        $factory = new ServerFactory($this->options);
         if ($application instanceof RequestHandlerInterface) {
-            return new Runner($factory, $application);
+            return new Runner(new ServerFactory($this->options), $application);
         }
 
         return parent::getRunner($application);

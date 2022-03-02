@@ -11,9 +11,9 @@ class Runner implements RunnerInterface
     private RequestHandlerInterface $application;
     private ServerFactory $serverFactory;
 
-    public function __construct(ServerFactory $factory, RequestHandlerInterface $application)
+    public function __construct(ServerFactory $serverFactory, RequestHandlerInterface $application)
     {
-        $this->serverFactory = $factory;
+        $this->serverFactory = $serverFactory;
         $this->application = $application;
     }
 
