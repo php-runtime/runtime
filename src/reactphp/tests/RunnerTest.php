@@ -21,7 +21,7 @@ class RunnerTest extends TestCase
         $factory = $this->createMock(ServerFactory::class);
         $application = $this->createMock(RequestHandlerInterface::class);
 
-        $factory->expects(self::once())->method('createServer')->willReturn($server);
+        $factory->expects(self::once())->method('createServer')->willReturn($loop);
 
         $runner = new Runner($factory, $application);
 

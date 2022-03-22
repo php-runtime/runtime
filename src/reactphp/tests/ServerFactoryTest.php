@@ -26,9 +26,9 @@ class ServerFactoryTest extends TestCase
     public function testCreateServerWithDefaultOptions(): void
     {
         $factory = new ServerFactory();
-        $server = $factory->createServer($this->handler);
+        $loop = $factory->createServer($this->handler);
 
-        self::assertInstanceOf(HttpServer::class, $server);
+        self::assertInstanceOf(LoopInterface::class, $loop);
         self::assertSame(ServerFactory::getDefaultOptions(), $factory->getOptions());
     }
 
@@ -39,7 +39,7 @@ class ServerFactoryTest extends TestCase
             'port' => '9999',
         ];
         $factory = new ServerFactory($options);
-        $server = $factory->createServer($this->handler);
+        $factory->createServer($this->handler);
 
         self::assertSame($options, $factory->getOptions());
     }

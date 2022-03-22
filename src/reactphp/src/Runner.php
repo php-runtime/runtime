@@ -18,7 +18,8 @@ class Runner implements RunnerInterface
 
     public function run(): int
     {
-        $this->serverFactory->createServer($this->application);
+        $loop = $this->serverFactory->createServer($this->application);
+        $loop->run();
 
         return 0;
     }
