@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Server\RequestHandlerInterface;
 use React\EventLoop\Loop;
 use React\EventLoop\LoopInterface;
-use React\Http\HttpServer;
 use Runtime\React\ServerFactory;
 
 class ServerFactoryTest extends TestCase
