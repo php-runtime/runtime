@@ -24,7 +24,13 @@ class LocalRunner implements RunnerInterface
 
     public function run(): int
     {
-        echo $this->handler->handle($this->data, new Context('', 0, '', ''));
+        $result = $this->handler->handle($this->data, new Context('', 0, '', ''));
+
+        if (is_array($result)) {
+            echo json_encode($result, JSON_PRETTY_PRINT);
+        } elseif (is_scalar($result)) {
+            echo $result;
+        }
 
         return 0;
     }
