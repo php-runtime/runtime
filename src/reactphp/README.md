@@ -42,3 +42,10 @@ return function (array $context) {
     return new Application($context['APP_ENV'] ?? 'dev');
 };
 ```
+
+## Options
+
+| Option | Description                                                                                | Default     |
+| --- |--------------------------------------------------------------------------------------------|-------------|
+| `host` | The host where the server should bind to (precedes `REACT_HOST` environment variable)      | `127.0.0.1` |
+| `port` | The port where the server should be listening (precedes `REACT_PORT` environment variable) | `8080`      |
