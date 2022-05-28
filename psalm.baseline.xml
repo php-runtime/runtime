@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.20.0@f82a70e7edfc6cf2705e9374c8a0b6a974a779ed">
-  <file src="src/bref/src/BrefRunner.php">
-    <InvalidReturnType occurrences="1">
-      <code>int</code>
-    </InvalidReturnType>
-  </file>
-  <file src="src/bref/src/ConsoleApplicationRunner.php">
-    <InvalidReturnType occurrences="1">
-      <code>int</code>
-    </InvalidReturnType>
-  </file>
+<files psalm-version="4.22.0@fc2c6ab4d5fa5d644d8617089f012f3bb84b8703">
   <file src="src/bref/src/SymfonyRequestBridge.php">
     <InvalidArgument occurrences="1">
       <code>$response-&gt;headers-&gt;all()</code>
     </InvalidArgument>
+  </file>
+  <file src="src/google-cloud/router.php">
+    <MissingFile occurrences="1">
+      <code>require_once $_SERVER['SCRIPT_FILENAME'] = $defaultSource</code>
+    </MissingFile>
   </file>
   <file src="src/psr-laminas/src/Runtime.php">
     <InvalidArgument occurrences="2">
