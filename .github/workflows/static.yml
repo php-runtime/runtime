@@ -27,7 +27,7 @@ jobs:
           tools: phpstan:1.4.6, cs2pr
 
       - name: Download dependencies
-        uses: ramsey/composer-install@v1
+        uses: ramsey/composer-install@v2
 
       - name: PHPStan
         run: phpstan analyze --no-progress --error-format=checkstyle | cs2pr
@@ -79,7 +79,7 @@ jobs:
           tools: vimeo/psalm:4.8.1
 
       - name: Download dependencies
-        uses: ramsey/composer-install@v1
+        uses: ramsey/composer-install@v2
 
       - name: Psalm
         run: psalm --no-progress --output-format=github

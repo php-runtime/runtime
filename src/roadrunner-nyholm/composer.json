@@ -16,7 +16,7 @@
     },
     "require-dev": {
         "psr/http-server-handler": "^1.0",
-        "symfony/phpunit-bridge": "^5.3"
+        "phpunit/phpunit": "^9.5"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
