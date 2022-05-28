@@ -14,10 +14,10 @@
     },
     "require-dev": {
         "illuminate/http": "^8.48",
+        "phpunit/phpunit": "^9.5",
         "swoole/ide-helper": "^4.6",
         "symfony/http-foundation": "^5.3 || ^6.0",
-        "symfony/http-kernel": "^5.4 || ^6.0",
-        "symfony/phpunit-bridge": "^5.3"
+        "symfony/http-kernel": "^5.4 || ^6.0"
     },
     "conflict": {
         "ext-swoole": "<4.6.0"

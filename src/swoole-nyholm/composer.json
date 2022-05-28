@@ -15,7 +15,7 @@
         "symfony/runtime": "^5.3 || ^6.0"
     },
     "require-dev": {
-        "symfony/phpunit-bridge": "^5.3"
+        "phpunit/phpunit": "^9.5"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,

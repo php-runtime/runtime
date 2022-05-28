@@ -47,7 +47,7 @@ jobs:
           extensions: swoole
 
       - name: Download dependencies
-        uses: ramsey/composer-install@v1
+        uses: ramsey/composer-install@v2
         with:
           dependency-versions: ${{ matrix.strategy }}
           composer-options: --working-dir=src/${{ matrix.package }} --no-interaction --prefer-dist --optimize-autoloader
@@ -55,8 +55,5 @@ jobs:
       - name: Run tests
         run: |
           cd src/${{ matrix.package }}
-          echo ::group::Install
-          ./vendor/bin/simple-phpunit install
-          echo ::endgroup::
-          ./vendor/bin/simple-phpunit
+          ./vendor/bin/phpunit
 

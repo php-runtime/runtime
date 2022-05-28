@@ -12,11 +12,11 @@
     "require": {
         "nyholm/psr7": "^1.4",
         "spiral/roadrunner": "^2.0",
-        "symfony/runtime": "^5.3 || ^6.0"
+        "symfony/runtime": "^5.4 || ^6.0"
     },
     "require-dev": {
-        "psr/http-server-handler": "^1.0",
-        "symfony/phpunit-bridge": "^5.3"
+        "phpunit/phpunit": "^9.5",
+        "psr/http-server-handler": "^1.0"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,

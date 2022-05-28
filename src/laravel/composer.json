@@ -15,8 +15,8 @@
     },
     "require-dev": {
         "illuminate/http": "^8.33",
-        "symfony/console": "^4.4 || ^5.2 || ^6.0",
-        "symfony/phpunit-bridge": "^5.3"
+        "phpunit/phpunit": "^9.5",
+        "symfony/console": "^4.4 || ^5.2 || ^6.0"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
