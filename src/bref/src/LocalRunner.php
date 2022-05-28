@@ -30,6 +30,8 @@ class LocalRunner implements RunnerInterface
             echo json_encode($result, JSON_PRETTY_PRINT);
         } elseif (is_scalar($result)) {
             echo $result;
+        } else {
+            echo 'Handler result is of type: '.get_debug_type($result);
         }
 
         return 0;
