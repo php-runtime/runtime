@@ -45,7 +45,6 @@ class ServerFactory
 
         $socket = new SocketServer(sprintf('%s:%s', $this->options['host'], $this->options['port']), [], $loop);
         $server->listen($socket);
-        $loop->run();
 
         return $loop;
     }
