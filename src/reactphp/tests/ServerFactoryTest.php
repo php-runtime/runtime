@@ -18,7 +18,7 @@ class ServerFactoryTest extends TestCase
         parent::setUp();
         $this->handler = $this->createMock(RequestHandlerInterface::class);
         $this->loop = $this->createMock(LoopInterface::class);
-        $this->loop->expects($this->once())->method('run');
+        $this->loop->expects($this->never())->method('run');
         Loop::set($this->loop);
     }
 
