@@ -28,10 +28,7 @@ class Runtime extends GenericRuntime
         'time',
     ];
 
-    /**
-     * @return mixed
-     */
-    protected function getArgument(\ReflectionParameter $parameter, ?string $type)
+    protected function getArgument(\ReflectionParameter $parameter, ?string $type): mixed
     {
         if (CloudEvent::class === $type) {
             return $this->createCloudEvent();

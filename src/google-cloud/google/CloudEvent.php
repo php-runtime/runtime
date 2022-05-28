@@ -130,7 +130,7 @@ class CloudEvent implements JsonSerializable
         return new static(...$args);
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return [
             'id' => $this->id,

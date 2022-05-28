@@ -10,13 +10,14 @@
         }
     ],
     "require": {
+        "php": ">=8.0.5",
         "illuminate/contracts": "^8.33",
-        "symfony/runtime": "^5.3 || ^6.0"
+        "symfony/runtime": "^5.4 || ^6.0"
     },
     "require-dev": {
         "illuminate/http": "^8.33",
         "phpunit/phpunit": "^9.5",
-        "symfony/console": "^4.4 || ^5.2 || ^6.0"
+        "symfony/console": "^5.4 || ^6.0"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,

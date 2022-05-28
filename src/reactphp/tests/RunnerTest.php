@@ -17,7 +17,7 @@ class RunnerTest extends TestCase
         $handler = function () {};
         $loop = $this->createMock(LoopInterface::class);
         Loop::set($loop);
-        $server = new HttpServer($handler); //final, cannot be mocked
+        $server = new HttpServer($handler); // final, cannot be mocked
         $factory = $this->createMock(ServerFactory::class);
         $application = $this->createMock(RequestHandlerInterface::class);
 

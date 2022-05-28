@@ -10,19 +10,20 @@
         }
     ],
     "require": {
+        "php": ">=8.0.5",
         "ext-json": "*",
         "ext-sockets": "*",
         "clue/arguments": "^2.1",
         "psr/http-server-handler": "^1.0",
-        "riverline/multipart-parser": "^2.0",
+        "riverline/multipart-parser": "^2.0.9",
         "runtime/bref-layer": "^1.3",
-        "symfony/runtime": "^5.3 || ^6.0"
+        "symfony/runtime": "^5.4 || ^6.0"
     },
     "require-dev": {
         "bref/bref": "^1.3",
         "guzzlehttp/test-server": "^0.1",
         "phpunit/phpunit": "^9.5",
-        "symfony/http-foundation": "^5.3 || ^6.0",
+        "symfony/http-foundation": "^5.4 || ^6.0",
         "symfony/http-kernel": "^5.4 || ^6.0"
     },
     "minimum-stability": "dev",
