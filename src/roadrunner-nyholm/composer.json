@@ -15,6 +15,7 @@
         "symfony/runtime": "^5.4 || ^6.0"
     },
     "require-dev": {
+        "php": ">=8.0.5",
         "phpunit/phpunit": "^9.5",
         "psr/http-server-handler": "^1.0"
     },
