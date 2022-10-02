@@ -56,5 +56,10 @@
         "psr-4": {
             "Swoole\\": "vendor/swoole/ide-helper/src/swoole/Swoole"
         }
+    },
+    "config": {
+        "allow-plugins": {
+            "symfony/runtime": true
+        }
     }
 }
