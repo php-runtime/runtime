@@ -28,6 +28,7 @@ jobs:
 
       - name: Download dependencies
         uses: ramsey/composer-install@v2
+        composer-options: "--ignore-platform-reqs" # required for PHP 8.2 as not yet official supported
 
       - name: PHPStan
         run: phpstan analyze --no-progress --error-format=checkstyle | cs2pr
@@ -36,7 +37,7 @@ jobs:
     name: PHP-CS-Fixer
     runs-on: ubuntu-22.04
     env:
-      PHP_CS_FIXER_IGNORE_ENV: 1
+      PHP_CS_FIXER_IGNORE_ENV: 1 # required for PHP 8.2 as not yet official supported
 
     steps:
       - name: Checkout code
@@ -82,6 +83,7 @@ jobs:
 
       - name: Download dependencies
         uses: ramsey/composer-install@v2
+        composer-options: "--ignore-platform-reqs" # required for PHP 8.2 as not yet official supported
 
       - name: Psalm
         run: psalm --no-progress --output-format=github
