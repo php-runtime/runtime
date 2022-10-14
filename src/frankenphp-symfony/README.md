@@ -1,4 +1,4 @@
-# RoadRunner Runtime for Symfony
+# FrankenPHP Runtime for Symfony
 
 A runtime for [FrankenPHP](https://frankenphp.dev/).
 
