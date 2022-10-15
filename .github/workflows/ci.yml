@@ -8,7 +8,7 @@ on:
 jobs:
   matrix:
     name: Find packages
-    runs-on: Ubuntu-20.04
+    runs-on: Ubuntu-22.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -27,7 +27,7 @@ jobs:
   build:
     needs: matrix
     name: Test
-    runs-on: Ubuntu-20.04
+    runs-on: Ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
