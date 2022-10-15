@@ -80,7 +80,7 @@ jobs:
         with:
           php-version: 8.2
           coverage: none
-          tools: vimeo/psalm:4.23.0
+          tools: vimeo/psalm:5.0.0-beta1
 
       - name: Download dependencies
         uses: ramsey/composer-install@v2
