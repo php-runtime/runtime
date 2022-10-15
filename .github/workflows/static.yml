@@ -28,7 +28,8 @@ jobs:
 
       - name: Download dependencies
         uses: ramsey/composer-install@v2
-        composer-options: "--ignore-platform-reqs" # required for PHP 8.2 as not yet official supported
+        with:
+          composer-options: "--ignore-platform-reqs" # required for PHP 8.2 as not yet official supported
 
       - name: PHPStan
         run: phpstan analyze --no-progress --error-format=checkstyle | cs2pr
@@ -83,7 +84,8 @@ jobs:
 
       - name: Download dependencies
         uses: ramsey/composer-install@v2
-        composer-options: "--ignore-platform-reqs" # required for PHP 8.2 as not yet official supported
+        with:
+          composer-options: "--ignore-platform-reqs" # required for PHP 8.2 as not yet official supported
 
       - name: Psalm
         run: psalm --no-progress --output-format=github
