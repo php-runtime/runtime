@@ -1,0 +1,38 @@
+{
+    "name": "runtime/frankenphp-symfony",
+    "description": "FrankenPHP runtime for Symfony",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Kévin Dunglas",
+            "email": "kevin@dunglas.dev"
+        }
+    ],
+    "require": {
+        "php": ">=8.2.0",
+        "symfony/dependency-injection": "^5.4 || ^6.0",
+        "symfony/http-kernel": "^5.4 || ^6.0",
+        "symfony/runtime": "^5.4 || ^6.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Runtime\\FrankenPhpSymfony\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Runtime\\FrankenPhpSymfony\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "symfony/runtime": true
+        }
+    }
+}
