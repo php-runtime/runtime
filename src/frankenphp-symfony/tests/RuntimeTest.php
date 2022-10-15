@@ -7,8 +7,6 @@ namespace Runtime\FrankenPhpSymfony\Tests;
 use PHPUnit\Framework\TestCase;
 use Runtime\FrankenPhpSymfony\Runner;
 use Runtime\FrankenPhpSymfony\Runtime;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**

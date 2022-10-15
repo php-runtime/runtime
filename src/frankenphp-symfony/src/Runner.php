@@ -16,8 +16,11 @@ use Symfony\Component\Runtime\RunnerInterface;
  */
 class Runner implements RunnerInterface
 {
-    public function __construct(private readonly HttpKernelInterface $kernel)
+    private HttpKernelInterface $kernel;
+
+    public function __construct(HttpKernelInterface $kernel)
     {
+        $this->kernel = $kernel;
     }
 
     public function run(): int

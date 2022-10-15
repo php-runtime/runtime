@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Runtime\FrankenPhpSymfony;
 
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Runtime\RunnerInterface;
 use Symfony\Component\Runtime\SymfonyRuntime;

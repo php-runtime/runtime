@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.22.0@fc2c6ab4d5fa5d644d8617089f012f3bb84b8703">
+<files psalm-version="4.29.0@7ec5ffbd5f68ae03782d7fd33fff0c45a69f95b3">
   <file src="src/bref/src/SymfonyRequestBridge.php">
     <InvalidArgument occurrences="1">
       <code>$response-&gt;headers-&gt;all()</code>
     </InvalidArgument>
+  </file>
+  <file src="src/frankenphp-symfony/src/Runner.php">
+    <UndefinedFunction occurrences="1"/>
   </file>
   <file src="src/google-cloud/router.php">
     <MissingFile occurrences="1">
