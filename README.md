@@ -91,6 +91,12 @@ Build high-performance, scalable, concurrent HTTP services with [Swoole](https:/
 * https://github.com/php-runtime/swoole
 * https://github.com/php-runtime/swoole-nyholm
 
+### FrankenPHP
+
+Run your Symfony application with the [FrankenPHP](https://frankenphp.dev) app server.
+
+* https://github.com/php-runtime/frankenphp-symfony
+
 ### PHP-FPM and traditional web servers
 
 These runtimes are for PHP-FPM and the more traditional web servers one might
