@@ -92,7 +92,7 @@ class Emitter implements RunnerInterface
             'HTTP/%s %d%s',
             $response->getProtocolVersion(),
             $statusCode,
-            ($reasonPhrase ? ' '.$reasonPhrase : '')
+            $reasonPhrase ? ' '.$reasonPhrase : ''
         ), true, $statusCode);
     }
 
