@@ -68,10 +68,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Cache Psalm
+        uses: actions/cache@v2
+        with:
+          path: .github/.cache/psalm/
+          key: psalm-${{ github.sha }}
+          restore-keys: psalm-
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.2
+          php-version: 8.1
           coverage: none
           tools: vimeo/psalm:5.0.0-beta1
 
