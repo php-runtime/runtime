@@ -34,5 +34,10 @@
     },
     "bin": [
         "router.php"
-    ]
+    ],
+    "config": {
+        "allow-plugins": {
+            "symfony/runtime": true
+        }
+    }
 }
