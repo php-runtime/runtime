@@ -3,6 +3,7 @@
 namespace Runtime\Swoole\Tests\E2E;
 
 use PHPUnit\Framework\TestCase;
+
 use function Swoole\Coroutine\Http\get;
 use function Swoole\Coroutine\run;
 
