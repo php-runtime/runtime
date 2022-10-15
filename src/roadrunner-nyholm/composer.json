@@ -30,5 +30,10 @@
         "psr-4": {
             "Runtime\\RoadRunnerNyholm\\Tests\\": "tests/"
         }
+    },
+    "config": {
+        "allow-plugins": {
+            "symfony/runtime": true
+        }
     }
 }

@@ -31,5 +31,10 @@
         "psr-4": {
             "Runtime\\Laravel\\Tests\\": "tests/"
         }
+    },
+    "config": {
+        "allow-plugins": {
+            "symfony/runtime": true
+        }
     }
 }
