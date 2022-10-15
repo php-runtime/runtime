@@ -24,8 +24,8 @@ class Runner implements RunnerInterface
     {
         $server = array_filter($_SERVER, static fn (string $key) => !str_starts_with($key, 'HTTP_'), ARRAY_FILTER_USE_KEY);
         do {
-            $ret = frankenphp_handle_request(function () use ($server, &$sfRequest, &$sfResponse) {
-                // Merge the environment variables coming from DotEnv with the one tight to the current request
+            $ret = \frankenphp_handle_request(function () use ($server, &$sfRequest, &$sfResponse): void {
+                // Merge the environment variables coming from DotEnv with the ones tight to the current request
                 $_SERVER += $server;
 
                 $sfRequest = Request::createFromGlobals();
