@@ -6,7 +6,7 @@ on:
 jobs:
   phpstan:
     name: PHPStan
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout code
@@ -22,19 +22,23 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.1
+          php-version: 8.2
           coverage: none
           tools: phpstan:1.4.6, cs2pr
 
       - name: Download dependencies
         uses: ramsey/composer-install@v2
+        with:
+          composer-options: "--ignore-platform-reqs" # required for PHP 8.2 as not yet official supported
 
       - name: PHPStan
         run: phpstan analyze --no-progress --error-format=checkstyle | cs2pr
 
   php-cs-fixer:
     name: PHP-CS-Fixer
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
+    env:
+      PHP_CS_FIXER_IGNORE_ENV: 1 # required for PHP 8.2 as not yet official supported
 
     steps:
       - name: Checkout code
@@ -50,16 +54,16 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.1
+          php-version: 8.2
           coverage: none
-          tools: php-cs-fixer:3.8.0, cs2pr
+          tools: php-cs-fixer:3.11.0, cs2pr
 
       - name: PHP-CS-Fixer
         run: php-cs-fixer fix --dry-run --format=checkstyle | cs2pr
 
   psalm:
     name: Psalm
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -76,23 +80,25 @@ jobs:
         with:
           php-version: 8.1
           coverage: none
-          tools: vimeo/psalm:4.23.0
+          tools: vimeo/psalm:5.0.0-beta1
 
       - name: Download dependencies
         uses: ramsey/composer-install@v2
+        with:
+          composer-options: "--ignore-platform-reqs" # required for PHP 8.2 as not yet official supported
 
       - name: Psalm
         run: psalm --no-progress --output-format=github
 
   composer-normalize:
     name: Composer Normalize
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.1
+          php-version: 8.2
           coverage: none
           tools: composer-normalize
 

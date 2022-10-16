@@ -43,5 +43,10 @@
     },
     "bin": [
         "bin/bref-local-handler.php"
-    ]
+    ],
+    "config": {
+        "allow-plugins": {
+            "symfony/runtime": true
+        }
+    }
 }

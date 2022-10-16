@@ -9,3 +9,8 @@ parameters:
 			message: "#CurlHandle#"
 			count: 2
 			path: src/bref/src/Lambda/LambdaClient.php
+
+		-
+			message: "#^Function frankenphp_handle_request not found\\.$#"
+			count: 1
+			path: src/frankenphp-symfony/src/Runner.php

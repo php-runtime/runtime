@@ -1,19 +1,18 @@
 {
-    "name": "runtime/psr-nyholm",
-    "description": "PSR runtime with nyholm/psr7 ",
+    "name": "runtime/frankenphp-symfony",
+    "description": "FrankenPHP runtime for Symfony",
     "license": "MIT",
     "type": "library",
     "authors": [
         {
-            "name": "Tobias Nyholm",
-            "email": "tobias.nyholm@gmail.com"
+            "name": "Kévin Dunglas",
+            "email": "kevin@dunglas.dev"
         }
     ],
     "require": {
-        "php": ">=8.0.5",
-        "nyholm/psr7": "^1.3",
-        "nyholm/psr7-server": "^1.0",
-        "psr/http-server-handler": "^1.0",
+        "php": ">=8.2.0",
+        "symfony/dependency-injection": "^5.4 || ^6.0",
+        "symfony/http-kernel": "^5.4 || ^6.0",
         "symfony/runtime": "^5.4 || ^6.0"
     },
     "require-dev": {
@@ -23,13 +22,12 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Runtime\\PsrNyholm\\": "src/",
-            "Symfony\\Runtime\\Psr\\Http\\": "runtime/"
+            "Runtime\\FrankenPhpSymfony\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Runtime\\PsrNyholm\\Tests\\": "tests/"
+            "Runtime\\FrankenPhpSymfony\\Tests\\": "tests/"
         }
     },
     "config": {

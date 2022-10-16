@@ -32,5 +32,10 @@
         "psr-4": {
             "Runtime\\Psr17\\Tests\\": "tests/"
         }
+    },
+    "config": {
+        "allow-plugins": {
+            "symfony/runtime": true
+        }
     }
 }

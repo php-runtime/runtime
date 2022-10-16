@@ -30,5 +30,10 @@
         "psr-4": {
             "Runtime\\React\\Tests\\": "tests/"
         }
+    },
+    "config": {
+        "allow-plugins": {
+            "symfony/runtime": true
+        }
     }
 }
