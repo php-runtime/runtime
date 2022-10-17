@@ -39,7 +39,7 @@ class RequestHandlerRunner implements RunnerInterface
         $psrRequest = (new \Nyholm\Psr7\ServerRequest(
             $request->getMethod(),
             $request->server['request_uri'] ?? '/',
-            array_change_key_case($request->server ?? [], CASE_UPPER),
+            $request->header ?? [],
             $request->rawContent(),
             '1.1',
             $request->server ?? []
