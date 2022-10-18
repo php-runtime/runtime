@@ -24,7 +24,7 @@ final class SymfonyHttpBridge
         $sfRequest = new SymfonyRequest(
             $request->get ?? [],
             $request->post ?? [],
-            [],
+            ['_handle_all_throwables' => true],
             $request->cookie ?? [],
             $request->files ?? [],
             array_change_key_case($request->server ?? [], CASE_UPPER),

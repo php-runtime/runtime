@@ -38,6 +38,7 @@ class Runner implements RunnerInterface
         while ($request = $worker->waitRequest()) {
             try {
                 $sfRequest = $this->httpFoundationFactory->createRequest($request);
+                $sfRequest->attributes->set('_handle_all_throwables', true);
                 $sfResponse = $this->kernel->handle($sfRequest);
                 $worker->respond($this->httpMessageFactory->createResponse($sfResponse));
 

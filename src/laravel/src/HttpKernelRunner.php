@@ -19,6 +19,7 @@ class HttpKernelRunner implements RunnerInterface
 
     public function run(): int
     {
+        $this->request->attributes->set('_handle_all_throwables', true);
         $response = $this->kernel->handle($this->request);
         $response->send();
 

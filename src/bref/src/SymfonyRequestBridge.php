@@ -49,7 +49,7 @@ class SymfonyRequestBridge
         return new Request(
             $event->getQueryParameters(),
             $parsedBody ?? [],
-            [], // Attributes
+            ['_handle_all_throwables' => true],
             $event->getCookies(),
             $files,
             $server,

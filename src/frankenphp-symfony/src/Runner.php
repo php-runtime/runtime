@@ -32,6 +32,7 @@ class Runner implements RunnerInterface
                 $_SERVER += $server;
 
                 $sfRequest = Request::createFromGlobals();
+                $sfRequest->attributes->set('_handle_all_throwables', true);
                 $sfResponse = $this->kernel->handle($sfRequest);
 
                 $sfResponse->send();
