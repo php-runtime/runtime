@@ -14,17 +14,15 @@ composer require runtime/frankenphp-symfony
 
 Define the environment variable `APP_RUNTIME` for your application.
 
-```
-// .env
-APP_RUNTIME=Runtime\FrankenPhpSymfony\Runtime
-```
+Dotenv Component is executed after Runtime Component, so APP_RUNTIME must be available in your container.
 
 ```
-// .rr.yaml
-server:
-    ...
-    env:
-        APP_RUNTIME: Runtime\FrankenPhpSymfony\Runtime
+docker run \
+    -e FRANKENPHP_CONFIG="worker ./public/index.php" \
+    -e APP_RUNTIME=Runtime\\FrankenPhpSymfony\\Runtime \
+    -v $PWD:/app \
+    -p 80:80 -p 443:443 \
+    dunglas/frankenphp
 ```
 
 ```php
