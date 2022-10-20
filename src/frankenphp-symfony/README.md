@@ -23,14 +23,6 @@ docker run \
     -v $PWD:/app \
     -p 80:80 -p 443:443 \
     dunglas/frankenphp
- ```
-
-```
-// .rr.yaml
-server:
-    ...
-    env:
-        APP_RUNTIME: Runtime\FrankenPhpSymfony\Runtime
 ```
 
 ```php
