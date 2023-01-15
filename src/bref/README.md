@@ -270,7 +270,7 @@ When this is deployed it can be invoked by
 serverless invoke --function hello --data '{"name":"Tobias"}'
 ```
 
-### Invoke handlers locally
+## Invoke handlers locally
 
 Using a service from the container makes the handlers very simple to unit test.
 However, if you are lazy, you may want to invoke them locally from CLI.
@@ -319,7 +319,7 @@ serverless.yml file to read more natually.
 
 ```
 
-### Typed handlers
+## Typed handlers
 
 To better integrate with different AWS events, one can use "typed handlers".
 These are classes that implements `Bref\Event\Handler` and provides some helper
