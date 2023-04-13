@@ -36,7 +36,7 @@ class ServerFactory
         $loop->addSignal(SIGTERM, function (int $signal) {
             exit(128 + $signal);
         });
-        $loop->addSignal(SIGKILL, function (int $signal) {
+        $loop->addSignal(SIGHUP, function (int $signal) {
             exit(128 + $signal);
         });
         $server = new HttpServer($loop, function (ServerRequestInterface $request) use ($requestHandler) {
