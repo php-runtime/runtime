@@ -153,9 +153,8 @@ class SymfonyHttpBridgeTest extends TestCase
     {
         $request = $this->createMock(Request::class);
         $request->server = [
-            'REQUEST_METHOD' => 'POST',
             'REQUEST_URI' => '/dummy',
-            'QUERY_STRING' => 'test=1'
+            'QUERY_STRING' => 'test=1',
         ];
 
         $sfRequest = SymfonyHttpBridge::convertSwooleRequest($request);

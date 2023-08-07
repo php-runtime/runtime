@@ -76,7 +76,7 @@ final class SymfonyHttpBridge
         ) {
             $sfRequest->server->set(
                 'REQUEST_URI',
-                $sfRequest->server->get('REQUEST_URI') .'?'. $sfRequest->server->get('QUERY_STRING')
+                sprintf('%s?%s', $sfRequest->server->get('REQUEST_URI'), $sfRequest->server->get('QUERY_STRING')),
             );
         }
     }
