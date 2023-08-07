@@ -32,6 +32,8 @@ final class SymfonyHttpBridge
         );
         $sfRequest->headers = new HeaderBag($request->header ?? []);
 
+        self::prepareRequestUriWithQueryString($sfRequest);
+
         return $sfRequest;
     }
 
@@ -60,6 +62,22 @@ final class SymfonyHttpBridge
                 break;
             default:
                 $response->end($sfResponse->getContent());
+        }
+    }
+
+    /**
+     * REQUEST_URI returns the uri path only, should append with the query string if exists.
+     */
+    private static function prepareRequestUriWithQueryString(SymfonyRequest $sfRequest): void
+    {
+        if (!str_contains($sfRequest->server->get('REQUEST_URI', ''), '?')
+            && $sfRequest->server->has('QUERY_STRING')
+            && strlen($sfRequest->server->get('QUERY_STRING')) > 0
+        ) {
+            $sfRequest->server->set(
+                'REQUEST_URI',
+                $sfRequest->server->get('REQUEST_URI') .'?'. $sfRequest->server->get('QUERY_STRING')
+            );
         }
     }
 }

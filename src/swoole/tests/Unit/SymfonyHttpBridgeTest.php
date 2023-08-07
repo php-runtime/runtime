@@ -148,4 +148,20 @@ class SymfonyHttpBridgeTest extends TestCase
 
         SymfonyHttpBridge::reflectSymfonyResponse($sfResponse, $response);
     }
+
+    public function testThatSwooleRequestedWithQuery(): void
+    {
+        $request = $this->createMock(Request::class);
+        $request->server = [
+            'REQUEST_METHOD' => 'POST',
+            'REQUEST_URI' => '/dummy',
+            'QUERY_STRING' => 'test=1'
+        ];
+
+        $sfRequest = SymfonyHttpBridge::convertSwooleRequest($request);
+
+        $this->assertSame('test=1', $sfRequest->server->get('QUERY_STRING'));
+        $this->assertSame('/dummy?test=1', $sfRequest->server->get('REQUEST_URI'));
+        $this->assertSame('/dummy?test=1', $sfRequest->getRequestUri());
+    }
 }
