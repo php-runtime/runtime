@@ -21,18 +21,15 @@ final class SymfonyHttpBridge
 {
     public static function convertSwooleRequest(Request $request): SymfonyRequest
     {
-        $sfRequest = new SymfonyRequest(
+        return new SymfonyRequest(
             $request->get ?? [],
             $request->post ?? [],
             [],
             $request->cookie ?? [],
             $request->files ?? [],
-            array_change_key_case($request->server ?? [], CASE_UPPER),
+            self::buildServer($request),
             $request->rawContent()
         );
-        $sfRequest->headers = new HeaderBag($request->header ?? []);
-
-        return $sfRequest;
     }
 
     public static function reflectSymfonyResponse(SymfonyResponse $sfResponse, Response $response): void
@@ -61,5 +58,32 @@ final class SymfonyHttpBridge
             default:
                 $response->end($sfResponse->getContent());
         }
+    }
+
+    /**
+     * We must add the headers to the server otherwise they will not be available in sub-requests
+     */
+    private static function buildServer(Request $request): array
+    {
+        $serverHeaders = [];
+        if (true === is_array($request->header)) {
+            foreach ($request->header as $name => $value) {
+                $name = strtoupper($name);
+
+                if (
+                    false === in_array($name, ['CONTENT_TYPE', 'CONTENT_LENGTH', 'CONTENT_MD5'])
+                    &&  false === str_starts_with($name, 'HTTP_')
+                ) {
+                    $name = sprintf('HTTP_%s', $name);
+                }
+
+                $serverHeaders[$name] = $value;
+            }
+        }
+
+        return array_merge(
+            array_change_key_case($request->server ?? [], CASE_UPPER),
+            $serverHeaders
+        );
     }
 }

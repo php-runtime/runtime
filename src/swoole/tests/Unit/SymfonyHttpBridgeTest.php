@@ -40,7 +40,7 @@ class SymfonyHttpBridgeTest extends TestCase
 
         $sfRequest = SymfonyHttpBridge::convertSwooleRequest($request);
 
-        $this->assertSame(['REQUEST_METHOD' => 'post'], $sfRequest->server->all());
+        $this->assertSame(['REQUEST_METHOD' => 'post', 'HTTP_CONTENT-TYPE' => 'application/json'], $sfRequest->server->all());
         $this->assertSame(['content-type' => ['application/json']], $sfRequest->headers->all());
         $this->assertSame(['foo' => 'cookie'], $sfRequest->cookies->all());
         $this->assertSame(['foo' => 'get'], $sfRequest->query->all());
@@ -147,5 +147,41 @@ class SymfonyHttpBridgeTest extends TestCase
         $response->expects(self::once())->method('end');
 
         SymfonyHttpBridge::reflectSymfonyResponse($sfResponse, $response);
+    }
+
+    public function testThatSubRequestGetsParentRequestHeaders(): void
+    {
+        $request = $this->createMock(Request::class);
+        $request->server = ['request_method' => 'post'];
+        $request->header = ['host' => 'example.com', 'content-type' => 'application/json'];
+        $request->cookie = ['foo' => 'cookie'];
+        $request->get = ['foo' => 'get'];
+        $request->post = ['foo' => 'post'];
+        $request->files = [
+            'foo' => [
+                'name' => 'file',
+                'type' => 'image/png',
+                'tmp_name' => '/tmp/file',
+                'error' => UPLOAD_ERR_CANT_WRITE,
+                'size' => 0,
+            ],
+        ];
+        $request->expects(self::once())->method('rawContent')->willReturn('{"foo": "body"}');
+
+        $sfRequest = SymfonyHttpBridge::convertSwooleRequest($request);
+
+        $this->assertSame(['host' => ['example.com'], 'content-type' => ['application/json']], $sfRequest->headers->all());
+
+        $sfSubRequest = SymfonyRequest::create(
+            '/some-url',
+            'get',
+            [],
+            $sfRequest->cookies->all(),
+            [],
+            $sfRequest->server->all()
+        );
+
+        $this->assertSame('example.com', $sfSubRequest->headers->get('host'));
+        $this->assertSame('application/json', $sfSubRequest->headers->get('content-type'));
     }
 }
