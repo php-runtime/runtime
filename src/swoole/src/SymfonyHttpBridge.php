@@ -5,7 +5,6 @@ namespace Runtime\Swoole;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\HttpFoundation\HeaderBag;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -66,19 +65,13 @@ final class SymfonyHttpBridge
     private static function buildServer(Request $request): array
     {
         $serverHeaders = [];
-        if (true === is_array($request->header)) {
-            foreach ($request->header as $name => $value) {
-                $name = strtoupper($name);
-
-                if (
-                    false === in_array($name, ['CONTENT_TYPE', 'CONTENT_LENGTH', 'CONTENT_MD5'])
-                    &&  false === str_starts_with($name, 'HTTP_')
-                ) {
-                    $name = sprintf('HTTP_%s', $name);
-                }
-
-                $serverHeaders[$name] = $value;
+        /** Inspired by https://github.com/symfony/symfony/blob/85366b4767b1761f40701f4ea6692d5280e0d58d/src/Symfony/Component/HttpFoundation/Request.php#L546-L553 */
+        foreach ($request->header ?? [] as $name => $value) {
+            $name = strtoupper(str_replace('-', '_', $name));
+            if (false === in_array($name, ['CONTENT_TYPE', 'CONTENT_LENGTH', 'CONTENT_MD5'])) {
+                $name = sprintf('HTTP_%s', $name);
             }
+            $serverHeaders[$name] = $value;
         }
 
         return array_merge(

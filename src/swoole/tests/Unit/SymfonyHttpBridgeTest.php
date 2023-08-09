@@ -23,7 +23,7 @@ class SymfonyHttpBridgeTest extends TestCase
     {
         $request = $this->createMock(Request::class);
         $request->server = ['request_method' => 'post'];
-        $request->header = ['content-type' => 'application/json'];
+        $request->header = ['content-type' => 'application/json', 'x-upstream-use' => 'swoole', 'http-upstream' => 'swoole'];
         $request->cookie = ['foo' => 'cookie'];
         $request->get = ['foo' => 'get'];
         $request->post = ['foo' => 'post'];
@@ -40,8 +40,17 @@ class SymfonyHttpBridgeTest extends TestCase
 
         $sfRequest = SymfonyHttpBridge::convertSwooleRequest($request);
 
-        $this->assertSame(['REQUEST_METHOD' => 'post', 'HTTP_CONTENT-TYPE' => 'application/json'], $sfRequest->server->all());
-        $this->assertSame(['content-type' => ['application/json']], $sfRequest->headers->all());
+        $this->assertSame([
+            'REQUEST_METHOD' => 'post',
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_X_UPSTREAM_USE' => 'swoole',
+            'HTTP_HTTP_UPSTREAM' => 'swoole',
+        ], $sfRequest->server->all());
+        $this->assertSame([
+            'content-type' => ['application/json'],
+            'x-upstream-use' => ['swoole'],
+            'http-upstream' => ['swoole'],
+        ], $sfRequest->headers->all());
         $this->assertSame(['foo' => 'cookie'], $sfRequest->cookies->all());
         $this->assertSame(['foo' => 'get'], $sfRequest->query->all());
         $this->assertSame(['foo' => 'post'], $sfRequest->request->all());
@@ -153,7 +162,7 @@ class SymfonyHttpBridgeTest extends TestCase
     {
         $request = $this->createMock(Request::class);
         $request->server = ['request_method' => 'post'];
-        $request->header = ['host' => 'example.com', 'content-type' => 'application/json'];
+        $request->header = ['host' => 'example.com', 'content-type' => 'application/json', 'x-upstream-use' => 'swoole', 'http-upstream' => 'swoole'];
         $request->cookie = ['foo' => 'cookie'];
         $request->get = ['foo' => 'get'];
         $request->post = ['foo' => 'post'];
@@ -166,12 +175,10 @@ class SymfonyHttpBridgeTest extends TestCase
                 'size' => 0,
             ],
         ];
-        $request->expects(self::once())->method('rawContent')->willReturn('{"foo": "body"}');
 
         $sfRequest = SymfonyHttpBridge::convertSwooleRequest($request);
 
-        $this->assertSame(['host' => ['example.com'], 'content-type' => ['application/json']], $sfRequest->headers->all());
-
+        // Simulating creating sub-request
         $sfSubRequest = SymfonyRequest::create(
             '/some-url',
             'get',
@@ -183,5 +190,7 @@ class SymfonyHttpBridgeTest extends TestCase
 
         $this->assertSame('example.com', $sfSubRequest->headers->get('host'));
         $this->assertSame('application/json', $sfSubRequest->headers->get('content-type'));
+        $this->assertSame('swoole', $sfSubRequest->headers->get('x-upstream-use'));
+        $this->assertSame('swoole', $sfSubRequest->headers->get('http-upstream'));
     }
 }
