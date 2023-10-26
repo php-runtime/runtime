@@ -3,7 +3,7 @@
 <img align="right" src="https://raw.githubusercontent.com/php-runtime/runtime/main/.github/logo.png">
 
 In early 2021, Symfony created a "Runtime component". This component may look
-complex, weird and full of hacks but it is a **game changer** for how we run PHP
+complex, weird, and full of hacks but it is a **game-changer** for how we run PHP
 applications.
 
 With the Runtime component, we can look at each application as a "black box". A box
@@ -11,7 +11,7 @@ that has no connection to globals like `$_SERVER` or `$_GET`. To run the applica
 you need (you guessed it) a `Runtime`. It is a class that looks at the black box
 to figure out what input it requires and handles the output.
 
-Consider this small application that returns an UUID.
+Consider this small application that returns a UUID.
 
 ```php
 namespace Acme;
@@ -38,24 +38,24 @@ return function() {
 If you want to use this application in a CLI environment, you need a
 `Runtime` that knows how to run an `Acme\Application` object and print the output on
 CLI. If you want to use it with Nginx/PHP-FPM then you need another `Runtime`
-that converts the application's output to a HTTP response.
+that converts the application's output to an HTTP response.
 
 ## Why is this a good thing?
 
 Since your application is not connected to the global state, it is very portable.
 It is easy to create a `Runtime` to run the application with Bref, Swoole or
-ReactPHP without making any change to the application itself.
+ReactPHP without making any changes to the application itself.
 
 Since most modern PHP applications are based on Symfony's HttpKernel, PSR-7 or
 PSR-15 we don't need too many different runtimes. This organization holds many PHP
 packages with runtimes for the most popular environments. It is not "*the source of
 all runtimes*", but rather a temporary place where runtimes can live before they
-move in to Bref/Swoole/RoadRunner etc.
+move into Bref/Swoole/RoadRunner etc.
 
 All runtimes have hard dependencies to make installation easier. Everything should
 "just work".
 
-Read more at the [Symfony documentation](https://symfony.com/doc/5.3/components/runtime.html).
+Read more at the [Symfony documentation](https://symfony.com/doc/current/components/runtime.html).
 
 ## Available Runtimes
 
@@ -127,7 +127,7 @@ The runtime for [Symfony](https://symfony.com/) is included in the runtime compo
 ## Note about sessions
 
 On Symfony < 5.4 session data will not be properly stored when using a "non-traditional"
-webserver like Bref, Google, ReactPHP, RoadRunner or Swoole. This problem (or missing
+webserver like Bref, Google, ReactPHP, RoadRunner, or Swoole. This problem (or missing
 feature) has been added in Symfony 5.4 and 6.0. You need to use `symfony/http-kernel >= 5.4` 
 for sessions to work properly.
 
