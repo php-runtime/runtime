@@ -38,18 +38,18 @@
     "autoload": {
         "psr-4": {
             "Runtime\\Bref\\": "src/bref/src",
-            "Runtime\\Guzzle\\": "src/psr-guzzle/src",
             "Runtime\\GoogleCloud\\": "src/google-cloud/src",
+            "Runtime\\Guzzle\\": "src/psr-guzzle/src",
             "Runtime\\Laravel\\": "src/laravel/src",
             "Runtime\\Psr17\\": "src/psr-17/src",
             "Runtime\\PsrLaminas\\": "src/psr-laminas/src",
-            "Runtime\\PsrNyholm\\": "src/psr-nyholm/src",
             "Runtime\\PsrNyholmLaminas\\": "src/psr-nyholm-laminas/src",
+            "Runtime\\PsrNyholm\\": "src/psr-nyholm/src",
             "Runtime\\React\\": "src/react/src",
             "Runtime\\RoadRunnerNyholm\\": "src/roadrunner-nyholm/src",
             "Runtime\\RoadRunnerSymfonyNyholm\\": "src/roadrunner-symfony-nyholm/src",
-            "Runtime\\Swoole\\": "src/swoole/src",
-            "Runtime\\SwooleNyholm\\": "src/swoole-nyholm/src"
+            "Runtime\\SwooleNyholm\\": "src/swoole-nyholm/src",
+            "Runtime\\Swoole\\": "src/swoole/src"
         }
     },
     "autoload-dev": {

@@ -21,15 +21,15 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
+            "Google\\CloudFunctions\\": "google/",
             "Runtime\\GoogleCloud\\": "src/",
-            "Symfony\\Runtime\\Google\\CloudFunctions\\": "runtime/",
-            "Google\\CloudFunctions\\": "google/"
+            "Symfony\\Runtime\\Google\\CloudFunctions\\": "runtime/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Runtime\\GoogleCloud\\Tests\\": "tests/runtime",
-            "Google\\CloudFunctions\\Tests\\": "tests/google/"
+            "Google\\CloudFunctions\\Tests\\": "tests/google/",
+            "Runtime\\GoogleCloud\\Tests\\": "tests/runtime"
         }
     },
     "bin": [
