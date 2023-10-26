@@ -1,33 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.29.0@7ec5ffbd5f68ae03782d7fd33fff0c45a69f95b3">
+<files psalm-version="5.15.0@5c774aca4746caf3d239d9c8cadb9f882ca29352">
+  <file src="src/bref/src/Runtime.php">
+    <InvalidArgument>
+      <code>$options</code>
+    </InvalidArgument>
+  </file>
   <file src="src/bref/src/SymfonyRequestBridge.php">
-    <InvalidArgument occurrences="1">
-      <code>$response-&gt;headers-&gt;all()</code>
+    <InvalidArgument>
+      <code><![CDATA[$response->headers->all()]]></code>
     </InvalidArgument>
   </file>
   <file src="src/frankenphp-symfony/src/Runner.php">
-    <UndefinedFunction occurrences="1"/>
+    <UndefinedFunction>
+      <code><![CDATA[\frankenphp_handle_request(function () use ($server, &$sfRequest, &$sfResponse): void {
+                // Merge the environment variables coming from DotEnv with the ones tight to the current request
+                $_SERVER += $server;
+
+                $sfRequest = Request::createFromGlobals();
+                $sfResponse = $this->kernel->handle($sfRequest);
+
+                $sfResponse->send();
+            })]]></code>
+    </UndefinedFunction>
   </file>
   <file src="src/google-cloud/router.php">
-    <MissingFile occurrences="1">
-      <code>require_once $_SERVER['SCRIPT_FILENAME'] = $defaultSource</code>
+    <MissingFile>
+      <code><![CDATA[require_once $_SERVER['SCRIPT_FILENAME'] = $defaultSource]]></code>
     </MissingFile>
   </file>
+  <file src="src/psr-17/src/Runtime.php">
+    <InvalidArgument>
+      <code>$options</code>
+    </InvalidArgument>
+  </file>
   <file src="src/psr-laminas/src/Runtime.php">
-    <InvalidArgument occurrences="2">
-      <code>['emitter' =&gt; $this-&gt;options['laminas_emitter'] ?? null]</code>
-      <code>['emitter' =&gt; $this-&gt;options['laminas_emitter'] ?? null]</code>
+    <InvalidArgument>
+      <code>$options</code>
     </InvalidArgument>
   </file>
   <file src="src/psr-nyholm-laminas/src/Runtime.php">
-    <InvalidArgument occurrences="2">
-      <code>['emitter' =&gt; $this-&gt;options['laminas_emitter'] ?? null]</code>
-      <code>['emitter' =&gt; $this-&gt;options['laminas_emitter'] ?? null]</code>
+    <InvalidArgument>
+      <code>$options</code>
     </InvalidArgument>
   </file>
   <file src="src/swoole/src/SymfonyHttpBridge.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>$sfResponse-&gt;getStatusCode()</code>
+    <InvalidScalarArgument>
+      <code><![CDATA[$sfResponse->getStatusCode()]]></code>
     </InvalidScalarArgument>
   </file>
 </files>
