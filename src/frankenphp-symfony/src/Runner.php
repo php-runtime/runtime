@@ -27,7 +27,7 @@ class Runner implements RunnerInterface
         $server['APP_RUNTIME_MODE'] = 'web=1&worker=1';
 
         $handler = static function () use ($kernel, $server, &$sfRequest, &$sfResponse): void {
-            // Merge the environment variables coming from DotEnv with the ones tight to the current request
+            // Merge the environment variables coming from DotEnv with the ones tied to the current request
             $_SERVER += $server;
 
             $sfRequest = Request::createFromGlobals();
