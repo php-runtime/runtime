@@ -23,6 +23,8 @@ class Runner implements RunnerInterface
     public function run(): int
     {
         $server = array_filter($_SERVER, static fn (string $key) => !str_starts_with($key, 'HTTP_'), ARRAY_FILTER_USE_KEY);
+        $server['APP_RUNTIME_MODE'] = 'web=1&worker=1';
+
         do {
             $ret = \frankenphp_handle_request(function () use ($server, &$sfRequest, &$sfResponse): void {
                 // Merge the environment variables coming from DotEnv with the ones tight to the current request
