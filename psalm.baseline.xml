@@ -12,15 +12,7 @@
   </file>
   <file src="src/frankenphp-symfony/src/Runner.php">
     <UndefinedFunction>
-      <code><![CDATA[\frankenphp_handle_request(function () use ($server, &$sfRequest, &$sfResponse): void {
-                // Merge the environment variables coming from DotEnv with the ones tight to the current request
-                $_SERVER += $server;
-
-                $sfRequest = Request::createFromGlobals();
-                $sfResponse = $this->kernel->handle($sfRequest);
-
-                $sfResponse->send();
-            })]]></code>
+      <code><![CDATA[\frankenphp_handle_request($handler)]]></code>
     </UndefinedFunction>
   </file>
   <file src="src/google-cloud/router.php">

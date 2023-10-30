@@ -22,22 +22,25 @@ class Runner implements RunnerInterface
 
     public function run(): int
     {
+        $kernel = $this->kernel;
         $server = array_filter($_SERVER, static fn (string $key) => !str_starts_with($key, 'HTTP_'), ARRAY_FILTER_USE_KEY);
         $server['APP_RUNTIME_MODE'] = 'web=1&worker=1';
 
+        $handler = static function () use ($kernel, $server, &$sfRequest, &$sfResponse): void {
+            // Merge the environment variables coming from DotEnv with the ones tied to the current request
+            $_SERVER += $server;
+
+            $sfRequest = Request::createFromGlobals();
+            $sfResponse = $kernel->handle($sfRequest);
+
+            $sfResponse->send();
+        };
+
         do {
-            $ret = \frankenphp_handle_request(function () use ($server, &$sfRequest, &$sfResponse): void {
-                // Merge the environment variables coming from DotEnv with the ones tight to the current request
-                $_SERVER += $server;
+            $ret = \frankenphp_handle_request($handler);
 
-                $sfRequest = Request::createFromGlobals();
-                $sfResponse = $this->kernel->handle($sfRequest);
-
-                $sfResponse->send();
-            });
-
-            if ($this->kernel instanceof TerminableInterface && $sfRequest && $sfResponse) {
-                $this->kernel->terminate($sfRequest, $sfResponse);
+            if ($kernel instanceof TerminableInterface && $sfRequest && $sfResponse) {
+                $kernel->terminate($sfRequest, $sfResponse);
             }
 
             gc_collect_cycles();
