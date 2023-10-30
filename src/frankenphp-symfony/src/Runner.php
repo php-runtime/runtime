@@ -16,11 +16,8 @@ use Symfony\Component\Runtime\RunnerInterface;
  */
 class Runner implements RunnerInterface
 {
-    private HttpKernelInterface $kernel;
-
-    public function __construct(HttpKernelInterface $kernel)
+    public function __construct(private HttpKernelInterface $kernel)
     {
-        $this->kernel = $kernel;
     }
 
     public function run(): int
@@ -40,6 +37,8 @@ class Runner implements RunnerInterface
             if ($this->kernel instanceof TerminableInterface && $sfRequest && $sfResponse) {
                 $this->kernel->terminate($sfRequest, $sfResponse);
             }
+
+            gc_collect_cycles();
         } while ($ret);
 
         return 0;
