@@ -14,6 +14,7 @@ We support all kinds of applications. See the following sections for details.
     1. [Simplify serverless.yml](#simplify-serverlessyml)
     1. [Typed handlers](#typed-handlers)
     1. [Symfony Messenger integration](#symfony-messenger-integration)
+1. [Handle timeouts](#handle-timeouts)
 
 If you are new to the Symfony Runtime component, read more in the
 [main readme](https://github.com/php-runtime/runtime).
@@ -398,4 +399,44 @@ resources:
             Properties:
                 QueueName: ${self:service}-workqueue
                 VisibilityTimeout: 600
+```
+
+## Handle timeouts
+
+When a Lambda function times out, it is like the power to the computer is suddenly
+just turned off. This does not give the application a chance to shut down properly.
+This leaves you without any logs and the problem could be hard to fix.
+
+To allow your application to shut down properly and write logs, we will throw an
+exception just before the Lambda times out.
+
+Whenever a timeout happens, a full stack trace will be logged, including the line
+that was executing. In most cases, it is an external call to a database, cache or
+API that is stuck waiting.
+
+### Catching the exception
+
+You can catch the timeout exception to perform some cleanup, logs or even display
+a proper error page. If you are using a framework, this is likely done for you.
+Here is an example of a simple handler catching the timeout exception
+
+```php
+use Bref\Context\Context;
+use Bref\Event\Handler;
+use Runtime\Bref\Timeout\LambdaTimeoutException;
+
+class MySlowHandler implements Handler
+{
+    public function handle($event, Context $context)
+    {
+        try {
+            // your code here
+            // ...
+        } catch (LambdaTimeoutException $e) {
+            return 'Oops, sorry. We spent too much time on this.';
+        } catch (\Throwable $e) {
+            return 'Some other unexpected error happened.';
+        }
+    }
+}
 ```

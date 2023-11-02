@@ -3,6 +3,7 @@
 namespace Runtime\Bref;
 
 use Runtime\Bref\Lambda\LambdaClient;
+use Runtime\Bref\Timeout\Timeout;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Runtime\RunnerInterface;
 
@@ -24,7 +25,7 @@ class ConsoleApplicationRunner implements RunnerInterface
     {
         $lambda = LambdaClient::fromEnvironmentVariable('symfony-runtime-console');
 
-        while (true) {
+        while (!Timeout::$_tiggered) {
             /*
              * In case the execution failed, we force starting a new process. This
              * is because an uncaught exception could have left the application
@@ -34,5 +35,7 @@ class ConsoleApplicationRunner implements RunnerInterface
                 return 0;
             }
         }
+
+        return 0;
     }
 }

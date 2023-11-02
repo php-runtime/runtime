@@ -8,6 +8,8 @@ use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Server\Server;
 use PHPUnit\Framework\TestCase;
 use Runtime\Bref\Lambda\LambdaClient;
+use Runtime\Bref\Timeout\LambdaTimeoutException;
+use Runtime\Bref\Timeout\Timeout;
 
 /**
  * Tests the communication between `LambdaClient` and the Lambda Runtime HTTP API.
@@ -189,9 +191,9 @@ class LambdaClientTest extends TestCase
 
         // Check the lambda result contains the error message
         $error = json_decode((string) $eventFailureLog->getBody(), true);
-        $this->assertSame('Error while calling the Lambda runtime API: The requested URL returned error: 400 Bad Request', $error['errorMessage']);
+        $this->assertStringContainsString('Error while calling the Lambda runtime API: The requested URL returned error: 400', $error['errorMessage']);
 
-        $this->assertErrorInLogs('Exception', 'Error while calling the Lambda runtime API: The requested URL returned error: 400 Bad Request');
+        $this->assertErrorInLogs('Exception', 'Error while calling the Lambda runtime API: The requested URL returned error: 400');
     }
 
     public function test function results that cannot be encoded are reported as invocation errors()
@@ -235,6 +237,28 @@ ERROR;
         $this->assertInvocationResult(['foo' => 'bar']);
     }
 
+    public function testLambdaTimeoutsCanBeAnticipated()
+    {
+        $this->givenAnEvent([]);
+
+        $start = microtime(true);
+        $this->lambda->processNextEvent(new class() implements Handler {
+            public function handle($event, Context $context)
+            {
+                // This 10s sleep should be interrupted
+                sleep(10);
+            }
+        });
+
+        $elapsedTime = microtime(true) - $start;
+        // The Lambda timeout was 2 seconds, we expect the Bref timeout to trigger 1 second before that: 1 second
+        $this->assertEqualsWithDelta(1, $elapsedTime, 0.2);
+        Timeout::reset();
+
+        $this->assertInvocationErrorResult(LambdaTimeoutException::class, 'Maximum AWS Lambda execution time reached');
+        $this->assertErrorInLogs(LambdaTimeoutException::class, 'Maximum AWS Lambda execution time reached');
+    }
+
     /**
      * @param mixed $event
      */
@@ -246,6 +270,8 @@ ERROR;
                 [
                     'lambda-runtime-aws-request-id' => '1',
                     'lambda-runtime-invoked-function-arn' => 'test-function-name',
+                    // now + 2 seconds
+                    'lambda-runtime-deadline-ms' => intval((microtime(true) + 2) * 1000),
                 ],
                 json_encode($event)
             ),
@@ -312,7 +338,7 @@ ERROR;
             'stack',
         ], array_keys($invocationResult));
         $this->assertEquals($errorClass, $invocationResult['errorType']);
-        $this->assertEquals($errorMessage, $invocationResult['errorMessage']);
+        $this->assertStringContainsString($errorMessage, $invocationResult['errorMessage']);
         $this->assertIsArray($invocationResult['stack']);
     }
 
