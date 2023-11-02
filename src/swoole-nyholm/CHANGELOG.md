@@ -1,5 +1,11 @@
 # Change Log
 
+## [NOT RELEASED]
+
+### Added
+
+- Add support for Symfony 7
+
 ## 0.1.1
 
 ### Added

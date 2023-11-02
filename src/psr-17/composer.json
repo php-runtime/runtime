@@ -14,7 +14,7 @@
         "nyholm/psr7-server": "^1.0",
         "psr/http-factory-implementation": "^1.0",
         "psr/http-server-handler": "^1.0",
-        "symfony/runtime": "^5.4 || ^6.0"
+        "symfony/runtime": "^5.4 || ^6.0 || ^7.0"
     },
     "require-dev": {
         "nyholm/psr7": "^1.4",
