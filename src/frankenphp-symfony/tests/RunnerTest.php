@@ -37,7 +37,7 @@ class RunnerTest extends TestCase
 
         $_SERVER['FOO'] = 'bar';
 
-        $runner = new Runner($application);
+        $runner = new Runner($application, 500);
         $this->assertSame(0, $runner->run());
     }
 }
