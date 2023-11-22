@@ -94,7 +94,7 @@ class Runtime extends SymfonyRuntime
         }
 
         if ($application instanceof Application) {
-            return new ConsoleApplicationRunner($application);
+            return new ConsoleApplicationRunner($application, $this->options['bref_loop_max']);
         }
 
         return parent::getRunner($application);
