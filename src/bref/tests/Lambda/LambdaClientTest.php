@@ -189,9 +189,9 @@ class LambdaClientTest extends TestCase
 
         // Check the lambda result contains the error message
         $error = json_decode((string) $eventFailureLog->getBody(), true);
-        $this->assertSame('Error while calling the Lambda runtime API: The requested URL returned error: 400 Bad Request', $error['errorMessage']);
+        $this->assertSame('Error while calling the Lambda runtime API: The requested URL returned error: 400', $error['errorMessage']);
 
-        $this->assertErrorInLogs('Exception', 'Error while calling the Lambda runtime API: The requested URL returned error: 400 Bad Request');
+        $this->assertErrorInLogs('Exception', 'Error while calling the Lambda runtime API: The requested URL returned error: 400');
     }
 
     public function test function results that cannot be encoded are reported as invocation errors()
