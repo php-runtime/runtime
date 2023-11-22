@@ -2,6 +2,10 @@
 
 ## [NOT RELEASED]
 
+### Added
+
+- Add support for Symfony 7
+
 ## 0.3.1
 
 ### Fixed
