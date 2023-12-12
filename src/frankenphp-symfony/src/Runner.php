@@ -22,6 +22,9 @@ class Runner implements RunnerInterface
 
     public function run(): int
     {
+        // Prevent worker script termination when a client connection is interrupted
+        ignore_user_abort(true);
+
         $server = array_filter($_SERVER, static fn (string $key) => !str_starts_with($key, 'HTTP_'), ARRAY_FILTER_USE_KEY);
         $server['APP_RUNTIME_MODE'] = 'web=1&worker=1';
 
