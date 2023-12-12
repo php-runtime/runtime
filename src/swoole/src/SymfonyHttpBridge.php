@@ -37,7 +37,7 @@ final class SymfonyHttpBridge
 
     public static function reflectSymfonyResponse(SymfonyResponse $sfResponse, Response $response): void
     {
-        foreach ($sfResponse->headers->allPreserveCase() as $name => $values) {
+        foreach ($sfResponse->headers->all() as $name => $values) {
             foreach ($values as $value) {
                 $response->header((string) $name, $value);
             }
