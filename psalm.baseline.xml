@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.15.0@5c774aca4746caf3d239d9c8cadb9f882ca29352">
+<files psalm-version="5.17.0@c620f6e80d0abfca532b00bda366062aaedf6e5d">
   <file src="src/bref/src/Runtime.php">
     <InvalidArgument>
       <code>$options</code>
@@ -11,9 +11,17 @@
     </InvalidArgument>
   </file>
   <file src="src/frankenphp-symfony/src/Runner.php">
+    <UndefinedVariable>
+      <code>$sfRequest</code>
+    </UndefinedVariable>
     <UndefinedFunction>
       <code><![CDATA[\frankenphp_handle_request($handler)]]></code>
     </UndefinedFunction>
+  </file>
+  <file src="src/frankenphp-symfony/src/Runtime.php">
+    <InvalidArgument>
+      <code>$options</code>
+    </InvalidArgument>
   </file>
   <file src="src/google-cloud/router.php">
     <MissingFile>
