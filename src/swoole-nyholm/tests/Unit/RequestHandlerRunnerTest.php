@@ -44,6 +44,7 @@ class RequestHandlerRunnerTest extends TestCase
         ]);
         $psrResponse->expects(self::once())->method('getBody')->willReturn(Stream::create('Test'));
         $psrResponse->expects(self::once())->method('getStatusCode')->willReturn(200);
+        $psrResponse->expects(self::once())->method('getReasonPhrase')->willReturn('OK');
 
         $response->expects(self::once())->method('setHeader')->with('X-Test', 'Swoole-Runtime');
         $response->expects(self::once())->method('write')->with('Test');
