@@ -72,9 +72,10 @@ class SymfonyHttpBridgeTest extends TestCase
         $sfResponse->expects(self::once())->method('getContent')->willReturn('Test');
 
         $response = $this->createMock(Response::class);
-        $response->expects(self::exactly(2))->method('header')->withConsecutive(
-            ['x-test', ['Swoole-Runtime']],
-            ['set-cookie', [$fooCookie, $barCookie]]
+        $response->expects(self::exactly(3))->method('header')->withConsecutive(
+            ['x-test', 'Swoole-Runtime'],
+            ['set-cookie', $fooCookie],
+            ['set-cookie', $barCookie]
         );
         $response->expects(self::once())->method('status')->with(201);
         $response->expects(self::once())->method('end')->with('Test');
