@@ -16,8 +16,10 @@ use Symfony\Component\Runtime\RunnerInterface;
  */
 class Runner implements RunnerInterface
 {
-    public function __construct(private HttpKernelInterface $kernel)
-    {
+    public function __construct(
+        private HttpKernelInterface $kernel,
+        private int $loopMax,
+    ) {
     }
 
     public function run(): int
@@ -38,6 +40,7 @@ class Runner implements RunnerInterface
             $sfResponse->send();
         };
 
+        $loops = 0;
         do {
             $ret = \frankenphp_handle_request($handler);
 
@@ -46,7 +49,7 @@ class Runner implements RunnerInterface
             }
 
             gc_collect_cycles();
-        } while ($ret);
+        } while ($ret && (-1 === $this->loopMax || ++$loops <= $this->loopMax));
 
         return 0;
     }
