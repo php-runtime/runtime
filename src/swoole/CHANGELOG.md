@@ -3,7 +3,7 @@
 ## 0.4.0
 
 - Add support for Symfony 7
-- Drop support for PHP 7
+- Drop support for PHP 7 and PHP 8.0
 
 ## 0.3.1
 

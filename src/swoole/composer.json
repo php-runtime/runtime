@@ -10,7 +10,7 @@
         }
     ],
     "require": {
-        "php": ">=8.0.5",
+        "php": ">=8.1",
         "symfony/runtime": "^5.4.26 || ^6.3.2 || ^7.0"
     },
     "require-dev": {
