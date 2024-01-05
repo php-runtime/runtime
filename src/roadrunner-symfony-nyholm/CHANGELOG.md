@@ -1,10 +1,11 @@
 # Change Log
 
-## [NOT RELEASED]
+## 0.3.0
 
 ### Added
 
 - Add support for Symfony 7
+- Dropped support for PHP 7
 
 ## 0.2.0
 
