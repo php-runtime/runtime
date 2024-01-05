@@ -1,6 +1,6 @@
 # Change Log
 
-## [NOT RELEASED]
+## 0.1.2
 
 ### Added
 
