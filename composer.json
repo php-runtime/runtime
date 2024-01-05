@@ -25,7 +25,7 @@
         "symfony/dependency-injection": "^5.2 || ^6.0",
         "symfony/http-foundation": "^5.3 || ^6.0",
         "symfony/http-kernel": "^5.4 || ^6.0 || ^7.0",
-        "symfony/psr-http-message-bridge": "^2.1",
+        "symfony/psr-http-message-bridge": "^6.4 || ^7.0",
         "symfony/runtime": "^5.3 || ^6.0"
     },
     "require-dev": {
