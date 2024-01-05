@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.3.1
+
+- Add support for symfony/psr-http-message-bridge 6 and 7
+
 ## 0.3.0
 
 ### Added
