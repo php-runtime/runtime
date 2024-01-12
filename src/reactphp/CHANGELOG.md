@@ -1,8 +1,6 @@
 # Change Log
 
-## [NOT RELEASED]
-
-### Added
+## 0.2.0
 
 - Add support for Symfony 6
 - Add support for Symfony 7
