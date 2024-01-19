@@ -38,6 +38,7 @@
     "autoload": {
         "psr-4": {
             "Runtime\\Bref\\": "src/bref/src",
+            "Runtime\\FrankenPhpSymfony\\": "src/frankenphp-symfony/src",
             "Runtime\\GoogleCloud\\": "src/google-cloud/src",
             "Runtime\\Guzzle\\": "src/psr-guzzle/src",
             "Runtime\\Laravel\\": "src/laravel/src",
@@ -45,7 +46,7 @@
             "Runtime\\PsrLaminas\\": "src/psr-laminas/src",
             "Runtime\\PsrNyholmLaminas\\": "src/psr-nyholm-laminas/src",
             "Runtime\\PsrNyholm\\": "src/psr-nyholm/src",
-            "Runtime\\React\\": "src/react/src",
+            "Runtime\\React\\": "src/reactphp/src",
             "Runtime\\RoadRunnerNyholm\\": "src/roadrunner-nyholm/src",
             "Runtime\\RoadRunnerSymfonyNyholm\\": "src/roadrunner-symfony-nyholm/src",
             "Runtime\\SwooleNyholm\\": "src/swoole-nyholm/src",
