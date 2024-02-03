@@ -11,6 +11,8 @@ use Symfony\Component\Runtime\RunnerInterface;
  */
 class CallableRunner implements RunnerInterface
 {
+    use SwooleEventsTrait;
+
     /** @var ServerFactory */
     private $serverFactory;
     /** @var callable */
@@ -24,7 +26,11 @@ class CallableRunner implements RunnerInterface
 
     public function run(): int
     {
-        $this->serverFactory->createServer($this->application)->start();
+        $server = $this->serverFactory->createServer($this->application);
+
+        $this->registerSwooleEvents($server, $this->serverFactory->getOptions());
+
+        $server->start();
 
         return 0;
     }

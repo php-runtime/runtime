@@ -18,7 +18,8 @@
         "phpunit/phpunit": "^9.6.15",
         "swoole/ide-helper": "^4.6",
         "symfony/http-foundation": "^5.4.32 || ^6.3.9 || ^7.0",
-        "symfony/http-kernel": "^5.4.33 || ^6.3.10 || ^7.0"
+        "symfony/http-kernel": "^5.4.33 || ^6.3.10 || ^7.0",
+        "symfony/dependency-injection": "^5.4.33 || ^6.3.10 ||^7.0"
     },
     "conflict": {
         "ext-swoole": "<4.6.0"

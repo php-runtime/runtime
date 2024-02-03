@@ -5,6 +5,7 @@ namespace Runtime\Swoole;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\HttpKernel\TerminableInterface;
 use Symfony\Component\Runtime\RunnerInterface;
 
@@ -15,6 +16,8 @@ use Symfony\Component\Runtime\RunnerInterface;
  */
 class SymfonyRunner implements RunnerInterface
 {
+    use SwooleEventsTrait;
+
     /** @var ServerFactory */
     private $serverFactory;
     /** @var HttpKernelInterface */
@@ -28,7 +31,13 @@ class SymfonyRunner implements RunnerInterface
 
     public function run(): int
     {
-        $this->serverFactory->createServer([$this, 'handle'])->start();
+        $server = $this->serverFactory->createServer([$this, 'handle']);
+
+        if ($this->application instanceof KernelInterface) {
+            $this->registerSwooleEvents($server, $this->serverFactory->getOptions(), $this->application->getContainer());
+        }
+
+        $server->start();
 
         return 0;
     }

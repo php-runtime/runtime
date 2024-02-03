@@ -54,17 +54,20 @@ return function (array $context) {
 
 You can define some configurations using Symfony's Runtime `APP_RUNTIME_OPTIONS` API.
 
-| Option | Description | Default |
-| --- | --- | --- |
-| `host` | The host where the server should binds to (precedes `SWOOLE_HOST` environment variable) | `127.0.0.1` |
-| `port` | The port where the server should be listing (precedes `SWOOLE_PORT` environment variable) | `8000` |
-| `mode` | Swoole's server mode (precedes `SWOOLE_MODE` environment variable) | `SWOOLE_PROCESS` |
+| Option | Description                                                                                                                                               | Default |
+| --- |-----------------------------------------------------------------------------------------------------------------------------------------------------------| --- |
+| `host` | The host where the server should binds to (precedes `SWOOLE_HOST` environment variable)                                                                   | `127.0.0.1` |
+| `port` | The port where the server should be listing (precedes `SWOOLE_PORT` environment variable)                                                                 | `8000` |
+| `mode` | Swoole's server mode (precedes `SWOOLE_MODE` environment variable)                                                                                        | `SWOOLE_PROCESS` |
 | `settings` | All Swoole's server settings ([swoole.co.uk/docs/modules/swoole-server/configuration](https://www.swoole.co.uk/docs/modules/swoole-server/configuration)) | `[]` |
+| `server_event_listener_factory` | Factory function to create swoole server event listener class that implement `Runtime\Swoole\SwooleServerEventListenerInterface`                                                                             | `null` |
 
 ```php
 // public/index.php
 
 use App\Kernel;
+use Psr\Container\ContainerInterface;
+use Runtime\Swoole\SwooleServerEventListenerInterface;
 
 $_SERVER['APP_RUNTIME_OPTIONS'] = [
     'host' => '0.0.0.0',
@@ -75,6 +78,7 @@ $_SERVER['APP_RUNTIME_OPTIONS'] = [
         \Swoole\Constant::OPTION_ENABLE_STATIC_HANDLER => true,
         \Swoole\Constant::OPTION_DOCUMENT_ROOT => dirname(__DIR__).'/public'
     ],
+    'server_event_listener_factory' => fn(ContainerInterface $container) => $container->get(SwooleServerEventListenerInterface::class)
 ];
 
 require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
