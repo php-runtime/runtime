@@ -12,11 +12,11 @@ use Swoole\Server;
 
 require_once __DIR__.'/../../vendor/autoload.php';
 
-$eventListener = new class implements SwooleServerEventListenerInterface {
-
-    #[\Override] public function onStart(Server $server): void
+$eventListener = new class() implements SwooleServerEventListenerInterface {
+    #[\Override]
+    public function onStart(Server $server): void
     {
-        echo "-- onServerStart --" . PHP_EOL;
+        echo '-- onServerStart --'.PHP_EOL;
         go(function () use ($server) {
             Coroutine::waitSignal(SIGINT);
             $server->shutdown();
@@ -28,41 +28,48 @@ $eventListener = new class implements SwooleServerEventListenerInterface {
         });
     }
 
-    #[\Override] public function onShutdown(Server $server): void
+    #[\Override]
+    public function onShutdown(Server $server): void
     {
-        echo "-- onServerShutdown --" . PHP_EOL;
+        echo '-- onServerShutdown --'.PHP_EOL;
     }
 
-    #[\Override] public function onWorkerStart(Server $server, int $workerId): void
+    #[\Override]
+    public function onWorkerStart(Server $server, int $workerId): void
     {
-        echo "-- onWorkerStart --" . PHP_EOL;
+        echo '-- onWorkerStart --'.PHP_EOL;
     }
 
-    #[\Override] public function onWorkerStop(Server $server, int $workerId): void
+    #[\Override]
+    public function onWorkerStop(Server $server, int $workerId): void
     {
-        echo "-- onWorkerStop --" . PHP_EOL;
+        echo '-- onWorkerStop --'.PHP_EOL;
     }
 
-    #[\Override] public function onWorkerError(Server $server, int $workerId, int $exitCode, int $signal): void
+    #[\Override]
+    public function onWorkerError(Server $server, int $workerId, int $exitCode, int $signal): void
     {
-        echo "-- onWorkerError --" . PHP_EOL;
+        echo '-- onWorkerError --'.PHP_EOL;
     }
 
-    #[\Override] public function onWorkerExit(Server $server, int $workerId): void
+    #[\Override]
+    public function onWorkerExit(Server $server, int $workerId): void
     {
-        echo "-- onWorkerExit --" . PHP_EOL;
+        echo '-- onWorkerExit --'.PHP_EOL;
     }
 
-    #[\Override] public function onTask(Server $server, int $taskId, int $srcWorkerId, mixed $data): void
+    #[\Override]
+    public function onTask(Server $server, int $taskId, int $srcWorkerId, mixed $data): void
     {
-        echo "-- onTask --" . PHP_EOL;
-        echo "task payload: " . json_encode($data) . PHP_EOL;
+        echo '-- onTask --'.PHP_EOL;
+        echo 'task payload: '.json_encode($data).PHP_EOL;
         $server->finish($data);
     }
 
-    #[\Override] public function onFinish(Server $server, int $taskId, $data): void
+    #[\Override]
+    public function onFinish(Server $server, int $taskId, $data): void
     {
-        echo "-- onTaskFinish --" . PHP_EOL;
+        echo '-- onTaskFinish --'.PHP_EOL;
     }
 };
 $options = [
@@ -74,7 +81,7 @@ $options = [
         Constant::OPTION_ENABLE_STATIC_HANDLER => true,
         Constant::OPTION_DOCUMENT_ROOT => __DIR__.'/static',
     ],
-    'server_event_lister_factory' => fn() => $eventListener
+    'server_event_lister_factory' => fn () => $eventListener,
 ];
 
 $runtime = new Runtime($options);

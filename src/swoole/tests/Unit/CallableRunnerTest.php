@@ -25,7 +25,7 @@ class CallableRunnerTest extends TestCase
 
         $factory = $this->createMock(ServerFactory::class);
         $factory->expects(self::once())->method('createServer')->with(self::equalTo($application))->willReturn($server);
-        $factory->expects(self::once())->method('getOptions')->willReturn(['server_event_listener_factory' => fn() => $eventListener]);
+        $factory->expects(self::once())->method('getOptions')->willReturn(['server_event_listener_factory' => fn () => $eventListener]);
 
         $runner = new CallableRunner($factory, $application);
 
