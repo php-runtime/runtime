@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Runtime\Swoole;
 
 use Psr\Container\ContainerInterface;
+use Swoole\Constant;
 use Swoole\Server;
 
 trait SwooleEventsTrait
@@ -20,13 +21,13 @@ trait SwooleEventsTrait
             return;
         }
 
-        $server->on('start', [$eventListener, 'onStart']);
-        $server->on('workerStart', [$eventListener, 'onWorkerStart']);
-        $server->on('workerStop', [$eventListener, 'onWorkerStop']);
-        $server->on('workerError', [$eventListener, 'onWorkerError']);
-        $server->on('workerExit', [$eventListener, 'onWorkerExit']);
-        $server->on('task', [$eventListener, 'onTask']);
-        $server->on('finish', [$eventListener, 'onFinish']);
-        $server->on('shutdown', [$eventListener, 'onShutdown']);
+        $server->on(Constant::EVENT_START, [$eventListener, 'onStart']);
+        $server->on(Constant::EVENT_WORKER_START, [$eventListener, 'onWorkerStart']);
+        $server->on(Constant::EVENT_WORKER_STOP, [$eventListener, 'onWorkerStop']);
+        $server->on(Constant::EVENT_WORKER_ERROR, [$eventListener, 'onWorkerError']);
+        $server->on(Constant::EVENT_WORKER_EXIT, [$eventListener, 'onWorkerExit']);
+        $server->on(Constant::EVENT_TASK, [$eventListener, 'onTask']);
+        $server->on(Constant::EVENT_FINISH, [$eventListener, 'onFinish']);
+        $server->on(Constant::EVENT_SHUTDOWN, [$eventListener, 'onShutdown']);
     }
 }

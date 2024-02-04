@@ -5,7 +5,6 @@ namespace Runtime\Swoole\Tests\E2E;
 use Runtime\Swoole\Runtime;
 use Runtime\Swoole\SwooleServerEventListenerInterface;
 use Swoole\Constant;
-use Swoole\Coroutine;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 use Swoole\Server;
@@ -17,11 +16,7 @@ $eventListener = new class() implements SwooleServerEventListenerInterface {
     public function onStart(Server $server): void
     {
         echo '-- onServerStart --'.PHP_EOL;
-        go(function () use ($server) {
-            Coroutine::waitSignal(SIGINT);
-            $server->shutdown();
-            $server->stop();
-        });
+        echo "Manager PID: {$server->manager_pid}".PHP_EOL;
 
         go(function () use ($server) {
             $server->task(['data' => 'Hello World']);
@@ -81,7 +76,7 @@ $options = [
         Constant::OPTION_ENABLE_STATIC_HANDLER => true,
         Constant::OPTION_DOCUMENT_ROOT => __DIR__.'/static',
     ],
-    'server_event_lister_factory' => fn () => $eventListener,
+    'server_event_listener_factory' => fn () => $eventListener,
 ];
 
 $runtime = new Runtime($options);
