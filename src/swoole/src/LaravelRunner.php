@@ -4,6 +4,7 @@ namespace Runtime\Swoole;
 
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request as LaravelRequest;
+use Psr\Container\ContainerInterface;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 use Symfony\Component\Runtime\RunnerInterface;
@@ -15,6 +16,8 @@ use Symfony\Component\Runtime\RunnerInterface;
  */
 class LaravelRunner implements RunnerInterface
 {
+    use SwooleEventsTrait;
+
     /** @var ServerFactory */
     private $serverFactory;
     /** @var Kernel */
@@ -28,7 +31,13 @@ class LaravelRunner implements RunnerInterface
 
     public function run(): int
     {
-        $this->serverFactory->createServer([$this, 'handle'])->start();
+        $server = $this->serverFactory->createServer([$this, 'handle']);
+
+        if (($container = $this->application->getApplication()) instanceof ContainerInterface) {
+            $this->registerSwooleEvents($server, $this->serverFactory->getOptions(), $container);
+        }
+
+        $server->start();
 
         return 0;
     }
