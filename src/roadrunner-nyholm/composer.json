@@ -11,7 +11,9 @@
     ],
     "require": {
         "nyholm/psr7": "^1.4",
-        "spiral/roadrunner": "^2.0",
+        "spiral/roadrunner": "^2.0 || ^2023.3 || ^2024.1",
+        "spiral/roadrunner-cli": "^2.6",
+        "spiral/roadrunner-http": "^2.2 || ^3.5.1",
         "symfony/runtime": "^5.4 || ^6.0 || ^7.0"
     },
     "require-dev": {
