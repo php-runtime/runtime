@@ -88,7 +88,7 @@ jobs:
           composer-options: "--ignore-platform-reqs" # required for PHP 8.2 as not yet official supported
 
       - name: Psalm
-        run: psalm --no-progress --output-format=github
+        run: psalm --php-version=8.2 --no-progress --output-format=github
 
   composer-normalize:
     name: Composer Normalize
