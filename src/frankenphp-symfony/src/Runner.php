@@ -49,7 +49,7 @@ class Runner implements RunnerInterface
             }
 
             gc_collect_cycles();
-        } while ($ret && (-1 === $this->loopMax || ++$loops <= $this->loopMax));
+        } while ($ret && (-1 === $this->loopMax || ++$loops < $this->loopMax));
 
         return 0;
     }
