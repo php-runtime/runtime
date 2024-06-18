@@ -13,7 +13,7 @@
         "php": ">=8.0.5",
         "nyholm/psr7": "^1.4",
         "spiral/roadrunner-cli": "^2.6",
-        "spiral/roadrunner-http": "^2.2 || ^3.5.1",
+        "spiral/roadrunner-http": "^2.0 || ^3.0",
         "symfony/dependency-injection": "^5.4 || ^6.0 || ^7.0",
         "symfony/http-kernel": "^5.4 || ^6.0 || ^7.0",
         "symfony/psr-http-message-bridge": "^2.1 || ^6.4 || ^7.0",
