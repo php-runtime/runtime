@@ -23,6 +23,14 @@
       <code>$options</code>
     </InvalidArgument>
   </file>
+  <file src="src/frankenphp-symfony/src/ResponseRunner.php">
+    <UndefinedVariable>
+      <code>$sfRequest</code>
+    </UndefinedVariable>
+    <UndefinedFunction>
+      <code><![CDATA[\frankenphp_handle_request($handler)]]></code>
+    </UndefinedFunction>
+  </file>
   <file src="src/google-cloud/router.php">
     <MissingFile>
       <code><![CDATA[require_once $_SERVER['SCRIPT_FILENAME'] = $defaultSource]]></code>

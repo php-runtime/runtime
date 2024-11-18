@@ -7,6 +7,7 @@ namespace Runtime\FrankenPhpSymfony\Tests;
 require_once __DIR__.'/function-mock.php';
 
 use PHPUnit\Framework\TestCase;
+use Runtime\FrankenPhpSymfony\ResponseRunner;
 use Runtime\FrankenPhpSymfony\Runner;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,6 +23,17 @@ interface TestAppInterface extends HttpKernelInterface, TerminableInterface
  */
 class RunnerTest extends TestCase
 {
+    public function testResponseRun(): void
+    {
+        $application = $this->createMock(Response::class);
+        $application
+            ->expects($this->once())
+            ->method('send');
+
+        $runner = new ResponseRunner($application, 500);
+        $this->assertSame(0, $runner->run());
+    }
+
     public function testRun(): void
     {
         $application = $this->createMock(TestAppInterface::class);
