@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.3.0
+
+- Add `frankenphp_kernel_reboot` option
+
 ## 0.2.0
 
 - Add support for Symfony 7

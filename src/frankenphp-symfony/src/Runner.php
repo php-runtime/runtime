@@ -6,6 +6,7 @@ namespace Runtime\FrankenPhpSymfony;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpKernel\RebootableInterface;
 use Symfony\Component\HttpKernel\TerminableInterface;
 use Symfony\Component\Runtime\RunnerInterface;
 
@@ -19,6 +20,7 @@ class Runner implements RunnerInterface
     public function __construct(
         private HttpKernelInterface $kernel,
         private int $loopMax,
+        private string $kernelReboot,
     ) {
     }
 
@@ -46,6 +48,10 @@ class Runner implements RunnerInterface
 
             if ($this->kernel instanceof TerminableInterface && $sfRequest && $sfResponse) {
                 $this->kernel->terminate($sfRequest, $sfResponse);
+            }
+
+            if ($this->kernel instanceof RebootableInterface && ('always' === $this->kernelReboot)) {
+                $this->kernel->reboot(null);
             }
 
             gc_collect_cycles();
