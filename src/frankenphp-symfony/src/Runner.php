@@ -27,10 +27,17 @@ class Runner implements RunnerInterface
         // Prevent worker script termination when a client connection is interrupted
         ignore_user_abort(true);
 
+        $xdebugConnectToClient = function_exists('xdebug_connect_to_client');
+
         $server = array_filter($_SERVER, static fn (string $key) => !str_starts_with($key, 'HTTP_'), ARRAY_FILTER_USE_KEY);
         $server['APP_RUNTIME_MODE'] = 'web=1&worker=1';
 
-        $handler = function () use ($server, &$sfRequest, &$sfResponse): void {
+        $handler = function () use ($server, &$sfRequest, &$sfResponse, $xdebugConnectToClient): void {
+            // Connect to the Xdebug client if it's available
+            if ($xdebugConnectToClient) {
+                xdebug_connect_to_client();
+            }
+
             // Merge the environment variables coming from DotEnv with the ones tied to the current request
             $_SERVER += $server;
 
