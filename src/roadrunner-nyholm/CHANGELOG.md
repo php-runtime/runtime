@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.2.0
+
+### Added
+
+- Support for RoadRunner 2023 and 2024
+
 ## 0.1.2
 
 ### Added
