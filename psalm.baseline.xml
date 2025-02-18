@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.17.0@c620f6e80d0abfca532b00bda366062aaedf6e5d">
+<files psalm-version="5.26.1@d747f6500b38ac4f7dfc5edbcae6e4b637d7add0">
   <file src="src/bref/src/Runtime.php">
     <InvalidArgument>
-      <code>$options</code>
+      <code><![CDATA[$options]]></code>
     </InvalidArgument>
   </file>
   <file src="src/bref/src/SymfonyRequestBridge.php">
@@ -12,15 +12,12 @@
   </file>
   <file src="src/frankenphp-symfony/src/Runner.php">
     <UndefinedVariable>
-      <code>$sfRequest</code>
+      <code><![CDATA[$sfRequest]]></code>
     </UndefinedVariable>
-    <UndefinedFunction>
-      <code><![CDATA[\frankenphp_handle_request($handler)]]></code>
-    </UndefinedFunction>
   </file>
   <file src="src/frankenphp-symfony/src/Runtime.php">
     <InvalidArgument>
-      <code>$options</code>
+      <code><![CDATA[$options]]></code>
     </InvalidArgument>
   </file>
   <file src="src/google-cloud/router.php">
@@ -30,18 +27,28 @@
   </file>
   <file src="src/psr-17/src/Runtime.php">
     <InvalidArgument>
-      <code>$options</code>
+      <code><![CDATA[$options]]></code>
     </InvalidArgument>
   </file>
   <file src="src/psr-laminas/src/Runtime.php">
     <InvalidArgument>
-      <code>$options</code>
+      <code><![CDATA[$options]]></code>
     </InvalidArgument>
   </file>
   <file src="src/psr-nyholm-laminas/src/Runtime.php">
     <InvalidArgument>
-      <code>$options</code>
+      <code><![CDATA[$options]]></code>
     </InvalidArgument>
+  </file>
+  <file src="src/roadrunner-nyholm/src/Runner.php">
+    <UndefinedClass>
+      <code><![CDATA[RoadRunner\Worker]]></code>
+    </UndefinedClass>
+  </file>
+  <file src="src/roadrunner-symfony-nyholm/src/Runner.php">
+    <UndefinedClass>
+      <code><![CDATA[RoadRunner\Worker]]></code>
+    </UndefinedClass>
   </file>
   <file src="src/swoole/src/SymfonyHttpBridge.php">
     <InvalidScalarArgument>

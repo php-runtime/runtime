@@ -106,8 +106,6 @@ class SymfonyRequestBridge
 
     /**
      * Parse a string key like "files[id_cards][jpg][]" and do $array['files']['id_cards']['jpg'][] = $value.
-     *
-     * @param mixed $value
      */
     private static function parseKeyAndInsertValueInArray(array &$array, string $key, $value): void
     {

@@ -18,9 +18,7 @@
 
 namespace Google\CloudFunctions;
 
-use JsonSerializable;
-
-class CloudEvent implements JsonSerializable
+class CloudEvent implements \JsonSerializable
 {
     // Required Fields
     private $id;
@@ -33,9 +31,6 @@ class CloudEvent implements JsonSerializable
     private $dataschema;
     private $subject;
     private $time;
-    /**
-     * @var mixed
-     */
     private $data;
 
     final public function __construct(
@@ -47,7 +42,7 @@ class CloudEvent implements JsonSerializable
         ?string $dataschema,
         ?string $subject,
         ?string $time,
-        $data
+        $data,
     ) {
         $this->id = $id;
         $this->source = $source;
@@ -100,9 +95,6 @@ class CloudEvent implements JsonSerializable
         return $this->time;
     }
 
-    /**
-     * @return mixed
-     */
     public function getData()
     {
         return $this->data;

@@ -36,7 +36,7 @@ class LambdaClientTest extends TestCase
     {
         $this->givenAnEvent(['Hello' => 'world!']);
 
-        $output = $this->lambda->processNextEvent(new class() implements Handler {
+        $output = $this->lambda->processNextEvent(new class implements Handler {
             public function handle($event, Context $context)
             {
                 return ['hello' => 'world'];
@@ -51,7 +51,7 @@ class LambdaClientTest extends TestCase
     {
         $this->givenAnEvent(['Hello' => 'world!']);
 
-        $this->lambda->processNextEvent(new class() implements Handler {
+        $this->lambda->processNextEvent(new class implements Handler {
             public function handle($event, Context $context)
             {
                 return ['hello' => 'world', 'received-function-arn' => $context->getInvokedFunctionArn()];
@@ -68,7 +68,7 @@ class LambdaClientTest extends TestCase
     {
         $this->givenAnEvent(['Hello' => 'world!']);
 
-        $output = $this->lambda->processNextEvent(new class() implements Handler {
+        $output = $this->lambda->processNextEvent(new class implements Handler {
             public function handle($event, Context $context)
             {
                 throw new \RuntimeException('This is an exception');
@@ -84,7 +84,7 @@ class LambdaClientTest extends TestCase
     {
         $this->givenAnEvent(['Hello' => 'world!']);
 
-        $this->lambda->processNextEvent(new class() implements Handler {
+        $this->lambda->processNextEvent(new class implements Handler {
             public function handle($event, Context $context)
             {
                 throw new \RuntimeException('This is an exception', 0, new \RuntimeException('The previous exception.', 0, new \Exception('The original exception.')));
@@ -112,7 +112,7 @@ class LambdaClientTest extends TestCase
             ),
         ]);
 
-        $this->lambda->processNextEvent(new class() implements Handler {
+        $this->lambda->processNextEvent(new class implements Handler {
             public function handle($event, Context $context)
             {
             }
@@ -130,7 +130,7 @@ class LambdaClientTest extends TestCase
             ),
         ]);
 
-        $this->lambda->processNextEvent(new class() implements Handler {
+        $this->lambda->processNextEvent(new class implements Handler {
             public function handle($event, Context $context)
             {
             }
@@ -149,7 +149,7 @@ class LambdaClientTest extends TestCase
             ),
         ]);
 
-        $this->lambda->processNextEvent(new class() implements Handler {
+        $this->lambda->processNextEvent(new class implements Handler {
             public function handle($event, Context $context)
             {
             }
@@ -170,7 +170,7 @@ class LambdaClientTest extends TestCase
             new Response(200),
         ]);
 
-        $this->lambda->processNextEvent(new class() implements Handler {
+        $this->lambda->processNextEvent(new class implements Handler {
             public function handle($event, Context $context)
             {
                 return $event;
@@ -198,7 +198,7 @@ class LambdaClientTest extends TestCase
     {
         $this->givenAnEvent(['hello' => 'world!']);
 
-        $this->lambda->processNextEvent(new class() implements Handler {
+        $this->lambda->processNextEvent(new class implements Handler {
             public function handle($event, Context $context)
             {
                 return "\xB1\x31";
@@ -216,12 +216,7 @@ ERROR;
 
     public function test generic event handler()
     {
-        $handler = new class() implements Handler {
-            /**
-             * @param mixed $event
-             *
-             * @return mixed
-             */
+        $handler = new class implements Handler {
             public function handle($event, Context $context)
             {
                 return $event;
@@ -235,9 +230,6 @@ ERROR;
         $this->assertInvocationResult(['foo' => 'bar']);
     }
 
-    /**
-     * @param mixed $event
-     */
     private function givenAnEvent($event): void
     {
         Server::enqueue([
@@ -253,9 +245,6 @@ ERROR;
         ]);
     }
 
-    /**
-     * @param mixed $result
-     */
     private function assertInvocationResult($result)
     {
         $requests = Server::received();
