@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.4.0
+
+### Added
+
+- Support for RoadRunner 2023 and 2024
+
 ## 0.3.1
 
 - Add support for symfony/psr-http-message-bridge 6 and 7
