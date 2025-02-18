@@ -5,11 +5,11 @@ $finder = PhpCsFixer\Finder::create()
 ;
 
 return (new PhpCsFixer\Config())
-    ->setCacheFile(__DIR__.'/.github/.cache/php-cs-fixer/.php_cs.cache')
     ->setRiskyAllowed(true)
     ->setRules([
         '@PSR2' => true,
         '@Symfony' => true,
+        'fully_qualified_strict_types' => false,
     ])
     ->setFinder($finder)
 ;

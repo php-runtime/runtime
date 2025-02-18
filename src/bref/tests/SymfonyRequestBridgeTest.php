@@ -62,7 +62,7 @@ rfc
 ------------------------------83ff53821b7c--
 
 HTTP
-,
+            ,
         ]), $this->getContext());
         $this->assertSame('', $request->getContent());
     }
@@ -91,7 +91,7 @@ bar
 ------------------------------83ff53821b7c--
 
 HTTP
-,
+            ,
         ]), $this->getContext());
         $files = $request->files->all();
         $this->assertArrayHasKey('img', $files['form']);
@@ -125,7 +125,7 @@ bar
 ------------------------------83ff53821b7c--
 
 HTTP
-,
+            ,
         ]), $this->getContext());
         $files = $request->files->all();
         $this->assertArrayHasKey('img', $files['form']);

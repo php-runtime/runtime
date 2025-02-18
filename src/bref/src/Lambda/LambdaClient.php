@@ -93,7 +93,7 @@ final class LambdaClient
      *
      * @return bool true if event was successfully handled
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function processNextEvent(Handler $handler): bool
     {
@@ -167,16 +167,16 @@ final class LambdaClient
         if (curl_errno($this->handler) > 0) {
             $message = curl_error($this->handler);
             $this->closeHandler();
-            throw new Exception('Failed to fetch next Lambda invocation: '.$message);
+            throw new \Exception('Failed to fetch next Lambda invocation: '.$message);
         }
         if ('' === $body) {
-            throw new Exception('Empty Lambda runtime API response');
+            throw new \Exception('Empty Lambda runtime API response');
         }
 
         $context = $contextBuilder->buildContext();
 
         if ('' === $context->getAwsRequestId()) {
-            throw new Exception('Failed to determine the Lambda invocation ID');
+            throw new \Exception('Failed to determine the Lambda invocation ID');
         }
 
         $event = json_decode($body, true);
@@ -185,8 +185,6 @@ final class LambdaClient
     }
 
     /**
-     * @param mixed $responseData
-     *
      * @see https://docs.aws.amazon.com/lambda/latest/dg/runtimes-api.html#runtimes-api-response
      */
     private function sendResponse(string $invocationId, $responseData): void
@@ -246,7 +244,7 @@ final class LambdaClient
         // Log the exception in CloudWatch
         echo "$message\n";
         if ($error) {
-            if ($error instanceof Exception) {
+            if ($error instanceof \Exception) {
                 $errorMessage = get_class($error).': '.$error->getMessage();
             } else {
                 $errorMessage = $error->getMessage();
@@ -270,14 +268,11 @@ final class LambdaClient
         exit(1);
     }
 
-    /**
-     * @param mixed $data
-     */
     private function postJson(string $url, $data): void
     {
         $jsonData = json_encode($data);
         if (false === $jsonData) {
-            throw new Exception(sprintf("The Lambda response cannot be encoded to JSON.\nThis error usually happens when you try to return binary content. If you are writing an HTTP application and you want to return a binary HTTP response (like an image, a PDF, etc.), please read this guide: https://bref.sh/docs/runtimes/http.html#binary-responses\nHere is the original JSON error: '%s'", json_last_error_msg()));
+            throw new \Exception(sprintf("The Lambda response cannot be encoded to JSON.\nThis error usually happens when you try to return binary content. If you are writing an HTTP application and you want to return a binary HTTP response (like an image, a PDF, etc.), please read this guide: https://bref.sh/docs/runtimes/http.html#binary-responses\nHere is the original JSON error: '%s'", json_last_error_msg()));
         }
 
         if (null === $this->returnHandler) {
@@ -297,7 +292,7 @@ final class LambdaClient
         if (curl_errno($this->returnHandler) > 0) {
             $errorMessage = curl_error($this->returnHandler);
             $this->closeReturnHandler();
-            throw new Exception('Error while calling the Lambda runtime API: '.$errorMessage);
+            throw new \Exception('Error while calling the Lambda runtime API: '.$errorMessage);
         }
     }
 

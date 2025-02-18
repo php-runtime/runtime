@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2019 Google LLC.
  *
@@ -28,7 +29,7 @@ class Context
         ?string $eventId,
         ?string $timestamp,
         ?string $eventType,
-        ?array $resource
+        ?array $resource,
     ) {
         $this->eventId = $eventId;
         $this->timestamp = $timestamp;
