@@ -23,7 +23,7 @@ class LegacyEventMapper
     // Maps background/legacy event types to their equivalent CloudEvent types.
     // For more info on event mappings see
     // https://github.com/GoogleCloudPlatform/functions-framework-conformance/blob/master/docs/mapping.md
-    private static $ceTypeMap = [
+    private static array $ceTypeMap = [
         'google.pubsub.topic.publish' => 'google.cloud.pubsub.topic.v1.messagePublished',
         'providers/cloud.pubsub/eventTypes/topic.publish' => 'google.cloud.pubsub.topic.v1.messagePublished',
         'google.storage.object.finalize' => 'google.cloud.storage.object.v1.finalized',
@@ -53,7 +53,7 @@ class LegacyEventMapper
     private const STORAGE_CE_SERVICE = 'storage.googleapis.com';
 
     // Maps background event services to their equivalent CloudEvent services.
-    private static $ceServiceMap = [
+    private static array $ceServiceMap = [
         'providers/cloud.firestore/' => self::FIRESTORE_CE_SERVICE,
         'providers/google.firebase.analytics/' => self::FIREBASE_CE_SERVICE,
         'providers/firebase.auth/' => self::FIREBASE_AUTH_CE_SERVICE,
@@ -66,7 +66,7 @@ class LegacyEventMapper
     // event resource string into CloudEvent resource and subject strings. Each regex
     // must have exactly two capture groups: the first for the resource and the second
     // for the subject.
-    private static $ceResourceRegexMap = [
+    private static array $ceResourceRegexMap = [
         self::FIREBASE_CE_SERVICE => '#^(projects/[^/]+)/(events/[^/]+)$#',
         self::FIREBASE_DB_CE_SERVICE => '#^(projects/_/instances/[^/]+)/(refs/.+)$#',
         self::FIRESTORE_CE_SERVICE => '#^(projects/[^/]+/databases/\(default\))/(documents/.+)$#',
@@ -75,7 +75,7 @@ class LegacyEventMapper
 
     // Maps Firebase Auth background event metadata field names to their equivalent
     // CloudEvent field names.
-    private static $firebaseAuthMetadataFieldMap = [
+    private static array $firebaseAuthMetadataFieldMap = [
         'createdAt' => 'createTime',
         'lastSignedInAt' => 'lastSignInTime',
     ];

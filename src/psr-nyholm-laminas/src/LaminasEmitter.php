@@ -2,6 +2,7 @@
 
 namespace Runtime\PsrNyholmLaminas;
 
+use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -13,10 +14,10 @@ use Symfony\Component\Runtime\RunnerInterface;
  */
 class LaminasEmitter implements RunnerInterface
 {
-    private $requestHandler;
-    private $response;
-    private $request;
-    private $emitter;
+    private ?RequestHandlerInterface $requestHandler = null;
+    private ?ResponseInterface $response = null;
+    private ?ServerRequestInterface $request = null;
+    private EmitterInterface $emitter;
 
     private function __construct(array $options)
     {

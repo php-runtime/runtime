@@ -16,8 +16,7 @@ use Runtime\Bref\Lambda\LambdaClient;
  */
 class LambdaClientTest extends TestCase
 {
-    /** @var LambdaClient */
-    private $lambda;
+    private LambdaClient $lambda;
 
     protected function setUp(): void
     {
@@ -32,12 +31,12 @@ class LambdaClientTest extends TestCase
         ob_end_clean();
     }
 
-    public function test basic behavior()
+    public function test basic behavior(): void
     {
         $this->givenAnEvent(['Hello' => 'world!']);
 
         $output = $this->lambda->processNextEvent(new class implements Handler {
-            public function handle($event, Context $context)
+            public function handle($event, Context $context): array
             {
                 return ['hello' => 'world'];
             }
@@ -47,12 +46,12 @@ class LambdaClientTest extends TestCase
         $this->assertInvocationResult(['hello' => 'world']);
     }
 
-    public function test handler receives context()
+    public function test handler receives context(): void
     {
         $this->givenAnEvent(['Hello' => 'world!']);
 
         $this->lambda->processNextEvent(new class implements Handler {
-            public function handle($event, Context $context)
+            public function handle($event, Context $context): array
             {
                 return ['hello' => 'world', 'received-function-arn' => $context->getInvokedFunctionArn()];
             }
@@ -64,7 +63,7 @@ class LambdaClientTest extends TestCase
         ]);
     }
 
-    public function test exceptions in the handler result in an invocation error()
+    public function test exceptions in the handler result in an invocation error(): void
     {
         $this->givenAnEvent(['Hello' => 'world!']);
 
@@ -80,7 +79,7 @@ class LambdaClientTest extends TestCase
         $this->assertErrorInLogs('RuntimeException', 'This is an exception');
     }
 
-    public function test nested exceptions in the handler result in an invocation error()
+    public function test nested exceptions in the handler result in an invocation error(): void
     {
         $this->givenAnEvent(['Hello' => 'world!']);
 
@@ -99,7 +98,7 @@ class LambdaClientTest extends TestCase
         ]);
     }
 
-    public function test an error is thrown if the runtime API returns a wrong response()
+    public function test an error is thrown if the runtime API returns a wrong response(): void
     {
         $this->expectExceptionMessage('Failed to fetch next Lambda invocation: The requested URL returned error: 404');
         Server::enqueue([
@@ -119,7 +118,7 @@ class LambdaClientTest extends TestCase
         });
     }
 
-    public function test an error is thrown if the invocation id is missing()
+    public function test an error is thrown if the invocation id is missing(): void
     {
         $this->expectExceptionMessage('Failed to determine the Lambda invocation ID');
         Server::enqueue([
@@ -137,7 +136,7 @@ class LambdaClientTest extends TestCase
         });
     }
 
-    public function test an error is thrown if the invocation body is empty()
+    public function test an error is thrown if the invocation body is empty(): void
     {
         $this->expectExceptionMessage('Empty Lambda runtime API response');
         Server::enqueue([
@@ -156,7 +155,7 @@ class LambdaClientTest extends TestCase
         });
     }
 
-    public function test a wrong response from the runtime API turns the invocation into an error()
+    public function test a wrong response from the runtime API turns the invocation into an error(): void
     {
         Server::enqueue([
             new Response( // lambda event
@@ -194,12 +193,12 @@ class LambdaClientTest extends TestCase
         $this->assertErrorInLogs('Exception', 'Error while calling the Lambda runtime API: The requested URL returned error: 400');
     }
 
-    public function test function results that cannot be encoded are reported as invocation errors()
+    public function test function results that cannot be encoded are reported as invocation errors(): void
     {
         $this->givenAnEvent(['hello' => 'world!']);
 
         $this->lambda->processNextEvent(new class implements Handler {
-            public function handle($event, Context $context)
+            public function handle($event, Context $context): string
             {
                 return "\xB1\x31";
             }
@@ -214,7 +213,7 @@ ERROR;
         $this->assertErrorInLogs('Exception', $message);
     }
 
-    public function test generic event handler()
+    public function test generic event handler(): void
     {
         $handler = new class implements Handler {
             public function handle($event, Context $context)
@@ -245,7 +244,7 @@ ERROR;
         ]);
     }
 
-    private function assertInvocationResult($result)
+    private function assertInvocationResult($result): void
     {
         $requests = Server::received();
         $this->assertCount(2, $requests);
@@ -258,7 +257,7 @@ ERROR;
         $this->assertEquals($result, json_decode($eventResponse->getBody()->__toString(), true));
     }
 
-    private function assertInvocationErrorResult(string $errorClass, string $errorMessage)
+    private function assertInvocationErrorResult(string $errorClass, string $errorMessage): void
     {
         $requests = Server::received();
         $this->assertCount(2, $requests);
@@ -305,7 +304,7 @@ ERROR;
         $this->assertIsArray($invocationResult['stack']);
     }
 
-    private function assertPreviousErrorsInLogs(array $previousErrors)
+    private function assertPreviousErrorsInLogs(array $previousErrors): void
     {
         // Decode the logs from stdout
         $stdout = $this->getActualOutput();

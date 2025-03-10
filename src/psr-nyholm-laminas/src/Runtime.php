@@ -17,10 +17,7 @@ use Symfony\Component\Runtime\RunnerInterface;
  */
 class Runtime extends GenericRuntime
 {
-    /**
-     * @var ServerRequestCreator|null
-     */
-    private $requestCreator;
+    private ?ServerRequestCreator $requestCreator = null;
 
     /**
      * @param array{
@@ -73,10 +70,7 @@ class Runtime extends GenericRuntime
         return $self;
     }
 
-    /**
-     * @return ServerRequestInterface
-     */
-    private function createRequest()
+    private function createRequest(): ServerRequestInterface
     {
         if (null === $this->requestCreator) {
             $creatorClass = $this->options['server_request_creator'] ?? ServerRequestCreator::class;

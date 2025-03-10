@@ -17,12 +17,8 @@ use Symfony\Component\HttpKernel\TerminableInterface;
  */
 class SymfonyHttpHandler extends HttpHandler
 {
-    private $kernel;
-
-    public function __construct(HttpKernelInterface $kernel)
+    public function __construct(private HttpKernelInterface $kernel)
     {
-        $this->kernel = $kernel;
-
         Request::setTrustedProxies(['127.0.0.1'], Request::HEADER_X_FORWARDED_FOR | Request::HEADER_X_FORWARDED_HOST | Request::HEADER_X_FORWARDED_PORT | Request::HEADER_X_FORWARDED_PROTO);
     }
 

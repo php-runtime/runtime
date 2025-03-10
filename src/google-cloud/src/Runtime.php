@@ -18,7 +18,7 @@ class Runtime extends GenericRuntime
     // from this list because the header 'ce-datacontenttype' is not permitted;
     // that data comes from the 'Content-Type' header instead. For more info see
     // https://github.com/cloudevents/spec/blob/v1.0.1/http-protocol-binding.md#311-http-content-type
-    private static $binaryModeHeaderAttrs = [
+    private static array $binaryModeHeaderAttrs = [
         'id',
         'source',
         'specversion',
@@ -90,7 +90,7 @@ class Runtime extends GenericRuntime
         }
     }
 
-    protected function sendHttpResponseAndExit(int $status, string $body, array $headers)
+    protected function sendHttpResponseAndExit(int $status, string $body, array $headers): void
     {
         error_log($body);
         header('HTTP/1.1 '.$status);

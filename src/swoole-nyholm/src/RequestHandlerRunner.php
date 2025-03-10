@@ -9,21 +9,12 @@ use Symfony\Component\Runtime\RunnerInterface;
 
 class RequestHandlerRunner implements RunnerInterface
 {
-    private const CHUNK_SIZE = 2097152; // 2MB
+    private const CHUNK_SIZE = 2097152;
 
-    /**
-     * @var ServerFactory
-     */
-    private $serverFactory;
+    private RequestHandlerInterface $application;
 
-    /**
-     * @var RequestHandlerInterface
-     */
-    private $application;
-
-    public function __construct(ServerFactory $serverFactory, RequestHandlerInterface $application)
+    public function __construct(private ServerFactory $serverFactory, RequestHandlerInterface $application)
     {
-        $this->serverFactory = $serverFactory;
         $this->application = $application;
     }
 

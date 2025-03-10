@@ -20,39 +20,19 @@ namespace Google\CloudFunctions;
 
 class CloudEvent implements \JsonSerializable
 {
-    // Required Fields
-    private $id;
-    private $source;
-    private $specversion;
-    private $type;
-
-    // Optional Fields
-    private $datacontenttype;
-    private $dataschema;
-    private $subject;
-    private $time;
-    private $data;
-
     final public function __construct(
-        string $id,
-        string $source,
-        string $specversion,
-        string $type,
-        ?string $datacontenttype,
-        ?string $dataschema,
-        ?string $subject,
-        ?string $time,
-        $data,
+        // Required Fields
+        private string $id,
+        private string $source,
+        private string $specversion,
+        private string $type,
+        // Optional Fields
+        private ?string $datacontenttype,
+        private ?string $dataschema,
+        private ?string $subject,
+        private ?string $time,
+        private mixed $data
     ) {
-        $this->id = $id;
-        $this->source = $source;
-        $this->specversion = $specversion;
-        $this->type = $type;
-        $this->datacontenttype = $datacontenttype;
-        $this->dataschema = $dataschema;
-        $this->subject = $subject;
-        $this->time = $time;
-        $this->data = $data;
     }
 
     public function getId(): string
@@ -100,7 +80,7 @@ class CloudEvent implements \JsonSerializable
         return $this->data;
     }
 
-    public static function fromArray(array $arr)
+    public static function fromArray(array $arr): static
     {
         $args = [];
         $argKeys = [

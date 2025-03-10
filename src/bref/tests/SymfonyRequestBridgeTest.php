@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class SymfonyRequestBridgeTest extends TestCase
 {
-    public function testClientIpFromForwardedFor()
+    public function testClientIpFromForwardedFor(): void
     {
         $request = SymfonyRequestBridge::convertRequest(new HttpRequestEvent([
             'requestContext' => ['http' => ['method' => 'GET']],
@@ -23,7 +23,7 @@ class SymfonyRequestBridgeTest extends TestCase
     /**
      * Raw content should only exist when there is no multipart content.
      */
-    public function testRawContent()
+    public function testRawContent(): void
     {
         // No content type
         $request = SymfonyRequestBridge::convertRequest(new HttpRequestEvent([
@@ -67,7 +67,7 @@ HTTP
         $this->assertSame('', $request->getContent());
     }
 
-    public function testUploadedFile()
+    public function testUploadedFile(): void
     {
         $request = SymfonyRequestBridge::convertRequest(new HttpRequestEvent([
             'requestContext' => ['http' => ['method' => 'POST']],
@@ -107,7 +107,7 @@ HTTP
         $this->assertSame('bar', $post['foo']);
     }
 
-    public function testEmptyUploadedFile()
+    public function testEmptyUploadedFile(): void
     {
         $request = SymfonyRequestBridge::convertRequest(new HttpRequestEvent([
             'requestContext' => ['http' => ['method' => 'POST']],
@@ -136,7 +136,7 @@ HTTP
         $this->assertSame('bar', $post['foo']);
     }
 
-    public function testLambdaContext()
+    public function testLambdaContext(): void
     {
         $requestContext = ['http' => ['method' => 'GET']];
         $request = SymfonyRequestBridge::convertRequest(new HttpRequestEvent([
@@ -149,7 +149,7 @@ HTTP
         $this->assertSame(json_encode($requestContext), $request->server->get('LAMBDA_REQUEST_CONTEXT'));
     }
 
-    private function getContext()
+    private function getContext(): Context
     {
         // this is set in LaravelHttpHandler and SymfonyHttpHandler to allow overwrite of this value
         Request::setTrustedProxies(['127.0.0.1'], Request::HEADER_X_FORWARDED_FOR | Request::HEADER_X_FORWARDED_HOST | Request::HEADER_X_FORWARDED_PORT | Request::HEADER_X_FORWARDED_PROTO);

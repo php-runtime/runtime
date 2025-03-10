@@ -13,13 +13,11 @@ use Symfony\Component\Runtime\RunnerInterface;
  */
 class ConsoleApplicationRunner implements RunnerInterface
 {
-    private $handler;
-    private $loopMax;
+    private ConsoleApplicationHandler $handler;
 
-    public function __construct(Application $application, int $loopMax = 1)
+    public function __construct(Application $application, private int $loopMax = 1)
     {
         $this->handler = new ConsoleApplicationHandler($application);
-        $this->loopMax = $loopMax;
     }
 
     public function run(): int
