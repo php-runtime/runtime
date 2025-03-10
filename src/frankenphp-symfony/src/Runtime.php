@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Runtime\FrankenPhpSymfony;
 
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Runtime\RunnerInterface;
 use Symfony\Component\Runtime\SymfonyRuntime;
@@ -29,8 +30,14 @@ class Runtime extends SymfonyRuntime
 
     public function getRunner(?object $application): RunnerInterface
     {
-        if ($application instanceof HttpKernelInterface && ($_SERVER['FRANKENPHP_WORKER'] ?? false)) {
-            return new Runner($application, $this->options['frankenphp_loop_max']);
+        if ($_SERVER['FRANKENPHP_WORKER'] ?? false) {
+            if ($application instanceof HttpKernelInterface) {
+                return new Runner($application, $this->options['frankenphp_loop_max']);
+            }
+
+            if ($application instanceof Response) {
+                return new ResponseRunner($application, $this->options['frankenphp_loop_max']);
+            }
         }
 
         return parent::getRunner($application);
