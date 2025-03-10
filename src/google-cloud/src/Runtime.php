@@ -90,7 +90,7 @@ class Runtime extends GenericRuntime
         }
     }
 
-    protected function sendHttpResponseAndExit(int $status, string $body, array $headers)
+    protected function sendHttpResponseAndExit(int $status, string $body, array $headers): void
     {
         error_log($body);
         header('HTTP/1.1 '.$status);

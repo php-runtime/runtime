@@ -23,7 +23,7 @@ class ConsoleApplicationHandler implements Handler
         $this->application->setAutoExit(false);
     }
 
-    public function handle($event, Context $context)
+    public function handle($event, Context $context): array
     {
         $args = \Clue\Arguments\split((string) $event);
         array_unshift($args, 'command');

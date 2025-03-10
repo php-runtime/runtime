@@ -7,7 +7,7 @@ use Runtime\GoogleCloud\Runtime;
 
 class AutoDiscoverTest extends TestCase
 {
-    public function testAutoDiscoverClasses()
+    public function testAutoDiscoverClasses(): void
     {
         $classes = [
             'Symfony\Runtime\Google\CloudFunctions\CloudEventRuntime',

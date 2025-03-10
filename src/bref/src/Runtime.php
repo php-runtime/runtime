@@ -46,7 +46,7 @@ class Runtime extends SymfonyRuntime
         }
     }
 
-    private function tryToFindRunner(?object $application)
+    private function tryToFindRunner(?object $application): RunnerInterface
     {
         if ($application instanceof ContainerInterface) {
             $handler = explode(':', $_SERVER['_HANDLER']);

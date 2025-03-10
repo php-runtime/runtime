@@ -80,7 +80,7 @@ class CloudEvent implements \JsonSerializable
         return $this->data;
     }
 
-    public static function fromArray(array $arr)
+    public static function fromArray(array $arr): static
     {
         $args = [];
         $argKeys = [

@@ -54,7 +54,7 @@ class Context
         return $this->resource['name'] ?? null;
     }
 
-    public static function fromArray(array $arr)
+    public static function fromArray(array $arr): static
     {
         // When "resource" is defined in the root (instead of in "context") it
         // is a string representing the resource name

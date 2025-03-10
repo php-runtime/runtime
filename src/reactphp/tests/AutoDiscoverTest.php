@@ -7,7 +7,7 @@ use Runtime\React\Runtime;
 
 class AutoDiscoverTest extends TestCase
 {
-    public function testAutoDiscoverClasses()
+    public function testAutoDiscoverClasses(): void
     {
         $classes = [
             'Symfony\Runtime\Psr\Http\Server\RequestHandlerInterfaceRuntime',

@@ -54,10 +54,7 @@ class Runtime extends GenericRuntime
         return $self;
     }
 
-    /**
-     * @return ServerRequestInterface
-     */
-    private function createRequest()
+    private function createRequest(): ServerRequestInterface
     {
         if (null === $this->requestCreator) {
             $psr17Factory = new Psr17Factory();
