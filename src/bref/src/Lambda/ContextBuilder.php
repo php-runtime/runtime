@@ -9,17 +9,13 @@ use Bref\Context\Context;
  */
 final class ContextBuilder
 {
-    /** @var string */
-    private $awsRequestId;
+    private string $awsRequestId;
 
-    /** @var int */
-    private $deadlineMs;
+    private int $deadlineMs;
 
-    /** @var string */
-    private $invokedFunctionArn;
+    private string $invokedFunctionArn;
 
-    /** @var string */
-    private $traceId;
+    private string $traceId;
 
     public function __construct()
     {

@@ -15,14 +15,10 @@ use Symfony\Component\Runtime\RunnerInterface;
  */
 class LaravelRunner implements RunnerInterface
 {
-    /** @var ServerFactory */
-    private $serverFactory;
-    /** @var Kernel */
-    private $application;
+    private Kernel $application;
 
-    public function __construct(ServerFactory $serverFactory, Kernel $application)
+    public function __construct(private ServerFactory $serverFactory, Kernel $application)
     {
-        $this->serverFactory = $serverFactory;
         $this->application = $application;
     }
 

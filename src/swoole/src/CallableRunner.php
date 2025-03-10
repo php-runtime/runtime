@@ -11,14 +11,11 @@ use Symfony\Component\Runtime\RunnerInterface;
  */
 class CallableRunner implements RunnerInterface
 {
-    /** @var ServerFactory */
-    private $serverFactory;
     /** @var callable */
     private $application;
 
-    public function __construct(ServerFactory $serverFactory, callable $application)
+    public function __construct(private ServerFactory $serverFactory, callable $application)
     {
-        $this->serverFactory = $serverFactory;
         $this->application = $application;
     }
 

@@ -37,25 +37,20 @@ final class LambdaClient
     /** @var resource|\CurlHandle|null */
     private $returnHandler;
 
-    /** @var string */
-    private $apiUrl;
-
-    /** @var string */
-    private $layer;
+    private string $apiUrl;
 
     public static function fromEnvironmentVariable(string $layer): self
     {
         return new self((string) getenv('AWS_LAMBDA_RUNTIME_API'), $layer);
     }
 
-    public function __construct(string $apiUrl, string $layer)
+    public function __construct(string $apiUrl, private string $layer)
     {
         if ('' === $apiUrl) {
             exit('At the moment lambdas can only be executed in an Lambda environment');
         }
 
         $this->apiUrl = $apiUrl;
-        $this->layer = $layer;
     }
 
     public function __destruct()

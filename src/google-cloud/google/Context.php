@@ -20,21 +20,8 @@ namespace Google\CloudFunctions;
 
 class Context
 {
-    private $eventId;
-    private $timestamp;
-    private $eventType;
-    private $resource;
-
-    final public function __construct(
-        ?string $eventId,
-        ?string $timestamp,
-        ?string $eventType,
-        ?array $resource,
-    ) {
-        $this->eventId = $eventId;
-        $this->timestamp = $timestamp;
-        $this->eventType = $eventType;
-        $this->resource = $resource;
+    final public function __construct(private ?string $eventId, private ?string $timestamp, private ?string $eventType, private ?array $resource)
+    {
     }
 
     public function getEventId(): ?string

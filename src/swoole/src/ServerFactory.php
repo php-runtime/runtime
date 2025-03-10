@@ -19,8 +19,7 @@ class ServerFactory
         'settings' => [],
     ];
 
-    /** @var array */
-    private $options;
+    private array $options;
 
     public static function getDefaultOptions(): array
     {

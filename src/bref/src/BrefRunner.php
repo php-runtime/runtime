@@ -13,13 +13,8 @@ use Symfony\Component\Runtime\RunnerInterface;
  */
 class BrefRunner implements RunnerInterface
 {
-    private $handler;
-    private $loopMax;
-
-    public function __construct(Handler $handler, int $loopMax)
+    public function __construct(private Handler $handler, private int $loopMax)
     {
-        $this->handler = $handler;
-        $this->loopMax = $loopMax;
     }
 
     public function run(): int

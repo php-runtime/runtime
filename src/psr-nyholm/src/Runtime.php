@@ -17,10 +17,7 @@ use Symfony\Component\Runtime\RunnerInterface;
  */
 class Runtime extends GenericRuntime
 {
-    /**
-     * @var ServerRequestCreator|null
-     */
-    private $requestCreator;
+    private ?ServerRequestCreator $requestCreator = null;
 
     public function getRunner(?object $application): RunnerInterface
     {

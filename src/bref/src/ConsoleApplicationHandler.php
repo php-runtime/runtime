@@ -15,7 +15,7 @@ use Symfony\Component\Console\Output\BufferedOutput;
  */
 class ConsoleApplicationHandler implements Handler
 {
-    private $application;
+    private Application $application;
 
     public function __construct(Application $application)
     {

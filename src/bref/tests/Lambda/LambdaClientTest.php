@@ -16,8 +16,7 @@ use Runtime\Bref\Lambda\LambdaClient;
  */
 class LambdaClientTest extends TestCase
 {
-    /** @var LambdaClient */
-    private $lambda;
+    private LambdaClient $lambda;
 
     protected function setUp(): void
     {
