@@ -1,5 +1,10 @@
 # Change Log
 
+## 1.0.0
+
+- Break loop when loopMax is reached
+- Add Xdebug support
+
 ## 0.2.0
 
 - Add support for Symfony 7
