@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Runtime\FrankenPhpSymfony;
 
+use Runtime\FrankenPhpSymfony\Exception\InvalidMiddlewareException;
+use Runtime\FrankenPhpSymfony\Middleware\MiddlewareInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\TerminableInterface;
@@ -19,9 +21,13 @@ class Runner implements RunnerInterface
     public function __construct(
         private HttpKernelInterface $kernel,
         private int $loopMax,
+        private array $middlewares = []
     ) {
     }
 
+    /**
+     * @throws InvalidMiddlewareException
+     */
     public function run(): int
     {
         // Prevent worker script termination when a client connection is interrupted
@@ -46,6 +52,15 @@ class Runner implements RunnerInterface
 
             $sfResponse->send();
         };
+
+        foreach ($this->middlewares as $middlewareClass) {
+            if (!is_a($middlewareClass, MiddlewareInterface::class, true)) {
+                throw new InvalidMiddlewareException($middlewareClass, 1761117929733);
+            }
+
+            $middleware = new $middlewareClass();
+            $handler = fn () => $middleware->wrap($handler, $server);
+        }
 
         $loops = 0;
         do {
