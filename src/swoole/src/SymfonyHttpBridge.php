@@ -37,10 +37,23 @@ final class SymfonyHttpBridge
 
     public static function reflectSymfonyResponse(SymfonyResponse $sfResponse, Response $response): void
     {
-        foreach ($sfResponse->headers->all() as $name => $values) {
+        foreach ($sfResponse->headers->allPreserveCaseWithoutCookies() as $name => $values) {
             foreach ((array) $values as $value) {
                 $response->header((string) $name, $value);
             }
+        }
+
+        foreach ($sfResponse->headers->getCookies() as $cookie) {
+            $response->cookie(
+                $cookie->getName(),
+                $cookie->getValue() ?? '',
+                $cookie->getExpiresTime(),
+                $cookie->getPath(),
+                $cookie->getDomain() ?? '',
+                $cookie->isSecure(),
+                $cookie->isHttpOnly(),
+                $cookie->getSameSite() ?? ''
+            );
         }
 
         $response->status($sfResponse->getStatusCode());

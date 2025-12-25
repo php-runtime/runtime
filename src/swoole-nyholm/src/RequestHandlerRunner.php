@@ -5,6 +5,7 @@ namespace Runtime\SwooleNyholm;
 use Psr\Http\Server\RequestHandlerInterface;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\Runtime\RunnerInterface;
 
 class RequestHandlerRunner implements RunnerInterface
@@ -50,9 +51,25 @@ class RequestHandlerRunner implements RunnerInterface
 
         $response->setStatusCode($psrResponse->getStatusCode(), $psrResponse->getReasonPhrase());
 
-        foreach ($psrResponse->getHeaders() as $name => $values) {
+        foreach ($psrResponse->withoutHeader('set-cookies')->getHeaders() as $name => $values) {
             foreach ($values as $value) {
                 $response->setHeader($name, $value);
+            }
+        }
+
+        if ($psrResponse->hasHeader('set-cookies')) {
+            foreach ($psrResponse->getHeader('set-cookies') as $cookieString) {
+                $cookie = Cookie::fromString($cookieString);
+                $response->cookie(
+                    $cookie->getName(),
+                    $cookie->getValue() ?? '',
+                    $cookie->getExpiresTime(),
+                    $cookie->getPath(),
+                    $cookie->getDomain() ?? '',
+                    $cookie->isSecure(),
+                    $cookie->isHttpOnly(),
+                    $cookie->getSameSite() ?? ''
+                );
             }
         }
 

@@ -31,6 +31,7 @@ class RequestHandlerRunnerTest extends TestCase
         $factory = $this->createMock(ServerFactory::class);
         $application = $this->createMock(RequestHandlerInterface::class);
         $psrResponse = $this->createMock(ResponseInterface::class);
+        $psrResponseInner = $this->createMock(ResponseInterface::class);
         $request = $this->createMock(Request::class);
         $response = $this->createMock(Response::class);
 
@@ -39,9 +40,10 @@ class RequestHandlerRunnerTest extends TestCase
 
         $application->expects(self::once())->method('handle')->willReturn($psrResponse);
 
-        $psrResponse->expects(self::once())->method('getHeaders')->willReturn([
+        $psrResponseInner->expects(self::once())->method('getHeaders')->willReturn([
             'X-Test' => ['Swoole-Runtime'],
         ]);
+        $psrResponse->expects(self::once())->method('withoutHeader')->willReturn($psrResponseInner);
         $psrResponse->expects(self::once())->method('getBody')->willReturn(Stream::create('Test'));
         $psrResponse->expects(self::once())->method('getStatusCode')->willReturn(200);
         $psrResponse->expects(self::once())->method('getReasonPhrase')->willReturn('OK');

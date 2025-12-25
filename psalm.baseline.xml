@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.26.1@d747f6500b38ac4f7dfc5edbcae6e4b637d7add0">
+<files psalm-version="5.25.0@01a8eb06b9e9cc6cfb6a320bf9fb14331919d505">
   <file src="src/bref/src/Runtime.php">
     <InvalidArgument>
       <code><![CDATA[$options]]></code>
@@ -50,9 +50,25 @@
       <code><![CDATA[RoadRunner\Worker]]></code>
     </UndefinedClass>
   </file>
+  <file src="src/swoole-nyholm/src/RequestHandlerRunner.php">
+    <InvalidScalarArgument>
+      <code><![CDATA[$cookie->getExpiresTime()]]></code>
+      <code><![CDATA[$cookie->isHttpOnly()]]></code>
+      <code><![CDATA[$cookie->isSecure()]]></code>
+    </InvalidScalarArgument>
+    <TooManyArguments>
+      <code><![CDATA[cookie]]></code>
+    </TooManyArguments>
+  </file>
   <file src="src/swoole/src/SymfonyHttpBridge.php">
     <InvalidScalarArgument>
+      <code><![CDATA[$cookie->getExpiresTime()]]></code>
+      <code><![CDATA[$cookie->isHttpOnly()]]></code>
+      <code><![CDATA[$cookie->isSecure()]]></code>
       <code><![CDATA[$sfResponse->getStatusCode()]]></code>
     </InvalidScalarArgument>
+    <TooManyArguments>
+      <code><![CDATA[cookie]]></code>
+    </TooManyArguments>
   </file>
 </files>

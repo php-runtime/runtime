@@ -9,9 +9,9 @@ use Swoole\Http\Response;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\HttpFoundation\HeaderBag;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
@@ -64,18 +64,20 @@ class SymfonyHttpBridgeTest extends TestCase
         $barCookie = (string) new Cookie('bar', '234');
 
         $sfResponse = $this->createMock(SymfonyResponse::class);
-        $sfResponse->headers = new HeaderBag([
+        $sfResponse->headers = new ResponseHeaderBag([
             'X-Test' => 'Swoole-Runtime',
             'Set-Cookie' => [$fooCookie, $barCookie],
+            'Cache-Control' => 'no-cache, private',
+            'Date' => 'Thu, 25 Dec 2025 19:20:06 GMT',
         ]);
         $sfResponse->expects(self::once())->method('getStatusCode')->willReturn(201);
         $sfResponse->expects(self::once())->method('getContent')->willReturn('Test');
 
         $response = $this->createMock(Response::class);
         $expectedHeaders = [
-            ['x-test', 'Swoole-Runtime'],
-            ['set-cookie', $fooCookie],
-            ['set-cookie', $barCookie],
+            ['X-Test', 'Swoole-Runtime'],
+            ['Cache-Control', 'no-cache, private'],
+            ['Date', 'Thu, 25 Dec 2025 19:20:06 GMT'],
         ];
         $callCount = 0;
         $response->expects(self::exactly(3))->method('header')
@@ -84,6 +86,20 @@ class SymfonyHttpBridgeTest extends TestCase
                 $this->assertEquals($expectedHeaders[$callCount][0], $key);
                 $this->assertEquals($expectedHeaders[$callCount][1], $value);
                 ++$callCount;
+
+                return true;
+            });
+        $expectedCookies = [
+            ['foo', '123'],
+            ['bar', '234'],
+        ];
+        $callCountCookie = 0;
+        $response->expects(self::exactly(2))->method('cookie')
+            ->willReturnCallback(function ($name, $value) use ($expectedCookies, &$callCountCookie) {
+                $this->assertArrayHasKey($callCountCookie, $expectedCookies);
+                $this->assertEquals($expectedCookies[$callCountCookie][0], $name);
+                $this->assertEquals($expectedCookies[$callCountCookie][1], $value);
+                ++$callCountCookie;
 
                 return true;
             });
