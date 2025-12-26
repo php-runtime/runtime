@@ -12,15 +12,8 @@ use Symfony\Component\Runtime\RunnerInterface;
  */
 class ConsoleApplicationRunner implements RunnerInterface
 {
-    private $application;
-    private $input;
-    private $output;
-
-    public function __construct(ConsoleKernel $application, InputInterface $input, ?OutputInterface $output = null)
+    public function __construct(private ConsoleKernel $application, private InputInterface $input, private ?OutputInterface $output = null)
     {
-        $this->application = $application;
-        $this->input = $input;
-        $this->output = $output;
     }
 
     public function run(): int

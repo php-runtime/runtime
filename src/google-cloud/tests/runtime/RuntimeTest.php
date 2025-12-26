@@ -3,13 +3,14 @@
 namespace Runtime\GoogleCloud\Tests;
 
 use Google\CloudFunctions\CloudEvent;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Runtime\GoogleCloud\Runtime;
 use Symfony\Component\Runtime\RuntimeInterface;
 
 class RuntimeTest extends TestCase
 {
-    public function testStructuredType()
+    public function testStructuredType(): void
     {
         $input = [
             'id' => '1234567890',
@@ -28,7 +29,7 @@ class RuntimeTest extends TestCase
         $this->assertSame('com.google.cloud.pubsub.topic.publish', $output->getType());
     }
 
-    public function testLegacyType()
+    public function testLegacyType(): void
     {
         $input = [
             'data' => 'foo',
@@ -54,7 +55,7 @@ class RuntimeTest extends TestCase
         $this->assertSame('google.cloud.pubsub.topic.v1.messagePublished', $output->getType());
     }
 
-    public function testValidateJsonWithJsonContentType()
+    public function testValidateJsonWithJsonContentType(): void
     {
         $runtime = $this->getRuntimeMock();
         $runtime->method('getBody')->willReturn('not json');
@@ -64,7 +65,7 @@ class RuntimeTest extends TestCase
         $this->invokeCreateCloudEvent($runtime);
     }
 
-    public function testValidateJsonWithStructuredType()
+    public function testValidateJsonWithStructuredType(): void
     {
         $runtime = $this->getRuntimeMock();
         $runtime->method('getBody')->willReturn('not json');
@@ -74,7 +75,7 @@ class RuntimeTest extends TestCase
         $this->invokeCreateCloudEvent($runtime);
     }
 
-    public function testValidateJsonWithLegacyType()
+    public function testValidateJsonWithLegacyType(): void
     {
         $runtime = $this->getRuntimeMock();
         $runtime->method('getBody')->willReturn('not json');
@@ -84,7 +85,7 @@ class RuntimeTest extends TestCase
         $this->invokeCreateCloudEvent($runtime);
     }
 
-    public function testNoValidateJsonWithBinaryType()
+    public function testNoValidateJsonWithBinaryType(): void
     {
         $runtime = $this->getRuntimeMock();
         $runtime->method('getBody')->willReturn('not json');
@@ -110,9 +111,9 @@ class RuntimeTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|Runtime
+     * @return MockObject&Runtime
      */
-    private function getRuntimeMock()
+    private function getRuntimeMock(): mixed
     {
         $runtime = $this->getMockBuilder(Runtime::class)
             ->disableOriginalConstructor()

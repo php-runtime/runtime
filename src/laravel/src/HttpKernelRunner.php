@@ -8,8 +8,8 @@ use Symfony\Component\Runtime\RunnerInterface;
 
 class HttpKernelRunner implements RunnerInterface
 {
-    private $kernel;
-    private $request;
+    private Kernel $kernel;
+    private Request $request;
 
     public function __construct(Kernel $kernel, Request $request)
     {

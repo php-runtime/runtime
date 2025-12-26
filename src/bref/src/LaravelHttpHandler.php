@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
  */
 class LaravelHttpHandler extends HttpHandler
 {
-    private $kernel;
+    private Kernel $kernel;
 
     public function __construct(Kernel $kernel)
     {

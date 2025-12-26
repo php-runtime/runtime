@@ -26,7 +26,7 @@ use PHPUnit\Framework\TestCase;
  */
 class CloudEventTest extends TestCase
 {
-    public function testJsonSerialize()
+    public function testJsonSerialize(): void
     {
         $event = new CloudEvent(
             '1413058901901494',

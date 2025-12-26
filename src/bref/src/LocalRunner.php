@@ -13,13 +13,8 @@ use Symfony\Component\Runtime\RunnerInterface;
  */
 class LocalRunner implements RunnerInterface
 {
-    private $handler;
-    private $data;
-
-    public function __construct(Handler $handler, $data)
+    public function __construct(private Handler $handler, private mixed $data)
     {
-        $this->handler = $handler;
-        $this->data = $data;
     }
 
     public function run(): int

@@ -14,8 +14,7 @@ use Symfony\Component\Runtime\SymfonyRuntime;
  */
 class Runtime extends SymfonyRuntime
 {
-    /** @var ?ServerFactory */
-    private $serverFactory;
+    private ?ServerFactory $serverFactory;
 
     public function __construct(array $options, ?ServerFactory $serverFactory = null)
     {

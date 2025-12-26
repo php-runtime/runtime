@@ -17,14 +17,12 @@ use Symfony\Component\Runtime\RunnerInterface;
  */
 class Runner implements RunnerInterface
 {
-    private $kernel;
-    private $httpFoundationFactory;
-    private $httpMessageFactory;
-    private $psrFactory;
+    private HttpFoundationFactoryInterface $httpFoundationFactory;
+    private HttpMessageFactoryInterface $httpMessageFactory;
+    private Psr7\Factory\Psr17Factory $psrFactory;
 
-    public function __construct(HttpKernelInterface $kernel, ?HttpFoundationFactoryInterface $httpFoundationFactory = null, ?HttpMessageFactoryInterface $httpMessageFactory = null)
+    public function __construct(private HttpKernelInterface $kernel, ?HttpFoundationFactoryInterface $httpFoundationFactory = null, ?HttpMessageFactoryInterface $httpMessageFactory = null)
     {
-        $this->kernel = $kernel;
         $this->psrFactory = new Psr7\Factory\Psr17Factory();
         $this->httpFoundationFactory = $httpFoundationFactory ?? new HttpFoundationFactory();
         $this->httpMessageFactory = $httpMessageFactory ?? new PsrHttpFactory($this->psrFactory, $this->psrFactory, $this->psrFactory, $this->psrFactory);

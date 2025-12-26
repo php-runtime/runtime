@@ -11,24 +11,13 @@ namespace Bref\Context;
  */
 final class Context implements \JsonSerializable
 {
-    /** @var string */
-    private $awsRequestId;
-
-    /** @var int Holds the deadline Unix timestamp in millis */
-    private $deadlineMs;
-
-    /** @var string */
-    private $invokedFunctionArn;
-
-    /** @var string */
-    private $traceId;
-
-    public function __construct(string $awsRequestId, int $deadlineMs, string $invokedFunctionArn, string $traceId)
-    {
-        $this->awsRequestId = $awsRequestId;
-        $this->deadlineMs = $deadlineMs;
-        $this->invokedFunctionArn = $invokedFunctionArn;
-        $this->traceId = $traceId;
+    public function __construct(
+        private string $awsRequestId,
+        /** @var int Holds the deadline Unix timestamp in millis */
+        private int $deadlineMs,
+        private string $invokedFunctionArn,
+        private string $traceId
+    ) {
     }
 
     /**

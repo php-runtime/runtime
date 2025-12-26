@@ -15,15 +15,8 @@ use Symfony\Component\Runtime\RunnerInterface;
  */
 class SymfonyRunner implements RunnerInterface
 {
-    /** @var ServerFactory */
-    private $serverFactory;
-    /** @var HttpKernelInterface */
-    private $application;
-
-    public function __construct(ServerFactory $serverFactory, HttpKernelInterface $application)
+    public function __construct(private ServerFactory $serverFactory, private HttpKernelInterface $application)
     {
-        $this->serverFactory = $serverFactory;
-        $this->application = $application;
     }
 
     public function run(): int

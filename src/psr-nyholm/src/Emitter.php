@@ -12,9 +12,9 @@ use Symfony\Component\Runtime\RunnerInterface;
  */
 class Emitter implements RunnerInterface
 {
-    private $requestHandler;
-    private $response;
-    private $request;
+    private ?RequestHandlerInterface $requestHandler = null;
+    private ?ResponseInterface $response = null;
+    private ?ServerRequestInterface $request = null;
 
     private function __construct()
     {
