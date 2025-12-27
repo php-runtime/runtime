@@ -40,3 +40,15 @@ return function (array $context) {
 ## Options
 
 * `frankenphp_loop_max`: the number of requests after which the worker must restart, to prevent weird memory leaks (default to `500`, set to `-1` to never restart)
+
+This option can also be configured via the `FRANKENPHP_LOOP_MAX` environment variable:
+
+```
+docker run \
+    -e FRANKENPHP_CONFIG="worker ./public/index.php" \
+    -e APP_RUNTIME=Runtime\\FrankenPhpSymfony\\Runtime \
+    -e FRANKENPHP_LOOP_MAX=25 \
+    -v $PWD:/app \
+    -p 80:80 -p 443:443 \
+    dunglas/frankenphp
+```
