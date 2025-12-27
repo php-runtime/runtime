@@ -19,6 +19,7 @@ class Runner implements RunnerInterface
     public function __construct(
         private HttpKernelInterface $kernel,
         private int $loopMax,
+        private int $minMemoryMb = -1,
     ) {
     }
 
@@ -56,8 +57,40 @@ class Runner implements RunnerInterface
             }
 
             gc_collect_cycles();
-        } while ($ret && (-1 === $this->loopMax || ++$loops < $this->loopMax));
+            ++$loops;
+        } while ($ret && (-1 === $this->loopMax || $loops < $this->loopMax) && $this->hasAvailableMemory($loops));
 
         return 0;
+    }
+
+    private function hasAvailableMemory(int $loops): bool
+    {
+        if (-1 === $this->minMemoryMb || 1 === $loops) { // Always allow the first cycle
+            return true;
+        }
+
+        $memoryLimit = \ini_get('memory_limit');
+        if (-1 === (int) $memoryLimit || '' === $memoryLimit) {
+            return true;
+        }
+        $memoryLimit = \trim($memoryLimit);
+        if (strlen($memoryLimit) < 2) {
+            return true; // Unexpected value, consider enough mem available
+        }
+        $last = \strtolower($memoryLimit[\strlen($memoryLimit) - 1]);
+        if (!\in_array($last, ['g', 'm', 'k'])) {
+            return true; // Unexpected value, consider enough mem available
+        }
+
+        $value = (int) $memoryLimit; // (int) stops at first non-numeric char
+        $memoryLimitMb = match ($last) {
+            'g' => $value * 1024,
+            'k' => (int) ($value / 1024),
+            default => $value,
+        };
+        $usedMemoryMb = \memory_get_usage(true) / 1024 / 1024;
+        $availableMemoryMb = $memoryLimitMb - $usedMemoryMb;
+
+        return $availableMemoryMb >= $this->minMemoryMb;
     }
 }

@@ -40,3 +40,17 @@ return function (array $context) {
 ## Options
 
 * `frankenphp_loop_max`: the number of requests after which the worker must restart, to prevent weird memory leaks (default to `500`, set to `-1` to never restart)
+* `frankenphp_min_memory_mb`: the minimum amount of available memory (in MB) required before handling a new request. If available memory falls below this threshold after the first request, the worker will restart (default to `-1` to disable)
+
+These options can also be configured via environment variables:
+
+```
+docker run \
+    -e FRANKENPHP_CONFIG="worker ./public/index.php" \
+    -e APP_RUNTIME=Runtime\\FrankenPhpSymfony\\Runtime \
+    -e FRANKENPHP_LOOP_MAX=500 \
+    -e FRANKENPHP_MIN_MEMORY_MB=64 \
+    -v $PWD:/app \
+    -p 80:80 -p 443:443 \
+    dunglas/frankenphp
+```
