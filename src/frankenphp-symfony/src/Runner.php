@@ -19,6 +19,7 @@ class Runner implements RunnerInterface
     public function __construct(
         private HttpKernelInterface $kernel,
         private int $loopMax,
+        private int $minMemoryMb = -1,
     ) {
     }
 
@@ -56,8 +57,34 @@ class Runner implements RunnerInterface
             }
 
             gc_collect_cycles();
-        } while ($ret && (-1 === $this->loopMax || ++$loops < $this->loopMax));
+            ++$loops;
+        } while ($ret && (-1 === $this->loopMax || $loops < $this->loopMax) && $this->hasAvailableMemory());
 
         return 0;
+    }
+
+    private function hasAvailableMemory(): bool
+    {
+        if (-1 === $this->minMemoryMb) {
+            return true;
+        }
+
+        $memoryLimit = \trim((string) \ini_get('memory_limit'));
+        if (-1 === (int) $memoryLimit || '' === $memoryLimit) {
+            return true;
+        }
+
+        $last = \strtolower($memoryLimit[\strlen($memoryLimit) - 1]);
+        $value = (int) $memoryLimit; // (int) stops at first non-numeric char
+        $memoryLimitMb = match ($last) {
+            'g' => $value * 1024,
+            'm' => $value,
+            'k' => $value / 1024,
+            default => $value / 1024 / 1024, // bytes
+        };
+        $usedMemoryMb = \memory_get_usage(true) / 1024 / 1024;
+        $availableMemoryMb = $memoryLimitMb - $usedMemoryMb;
+
+        return $availableMemoryMb >= $this->minMemoryMb;
     }
 }

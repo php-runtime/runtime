@@ -18,11 +18,13 @@ class Runtime extends SymfonyRuntime
     /**
      * @param array{
      *   frankenphp_loop_max?: int,
+     *   frankenphp_min_memory_mb?: int,
      * } $options
      */
     public function __construct(array $options = [])
     {
         $options['frankenphp_loop_max'] = (int) ($options['frankenphp_loop_max'] ?? $_SERVER['FRANKENPHP_LOOP_MAX'] ?? $_ENV['FRANKENPHP_LOOP_MAX'] ?? 500);
+        $options['frankenphp_min_memory_mb'] = (int) ($options['frankenphp_min_memory_mb'] ?? $_SERVER['FRANKENPHP_MIN_MEMORY_MB'] ?? $_ENV['FRANKENPHP_MIN_MEMORY_MB'] ?? -1);
 
         parent::__construct($options);
     }
@@ -30,7 +32,7 @@ class Runtime extends SymfonyRuntime
     public function getRunner(?object $application): RunnerInterface
     {
         if ($application instanceof HttpKernelInterface && ($_SERVER['FRANKENPHP_WORKER'] ?? false)) {
-            return new Runner($application, $this->options['frankenphp_loop_max']);
+            return new Runner($application, $this->options['frankenphp_loop_max'], $this->options['frankenphp_min_memory_mb']);
         }
 
         return parent::getRunner($application);
