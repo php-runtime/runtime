@@ -17,6 +17,7 @@ class ServerFactory
         'mode' => 2, // SWOOLE_PROCESS
         'sock_type' => 1, // SWOOLE_SOCK_TCP
         'settings' => [],
+        'streamed_response_chunk_size' => 4096,
     ];
 
     /** @var array */
@@ -33,6 +34,7 @@ class ServerFactory
         $options['port'] = $options['port'] ?? $_SERVER['SWOOLE_PORT'] ?? $_ENV['SWOOLE_PORT'] ?? self::DEFAULT_OPTIONS['port'];
         $options['mode'] = $options['mode'] ?? $_SERVER['SWOOLE_MODE'] ?? $_ENV['SWOOLE_MODE'] ?? self::DEFAULT_OPTIONS['mode'];
         $options['sock_type'] = $options['sock_type'] ?? $_SERVER['SWOOLE_SOCK_TYPE'] ?? $_ENV['SWOOLE_SOCK_TYPE'] ?? self::DEFAULT_OPTIONS['sock_type'];
+        $options['streamed_response_chunk_size'] = $options['streamed_response_chunk_size'] ?? $_SERVER['SWOOLE_STREAMED_RESPONSE_CHUNK_SIZE'] ?? $_ENV['SWOOLE_STREAMED_RESPONSE_CHUNK_SIZE'] ?? self::DEFAULT_OPTIONS['streamed_response_chunk_size'];
 
         $this->options = array_replace_recursive(self::DEFAULT_OPTIONS, $options);
     }

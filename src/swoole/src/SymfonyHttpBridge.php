@@ -35,8 +35,10 @@ final class SymfonyHttpBridge
         return $sfRequest;
     }
 
-    public static function reflectSymfonyResponse(SymfonyResponse $sfResponse, Response $response): void
+    public static function reflectSymfonyResponse(SymfonyResponse $sfResponse, Response $response, ?BridgeOptions $options = null): void
     {
+        $options = $options ?? new BridgeOptions();
+
         foreach ($sfResponse->headers->all() as $name => $values) {
             foreach ((array) $values as $value) {
                 $response->header((string) $name, $value);
@@ -52,7 +54,7 @@ final class SymfonyHttpBridge
                     $response->write($buffer);
 
                     return '';
-                }, 4096);
+                }, $options->getStreamedResponseChunkSize());
                 $sfResponse->sendContent();
                 ob_end_clean();
                 $response->end();
