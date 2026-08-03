@@ -23,8 +23,6 @@ class BridgeOptions
     /**
      * Builds options from a ServerFactory-style options array — the same shape ServerFactory
      * itself accepts, so a single $options array can configure both.
-     *
-     * @param array $options
      */
     public static function fromArray(array $options): self
     {
