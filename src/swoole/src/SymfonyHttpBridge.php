@@ -51,7 +51,14 @@ final class SymfonyHttpBridge
             case $sfResponse instanceof BinaryFileResponse && $sfResponse->headers->has('Content-Range'):
             case $sfResponse instanceof StreamedResponse:
                 ob_start(function ($buffer) use ($response) {
-                    $response->write($buffer);
+                    // At a small chunk size (e.g. 1, for SSE) every echo already flushes on its
+                    // own, so the buffer is typically empty by the time ob_end_clean() makes its
+                    // own final call to this handler. Swoole\Http\Response::write() itself checks
+                    // length === 0 and rejects it with a warning ("the data sent must not be
+                    // empty"), so this mirrors that same check to skip the call instead.
+                    if (strlen($buffer) > 0) {
+                        $response->write($buffer);
+                    }
 
                     return '';
                 }, $options->getStreamedResponseChunkSize());
