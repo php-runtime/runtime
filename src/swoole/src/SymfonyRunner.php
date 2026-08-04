@@ -19,11 +19,14 @@ class SymfonyRunner implements RunnerInterface
     private $serverFactory;
     /** @var HttpKernelInterface */
     private $application;
+    /** @var BridgeOptions */
+    private $bridgeOptions;
 
     public function __construct(ServerFactory $serverFactory, HttpKernelInterface $application)
     {
         $this->serverFactory = $serverFactory;
         $this->application = $application;
+        $this->bridgeOptions = BridgeOptions::fromArray($serverFactory->getOptions());
     }
 
     public function run(): int
@@ -38,7 +41,7 @@ class SymfonyRunner implements RunnerInterface
         $sfRequest = SymfonyHttpBridge::convertSwooleRequest($request);
 
         $sfResponse = $this->application->handle($sfRequest);
-        SymfonyHttpBridge::reflectSymfonyResponse($sfResponse, $response);
+        SymfonyHttpBridge::reflectSymfonyResponse($sfResponse, $response, $this->bridgeOptions);
 
         if ($this->application instanceof TerminableInterface) {
             $this->application->terminate($sfRequest, $sfResponse);

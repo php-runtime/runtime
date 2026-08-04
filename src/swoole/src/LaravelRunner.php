@@ -19,11 +19,14 @@ class LaravelRunner implements RunnerInterface
     private $serverFactory;
     /** @var Kernel */
     private $application;
+    /** @var BridgeOptions */
+    private $bridgeOptions;
 
     public function __construct(ServerFactory $serverFactory, Kernel $application)
     {
         $this->serverFactory = $serverFactory;
         $this->application = $application;
+        $this->bridgeOptions = BridgeOptions::fromArray($serverFactory->getOptions());
     }
 
     public function run(): int
@@ -38,7 +41,7 @@ class LaravelRunner implements RunnerInterface
         $sfRequest = LaravelRequest::createFromBase(SymfonyHttpBridge::convertSwooleRequest($request));
 
         $sfResponse = $this->application->handle($sfRequest);
-        SymfonyHttpBridge::reflectSymfonyResponse($sfResponse, $response);
+        SymfonyHttpBridge::reflectSymfonyResponse($sfResponse, $response, $this->bridgeOptions);
 
         $this->application->terminate($sfRequest, $sfResponse);
     }
