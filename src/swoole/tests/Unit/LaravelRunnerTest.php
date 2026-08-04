@@ -61,9 +61,9 @@ class LaravelRunnerTest extends TestCase
         $application->expects(self::once())->method('handle')->willReturn($sfResponse);
 
         $response = $this->createMock(Response::class);
-        $expectedWrites = ['Foo', 'Bar', ''];
+        $expectedWrites = ['Foo', 'Bar'];
         $callCount = 0;
-        $response->expects(self::exactly(3))->method('write')
+        $response->expects(self::exactly(2))->method('write')
             ->willReturnCallback(function ($string) use ($expectedWrites, &$callCount) {
                 $this->assertEquals($expectedWrites[$callCount], $string);
                 ++$callCount;
