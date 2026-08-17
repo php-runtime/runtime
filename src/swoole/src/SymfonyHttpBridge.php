@@ -35,8 +35,10 @@ final class SymfonyHttpBridge
         return $sfRequest;
     }
 
-    public static function reflectSymfonyResponse(SymfonyResponse $sfResponse, Response $response): void
+    public static function reflectSymfonyResponse(SymfonyResponse $sfResponse, Response $response, ?BridgeOptions $options = null): void
     {
+        $options = $options ?? new BridgeOptions();
+
         foreach ($sfResponse->headers->all() as $name => $values) {
             foreach ((array) $values as $value) {
                 $response->header((string) $name, $value);
@@ -49,10 +51,17 @@ final class SymfonyHttpBridge
             case $sfResponse instanceof BinaryFileResponse && $sfResponse->headers->has('Content-Range'):
             case $sfResponse instanceof StreamedResponse:
                 ob_start(function ($buffer) use ($response) {
-                    $response->write($buffer);
+                    // At a small chunk size (e.g. 1, for SSE) every echo already flushes on its
+                    // own, so the buffer is typically empty by the time ob_end_clean() makes its
+                    // own final call to this handler. Swoole\Http\Response::write() itself checks
+                    // length === 0 and rejects it with a warning ("the data sent must not be
+                    // empty"), so this mirrors that same check to skip the call instead.
+                    if (strlen($buffer) > 0) {
+                        $response->write($buffer);
+                    }
 
                     return '';
-                }, 4096);
+                }, $options->getStreamedResponseChunkSize());
                 $sfResponse->sendContent();
                 ob_end_clean();
                 $response->end();

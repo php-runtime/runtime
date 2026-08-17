@@ -107,10 +107,9 @@ class SymfonyHttpBridgeTest extends TestCase
         $expectedWrites = [
             "Foo\n",
             "Bar\n",
-            '',
         ];
         $callCount = 0;
-        $response->expects(self::exactly(3))->method('write')
+        $response->expects(self::exactly(2))->method('write')
             ->willReturnCallback(function ($string) use ($expectedWrites, &$callCount) {
                 $this->assertEquals($expectedWrites[$callCount], $string);
                 ++$callCount;
